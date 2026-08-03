@@ -5,4 +5,6 @@ pasta = pastas.definePasta()
 while pasta is None:
     pasta = pastas.definePasta()
 
-pastas.devolvePastas(ficheiros.devolveExt(pasta))
+pastasParaCriar = pastas.devolvePastas(ficheiros.devolveExt(pasta))
+
+pastas.criaPastas(pasta, pastasParaCriar)

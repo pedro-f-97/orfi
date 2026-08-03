@@ -25,6 +25,17 @@ def devolvePastas(setExt):
         pastas.add(categorias.get(ext, "Outros"))
     if len(pastas) > 0:
         print("Pastas para criar: ", pastas)
+        return pastas
         #criar pastas do set
     else:
         print("Não vai criar pastas.")
+
+def criaPastas(caminho, pastas):
+    confirmacao = input(f"Criar as pastas {pastas}? (s/n)")
+    if confirmacao == "s":
+        for pasta in pastas:
+            caminhoFinal = caminho / pasta
+            caminhoFinal.mkdir(parents = False, exist_ok = True)
+            print("Pastas criadas")
+    else:
+        print("Operação Cancelada")
