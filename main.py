@@ -5,4 +5,4 @@ pasta = definePasta.inserirPasta()
 while pasta is None:
     pasta = definePasta.inserirPasta()
 
-listaFicheiros.leFicheiros(pasta)
+listaFicheiros.mapeiaExt(listaFicheiros.devolveExt(pasta))
