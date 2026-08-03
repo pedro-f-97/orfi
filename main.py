@@ -1,8 +1,8 @@
-import definePasta, listaFicheiros
+import pastas, ficheiros
 
-pasta = definePasta.inserirPasta()
+pasta = pastas.definePasta()
 
 while pasta is None:
-    pasta = definePasta.inserirPasta()
+    pasta = pastas.definePasta()
 
-listaFicheiros.mapeiaExt(listaFicheiros.devolveExt(pasta))
+pastas.devolvePastas(ficheiros.devolveExt(pasta))
