@@ -38,7 +38,10 @@ def criaPastas(caminho: Path, pastas: set[str]):
     if confirmacao.lower() == "s":
         for pasta in pastas:
             caminhoFinal = caminho / pasta
-            caminhoFinal.mkdir(parents = False, exist_ok = True)
-            print(f"Pasta criada - {pasta}")
+            if not caminhoFinal.exists():
+                caminhoFinal.mkdir(parents = False, exist_ok = True)
+                print(f"Pasta criada - {pasta}")
+            else:
+                print(f"Pasta {pasta} já existe. ")
     else:
         print("Operação Cancelada")
