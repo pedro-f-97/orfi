@@ -1,4 +1,3 @@
-from os import path
 from pathlib import Path
 from shutil import copy2
 
@@ -21,7 +20,7 @@ def devolveFicheiros(pasta: Path) -> list[Path]:
             listaFicheiros.append(ficheiro)
     return listaFicheiros
 
-def copiaFicheiros(ficheiro: Path, destino: Path):
+def copiaFicheiro(ficheiro: Path, destino: Path):
     # 1º tem de preparar o caminho inteiro do ficheiro no destino, juntando destino / ficheiro, ex "C:\Users\pedroferreira\Documents\exemplo.jpg"
     ficheiroFinal = destino / ficheiro.name
     # 2º condição se, caso já exista um ficheiro com o mesmo nome no destino, pergunta se quer substituir o existente
@@ -33,3 +32,10 @@ def copiaFicheiros(ficheiro: Path, destino: Path):
     # 3º se resposta for sim ou condição se for falsa, copia o ficheiro
     copy2(ficheiro, ficheiroFinal)
     print(f"{ficheiro.name} copiado") 
+
+def atribuiPasta(listaFicheiros: list[Path], categorias: dict[str, str]):
+    #Recebe lista total dos ficheiros encontrados + Categorias das pastas
+    #Percorre a lista de ficheiros, para cada um, vê a extensão e escolhe a pasta destino
+    #Para cada um chama diretamente o copiaFicheiro
+
+    print()

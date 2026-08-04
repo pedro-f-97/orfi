@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from configs import CATEGORIAS
+from configs import CategoriaDePasta
 
 
 def definePasta() -> Path | None:
@@ -13,15 +13,20 @@ def definePasta() -> Path | None:
     else:
         return
 
-def devolvePastas(setExt: set[str]) -> set[str]:
+def devolvePastas(setExt: set[str], categorias: list[CategoriaDePasta]) -> set[str]:
     pastas = set()
-
+    
     for ext in setExt:
-        pastas.add(CATEGORIAS.get(ext, "Outros"))
+        temCategoria = False
+        for categoria in categorias:
+            if ext in categoria.extensoes:
+                pastas.add(categoria.nome)
+                temCategoria = True
+        if temCategoria == False:
+            pastas.add("Outros")
     if len(pastas) > 0:
         print("Pastas para criar: ", pastas)
         return pastas
-        #criar pastas do set
     else:
         print("Não vai criar pastas.")
         return pastas
