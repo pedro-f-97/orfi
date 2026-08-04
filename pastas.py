@@ -34,11 +34,11 @@ def devolvePastas(setExt: set[str]) -> set[str]:
         
 
 def criaPastas(caminho: Path, pastas: set[str]):
-    confirmacao = input(f"Criar as pastas {pastas}? (s/n)")
+    confirmacao = input(f"Criar as pastas {pastas}? (s/n): ")
     if confirmacao.lower() == "s":
         for pasta in pastas:
             caminhoFinal = caminho / pasta
             caminhoFinal.mkdir(parents = False, exist_ok = True)
-            print("Pastas criadas")
+            print(f"Pasta criada - {pasta}")
     else:
         print("Operação Cancelada")
