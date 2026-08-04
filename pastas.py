@@ -1,5 +1,7 @@
 from pathlib import Path
 
+from configs import CATEGORIAS
+
 
 def definePasta() -> Path | None:
     pasta = ""
@@ -12,18 +14,10 @@ def definePasta() -> Path | None:
         return
 
 def devolvePastas(setExt: set[str]) -> set[str]:
-    categorias = dict()
     pastas = set()
-    categorias = {
-        ".jpg": "Imagens",
-        ".png": "Imagens",
-        ".txt": "Documentos",
-        ".docx": "Documentos",
-        ".xlsx": "Folhas de cálculo"
-    } 
 
     for ext in setExt:
-        pastas.add(categorias.get(ext, "Outros"))
+        pastas.add(CATEGORIAS.get(ext, "Outros"))
     if len(pastas) > 0:
         print("Pastas para criar: ", pastas)
         return pastas
