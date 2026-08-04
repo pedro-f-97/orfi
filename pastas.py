@@ -1,10 +1,10 @@
 from pathlib import Path
 
 from configs import CategoriaDePasta
+from ficheiros import encontraCategoria
 
 
 def definePasta() -> Path | None:
-    pasta = ""
     pasta = input("Definir pasta para organizar: ")
 
     vPasta = Path(pasta)
@@ -17,23 +17,19 @@ def devolvePastas(setExt: set[str], categorias: list[CategoriaDePasta]) -> set[s
     pastas = set()
     
     for ext in setExt:
-        temCategoria = False
-        for categoria in categorias:
-            if ext in categoria.extensoes:
-                pastas.add(categoria.nome)
-                temCategoria = True
-                break
-        if temCategoria == False:
-            pastas.add("Outros")
+        categoria = encontraCategoria(ext, categorias)
+        if categoria is not None:
+            pastas.add(categoria.nome)
+        else:
+            print(f"Categoria não encontrada para {ext}")
     if len(pastas) > 0:
         print("Pastas para criar: ", pastas)
-        return pastas
     else:
         print("Não vai criar pastas.")
-        return pastas
+    return pastas
         
 
-def criaPastas(caminho: Path, pastas: set[str], categorias: list[CategoriaDePasta]):
+def criaPastas(caminho: Path, pastas: set[str], categorias: list[CategoriaDePasta]) -> bool:
     confirmacao = input(f"Criar as pastas {pastas}? (s/n): ")
     if confirmacao.lower() == "s":
         for pasta in pastas:
@@ -46,12 +42,7 @@ def criaPastas(caminho: Path, pastas: set[str], categorias: list[CategoriaDePast
                 print(f"Pasta criada - {pasta}")
             else:
                 print(f"Pasta {pasta} já existe. ")
+        return False
     else:
         print("Operação Cancelada")
-
-
-def trataCaminhoOutros(categorias: list[CategoriaDePasta]) -> Path | None:
-    for categoria in categorias:
-        if categoria.nome=="Outros":
-            return categoria.caminho
-    return None
+        return True

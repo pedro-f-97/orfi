@@ -11,12 +11,10 @@ def devolveExt(pasta: Path) -> set[str]:
             ext.add(ficheiro.suffix.lower())
     if len(ext) > 0:
         print("Extensões existentes: ", ext) 
-        return ext
-    else:
-        return ext
+    return ext
 
 def devolveFicheiros(pasta: Path) -> list[Path]:
-    listaFicheiros = list()
+    listaFicheiros = []
     for ficheiro in pasta.iterdir():
         if not ficheiro.is_dir(): #apenas ficheiros, não pastas
             listaFicheiros.append(ficheiro)
@@ -35,19 +33,22 @@ def copiaFicheiro(ficheiro: Path, destino: Path):
     copy2(ficheiro, ficheiroFinal)
     print(f"{ficheiro.name} copiado") 
 
-def encaminhaCopias(ficheirosLista: list[Path], caminhoOutros: Path | None, categorias: list[CategoriaDePasta]):
+def encaminhaCopias(ficheirosLista: list[Path], categorias: list[CategoriaDePasta]):
     for ficheiro in ficheirosLista:
-        categoriaEncontrada = False
-        for categoria in categorias:
-            for extensao in categoria.extensoes:
-                if ficheiro.suffix.lower() == extensao:  # noqa: SIM102
-                    if categoria.caminho is not None:
-                        copiaFicheiro(ficheiro, categoria.caminho)
-                        categoriaEncontrada = True
-                        break
-            if categoriaEncontrada == True:
-                break
-        if categoriaEncontrada == False:  # noqa: SIM102
-            if caminhoOutros is not None:
-                copiaFicheiro(ficheiro, caminhoOutros)
-                categoriaEncontrada = True
+        categoria = encontraCategoria(ficheiro.suffix.lower(), categorias)
+        if categoria is not None and categoria.caminho is not None:
+            copiaFicheiro(ficheiro, categoria.caminho)
+        else:
+            print(f"Categoria ou caminho não encontrados para {ficheiro.name}")
+            
+        
+
+def encontraCategoria(extensao: str, categorias: list[CategoriaDePasta]) -> CategoriaDePasta | None:
+    for categoria in categorias:
+        if extensao in categoria.extensoes:
+            return categoria
+    for categoria in categorias:
+        if categoria.nome=="Outros":
+            return categoria
+            
+            
