@@ -1,4 +1,5 @@
-import pastas, ficheiros
+import ficheiros
+import pastas
 
 pasta = pastas.definePasta()
 

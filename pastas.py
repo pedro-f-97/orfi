@@ -1,6 +1,7 @@
 from pathlib import Path
 
-def definePasta():
+
+def definePasta() -> Path | None:
     pasta = ""
     pasta = input("Definir pasta para organizar: ")
 
@@ -10,7 +11,7 @@ def definePasta():
     else:
         return
 
-def devolvePastas(setExt):
+def devolvePastas(setExt: set[str]) -> set[str]:
     categorias = dict()
     pastas = set()
     categorias = {
@@ -29,8 +30,10 @@ def devolvePastas(setExt):
         #criar pastas do set
     else:
         print("Não vai criar pastas.")
+        return pastas
+        
 
-def criaPastas(caminho, pastas):
+def criaPastas(caminho: Path, pastas: set[str]):
     confirmacao = input(f"Criar as pastas {pastas}? (s/n)")
     if confirmacao == "s":
         for pasta in pastas:
