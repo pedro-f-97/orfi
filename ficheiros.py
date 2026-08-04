@@ -1,6 +1,8 @@
 from pathlib import Path
 from shutil import copy2
 
+from configs import CategoriaDePasta
+
 
 def devolveExt(pasta: Path) -> set[str]:
     ext: set[str] = set()
@@ -33,9 +35,19 @@ def copiaFicheiro(ficheiro: Path, destino: Path):
     copy2(ficheiro, ficheiroFinal)
     print(f"{ficheiro.name} copiado") 
 
-def atribuiPasta(listaFicheiros: list[Path], categorias: dict[str, str]):
-    #Recebe lista total dos ficheiros encontrados + Categorias das pastas
-    #Percorre a lista de ficheiros, para cada um, vê a extensão e escolhe a pasta destino
-    #Para cada um chama diretamente o copiaFicheiro
-
-    print()
+def encaminhaCopias(ficheirosLista: list[Path], caminhoOutros: Path | None, categorias: list[CategoriaDePasta]):
+    for ficheiro in ficheirosLista:
+        categoriaEncontrada = False
+        for categoria in categorias:
+            for extensao in categoria.extensoes:
+                if ficheiro.suffix.lower() == extensao:  # noqa: SIM102
+                    if categoria.caminho is not None:
+                        copiaFicheiro(ficheiro, categoria.caminho)
+                        categoriaEncontrada = True
+                        break
+            if categoriaEncontrada == True:
+                break
+        if categoriaEncontrada == False:  # noqa: SIM102
+            if caminhoOutros is not None:
+                copiaFicheiro(ficheiro, caminhoOutros)
+                categoriaEncontrada = True

@@ -17,7 +17,10 @@ if pastasParaCriar == set():
     print("Nada para fazer.")
     sys.exit()
 
-pastas.criaPastas(pasta, pastasParaCriar)
+pastas.criaPastas(pasta, pastasParaCriar, categorias)
 
+ficheirosLista = ficheiros.devolveFicheiros(pasta)
 
+caminhoOutros = pastas.trataCaminhoOutros(categorias)
 
+ficheiros.encaminhaCopias(ficheirosLista, caminhoOutros, categorias)

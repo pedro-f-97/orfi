@@ -22,6 +22,7 @@ def devolvePastas(setExt: set[str], categorias: list[CategoriaDePasta]) -> set[s
             if ext in categoria.extensoes:
                 pastas.add(categoria.nome)
                 temCategoria = True
+                break
         if temCategoria == False:
             pastas.add("Outros")
     if len(pastas) > 0:
@@ -32,11 +33,14 @@ def devolvePastas(setExt: set[str], categorias: list[CategoriaDePasta]) -> set[s
         return pastas
         
 
-def criaPastas(caminho: Path, pastas: set[str]):
+def criaPastas(caminho: Path, pastas: set[str], categorias: list[CategoriaDePasta]):
     confirmacao = input(f"Criar as pastas {pastas}? (s/n): ")
     if confirmacao.lower() == "s":
         for pasta in pastas:
             caminhoFinal = caminho / pasta
+            for categoria in categorias:
+                if pasta == categoria.nome:
+                    categoria.caminho = caminhoFinal
             if not caminhoFinal.exists():
                 caminhoFinal.mkdir(parents = False, exist_ok = True)
                 print(f"Pasta criada - {pasta}")
@@ -44,3 +48,10 @@ def criaPastas(caminho: Path, pastas: set[str]):
                 print(f"Pasta {pasta} já existe. ")
     else:
         print("Operação Cancelada")
+
+
+def trataCaminhoOutros(categorias: list[CategoriaDePasta]) -> Path | None:
+    for categoria in categorias:
+        if categoria.nome=="Outros":
+            return categoria.caminho
+    return None
