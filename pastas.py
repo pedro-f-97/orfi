@@ -35,7 +35,7 @@ def devolvePastas(setExt: set[str]) -> set[str]:
 
 def criaPastas(caminho: Path, pastas: set[str]):
     confirmacao = input(f"Criar as pastas {pastas}? (s/n)")
-    if confirmacao == "s":
+    if confirmacao.lower == "s":
         for pasta in pastas:
             caminhoFinal = caminho / pasta
             caminhoFinal.mkdir(parents = False, exist_ok = True)
