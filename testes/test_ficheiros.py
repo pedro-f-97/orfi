@@ -1,16 +1,14 @@
 from pathlib import Path
 
-import configs
-from ficheiros import copiaFicheiro, devolveExt, devolveFicheiros, encontraCategoria
+from configs import CategoriaDePasta
+from ficheiros import (
+    copiaFicheiro,
+    defineDestino,
+    devolveExt,
+    devolveFicheiros,
+    encontraCategoria,
+)
 
-
-def test_encontra_categoria_imagem():
-    categorias = configs.iniciarCategorias()
-
-    categoria = encontraCategoria(".jpg", categorias)
-
-    assert categoria is not None
-    assert categoria.nome == "Imagens"
 
 def test_devolveExt(tmp_path):
     (tmp_path / "foto.jpg").touch()
@@ -46,3 +44,31 @@ def test_copiaFicheiro(tmp_path):
     ficheiroCopia = Path(pastaDestino / "texto.txt")
     assert ficheiroCopia.exists()
     assert ficheiroCopia.is_file()
+
+def test_defineDestino(tmp_path):
+    categorias = [
+        CategoriaDePasta("Fotos", {".jpg"}, tmp_path / "Fotos"),
+        CategoriaDePasta("Outros", {""}, tmp_path / "Outros"),
+    ]
+
+    ficheiro = (tmp_path / "img.jpg")
+    ficheiro.touch()
+
+    destinoDefinido = defineDestino(ficheiro, categorias)
+    assert destinoDefinido is not None
+    assert destinoDefinido == tmp_path  / "Fotos"
+
+def test_encaminhaCopias():
+    
+    print()
+
+def test_encontraCategoria(tmp_path):
+    categorias = [
+        CategoriaDePasta("Notas", {".txt"}, tmp_path / "Notas"),
+        CategoriaDePasta("Outros", {""}, tmp_path / "Outros"),
+    ]
+
+    categoria = encontraCategoria(".txt", categorias)
+
+    assert categoria is not None
+    assert categoria.nome == "Notas"
