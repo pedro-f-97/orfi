@@ -33,15 +33,20 @@ def copiaFicheiro(ficheiro: Path, destino: Path):
     copy2(ficheiro, ficheiroFinal)
     print(f"{ficheiro.name} copiado") 
 
+def defineDestino(ficheiro:Path, categorias: list[CategoriaDePasta]) -> Path | None:
+    categoria = encontraCategoria(ficheiro.suffix.lower(), categorias)
+    if categoria is not None and categoria.caminho is not None:
+        return categoria.caminho
+    else:
+        return None
+
 def encaminhaCopias(ficheirosLista: list[Path], categorias: list[CategoriaDePasta]):
     for ficheiro in ficheirosLista:
-        categoria = encontraCategoria(ficheiro.suffix.lower(), categorias)
-        if categoria is not None and categoria.caminho is not None:
-            copiaFicheiro(ficheiro, categoria.caminho)
+        destino = defineDestino(ficheiro, categorias)
+        if destino is not None:
+            copiaFicheiro(ficheiro, destino)
         else:
             print(f"Categoria ou caminho não encontrados para {ficheiro.name}")
-            
-        
 
 def encontraCategoria(extensao: str, categorias: list[CategoriaDePasta]) -> CategoriaDePasta | None:
     for categoria in categorias:
