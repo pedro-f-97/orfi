@@ -40,14 +40,6 @@ def defineDestino(ficheiro:Path, categorias: list[CategoriaDePasta]) -> Path | N
     else:
         return None
 
-def encaminhaCopias(ficheirosLista: list[Path], categorias: list[CategoriaDePasta]):
-    for ficheiro in ficheirosLista:
-        destino = defineDestino(ficheiro, categorias)
-        if destino is not None:
-            copiaFicheiro(ficheiro, destino)
-        else:
-            print(f"Categoria ou caminho não encontrados para {ficheiro.name}")
-
 def encontraCategoria(extensao: str, categorias: list[CategoriaDePasta]) -> CategoriaDePasta | None:
     for categoria in categorias:
         if extensao in categoria.extensoes:
