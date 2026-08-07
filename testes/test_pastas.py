@@ -1,5 +1,3 @@
-from pathlib import Path
-
 from configs import CategoriaDePasta
 from pastas import criaPastas, devolvePastas
 
