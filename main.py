@@ -1,13 +1,15 @@
 import sys
+from pathlib import Path
 
 import configs
 import ficheiros
 import pastas
 
-pasta = pastas.definePasta()
-
-while pasta is None:
-    pasta = pastas.definePasta()
+while True:
+    pasta = Path(input("Definir pasta para organizar: "))
+    if pasta.is_dir():
+        break
+    print("Pasta inválida.")
 
 categorias = configs.iniciarCategorias()
 

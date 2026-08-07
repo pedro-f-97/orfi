@@ -4,15 +4,6 @@ from configs import CategoriaDePasta
 from ficheiros import encontraCategoria
 
 
-def definePasta() -> Path | None:
-    pasta = input("Definir pasta para organizar: ")
-
-    vPasta = Path(pasta)
-    if vPasta.is_dir() == True:
-        return vPasta
-    else:
-        return
-
 def devolvePastas(setExt: set[str], categorias: list[CategoriaDePasta]) -> set[str]:
     pastas = set()
     
