@@ -2,3 +2,4 @@ __pycache__
 paraTestes
 .venv/
 .pytest_cache/
+.vscode
