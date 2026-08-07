@@ -20,20 +20,14 @@ def devolvePastas(setExt: set[str], categorias: list[CategoriaDePasta]) -> set[s
     return pastas
         
 
-def criaPastas(caminho: Path, pastas: set[str], categorias: list[CategoriaDePasta]) -> bool:
-    confirmacao = input(f"Criar as pastas {pastas}? (s/n): ")
-    if confirmacao.lower() == "s":
-        for pasta in pastas:
-            caminhoFinal = caminho / pasta
-            for categoria in categorias:
-                if pasta == categoria.nome:
-                    categoria.caminho = caminhoFinal
-            if not caminhoFinal.exists():
-                caminhoFinal.mkdir(parents = False, exist_ok = True)
-                print(f"Pasta criada - {pasta}")
-            else:
-                print(f"Pasta {pasta} já existe. ")
-        return False
-    else:
-        print("Operação Cancelada")
-        return True
+def criaPastas(caminho: Path, pastas: set[str], categorias: list[CategoriaDePasta]):
+    for pasta in pastas:
+        caminhoFinal = caminho / pasta
+        for categoria in categorias:
+            if pasta == categoria.nome:
+                categoria.caminho = caminhoFinal
+        if not caminhoFinal.exists():
+            caminhoFinal.mkdir(parents = False, exist_ok = True)
+            print(f"Pasta criada - {pasta}")
+        else:
+            print(f"Pasta {pasta} já existe. ")

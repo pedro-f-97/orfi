@@ -19,8 +19,11 @@ if pastasParaCriar == set():
     print("Nada para fazer.")
     sys.exit()
 
-cancelar = pastas.criaPastas(pasta, pastasParaCriar, categorias)
-if cancelar:
+confirmacao = input(f"Criar as pastas {pastasParaCriar}? (s/n): ")
+if confirmacao.lower() == "s":
+    pastas.criaPastas(pasta, pastasParaCriar, categorias)
+else:
+    print("Operação Cancelada")
     sys.exit()
 
 ficheirosLista = ficheiros.devolveFicheiros(pasta)
