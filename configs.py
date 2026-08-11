@@ -10,8 +10,9 @@ class CategoriaDePasta:
 
 def iniciarCategorias() -> list[CategoriaDePasta]:
     categorias: list[CategoriaDePasta] = []
-    categorias.append(CategoriaDePasta("Imagens", {".jpg", ".png"}))
-    categorias.append(CategoriaDePasta("Documentos", {".txt", ".docx", ".pdf"}))
-    categorias.append(CategoriaDePasta("Excel", {".xlsx", ".xltm"}))
+    categorias.append(CategoriaDePasta("Imagens", {".jpg", ".png", ".bmp"}))
+    categorias.append(CategoriaDePasta("Documentos", {".txt", ".docx", ".pdf", ".md"}))
+    categorias.append(CategoriaDePasta("Excel", {".xlsx", ".xltm", ".csv"}))
+    categorias.append(CategoriaDePasta("Emails", {".msg"}))
     categorias.append(CategoriaDePasta("Outros", set()))
     return categorias
