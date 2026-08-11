@@ -28,11 +28,12 @@ else:
 
 ficheirosLista = ficheiros.devolveFicheiros(pasta)
 
+total = 0
 for ficheiro in ficheirosLista:
-        destino = ficheiros.defineDestino(ficheiro, categorias)
-        if destino is not None:
-            ficheiros.copiaFicheiro(ficheiro, destino)
-        else:
-            print(f"Categoria ou caminho não encontrados para {ficheiro.name}")
+    destino = ficheiros.defineDestino(ficheiro, categorias)
+    if destino is not None:
+        total += ficheiros.copiaFicheiro(ficheiro, destino)
+    else:
+        print(f"Categoria ou caminho não encontrados para {ficheiro.name}")
 
-print("Feito")
+print(f"Feito, {total} ficheiros copiados.")

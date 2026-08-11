@@ -20,7 +20,7 @@ def devolveFicheiros(pasta: Path) -> list[Path]:
             listaFicheiros.append(ficheiro)
     return listaFicheiros
 
-def copiaFicheiro(ficheiro: Path, destino: Path):
+def copiaFicheiro(ficheiro: Path, destino: Path) -> int:
     # 1º tem de preparar o caminho inteiro do ficheiro no destino, juntando destino / ficheiro, ex "C:\Users\pedroferreira\Documents\exemplo.jpg"
     ficheiroFinal = destino / ficheiro.name
     # 2º condição se, caso já exista um ficheiro com o mesmo nome no destino, pergunta se quer substituir o existente
@@ -28,10 +28,11 @@ def copiaFicheiro(ficheiro: Path, destino: Path):
         resposta = input(f"Já existe o ficheiro {ficheiro.name} na pasta {destino}, substituir? (s/n): ")
         if resposta.lower() != "s":
             print("Cancelado")
-            return
+            return 0
     # 3º se resposta for sim ou condição se for falsa, copia o ficheiro
     copy2(ficheiro, ficheiroFinal)
-    print(f"{ficheiro.name} copiado") 
+    print(f"{ficheiro.name} copiado")
+    return 1 
 
 def defineDestino(ficheiro:Path, categorias: list[CategoriaDePasta]) -> Path | None:
     categoria = encontraCategoria(ficheiro.suffix.lower(), categorias)
@@ -47,5 +48,3 @@ def encontraCategoria(extensao: str, categorias: list[CategoriaDePasta]) -> Cate
     for categoria in categorias:
         if categoria.nome=="Outros":
             return categoria
-            
-            
