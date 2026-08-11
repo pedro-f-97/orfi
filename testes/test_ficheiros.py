@@ -39,11 +39,25 @@ def test_copiaFicheiro(tmp_path):
     paraCopiar.touch()
     pastaDestino = (tmp_path / "Destino")
     pastaDestino.mkdir()
-    copiaFicheiro(paraCopiar, pastaDestino)
+    assert copiaFicheiro(paraCopiar, pastaDestino) == 1
 
     ficheiroCopia = Path(pastaDestino / "texto.txt")
     assert ficheiroCopia.exists()
     assert ficheiroCopia.is_file()
+
+def test_existente_copiaFicheiro(tmp_path, monkeypatch):
+    paraCopiar = (tmp_path / "texto.txt")
+    paraCopiar.touch()
+    pastaDestino = (tmp_path / "Destino")
+    pastaDestino.mkdir()
+    (pastaDestino / "texto.txt").touch()
+    monkeypatch.setattr("builtins.input", lambda _: "n")
+    assert copiaFicheiro(paraCopiar, pastaDestino) == 0
+
+    ficheiroCopia = Path(pastaDestino / "texto.txt")
+    assert ficheiroCopia.exists()
+    assert ficheiroCopia.is_file()
+    
 
 def test_defineDestino(tmp_path):
     categorias = [
