@@ -1,36 +1,21 @@
 import sys
-from pathlib import Path
-from tkinter import Tk, filedialog
 
+import alvo
 import configs
 import ficheiros
 import pastas
 
-janela = Tk()
-janela.withdraw()
+pastaSelecionada = alvo.defineAlvo()
 
-pastaSelecionada = filedialog.askdirectory(
-    title="Selecionar pasta para organizar",
-    mustexist=True
-)
-
-janela.destroy()
+if pastaSelecionada is None:
+    print(f"{configs.CoresTexto.AMARELO}Pasta inválida.{configs.CoresTexto.RESET}")
+    sys.exit()
 
 print(f"{configs.CoresTexto.AZUL}Pasta selecionada: {pastaSelecionada} {configs.CoresTexto.RESET}")
 
-if not pastaSelecionada:
-    print(f"{configs.CoresTexto.AMARELO}Nenhuma pasta selecionada.{configs.CoresTexto.RESET}")
-    sys.exit()
-
-if not Path(pastaSelecionada).is_dir():
-    print(f"{configs.CoresTexto.AMARELO}Pasta inválida.{configs.CoresTexto.RESET}")
-    sys.exit()
-    
-pasta = Path(pastaSelecionada)
-
 categorias = configs.iniciarCategorias()
 
-pastasParaCriar = pastas.devolvePastas(ficheiros.devolveExt(pasta), categorias)
+pastasParaCriar = pastas.devolvePastas(ficheiros.devolveExt(pastaSelecionada), categorias)
 
 if pastasParaCriar == set():
     print(f"{configs.CoresTexto.AMARELO}Nada para fazer.{configs.CoresTexto.RESET}")
@@ -38,12 +23,12 @@ if pastasParaCriar == set():
 
 confirmacao = input(f"{configs.CoresTexto.AZUL}Criar as pastas {pastasParaCriar}? (s/n): {configs.CoresTexto.RESET}")
 if confirmacao.lower() == "s":
-    pastas.criaPastas(pasta, pastasParaCriar, categorias)
+    pastas.criaPastas(pastaSelecionada, pastasParaCriar, categorias)
 else:
     print(f"{configs.CoresTexto.AMARELO}Operação Cancelada{configs.CoresTexto.RESET}")
     sys.exit()
 
-ficheirosLista = ficheiros.devolveFicheiros(pasta)
+ficheirosLista = ficheiros.devolveFicheiros(pastaSelecionada)
 
 total = 0
 for ficheiro in ficheirosLista:
