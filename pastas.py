@@ -1,11 +1,10 @@
 from pathlib import Path
 
 import configs
-from configs import CategoriaDePasta
 from ficheiros import encontraCategoria
 
 
-def devolvePastas(setExt: set[str], categorias: list[CategoriaDePasta]) -> set[str]:
+def devolvePastas(setExt: set[str], categorias: list[configs.CategoriaDePasta]) -> set[str]:
     pastas = set()
     
     for ext in setExt:
@@ -21,7 +20,7 @@ def devolvePastas(setExt: set[str], categorias: list[CategoriaDePasta]) -> set[s
     return pastas
         
 
-def criaPastas(caminho: Path, pastas: set[str], categorias: list[CategoriaDePasta]):
+def criaPastas(caminho: Path, pastas: set[str], categorias: list[configs.CategoriaDePasta]):
     for pasta in pastas:
         caminhoFinal = caminho / pasta
         for categoria in categorias:
@@ -33,7 +32,7 @@ def criaPastas(caminho: Path, pastas: set[str], categorias: list[CategoriaDePast
         else:
             print(f"{configs.CoresTexto.AMARELO}Pasta {pasta} já existe. {configs.CoresTexto.RESET}")
 
-def pastasExistentes(caminho: Path, categorias: list[CategoriaDePasta]) -> set:
+def pastasExistentes(caminho: Path, categorias: list[configs.CategoriaDePasta]) -> set:
     pastasParaReverter = set()
     for pasta in caminho.iterdir():
         if pasta.is_dir():

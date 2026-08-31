@@ -2,7 +2,6 @@ from pathlib import Path
 from shutil import copy2, move
 
 import configs
-from configs import CategoriaDePasta
 
 
 def devolveExt(pasta: Path) -> set[str]:
@@ -32,14 +31,14 @@ def copiaFicheiro(ficheiro: Path, destino: Path) -> int:
     print(f"{configs.CoresTexto.VERDE}{ficheiro.name} copiado{configs.CoresTexto.RESET}")
     return 1 
 
-def defineDestino(ficheiro:Path, categorias: list[CategoriaDePasta]) -> Path | None:
+def defineDestino(ficheiro:Path, categorias: list[configs.CategoriaDePasta]) -> Path | None:
     categoria = encontraCategoria(ficheiro.suffix.lower(), categorias)
     if categoria is not None and categoria.caminho is not None:
         return categoria.caminho
     else:
         return None
 
-def encontraCategoria(extensao: str, categorias: list[CategoriaDePasta]) -> CategoriaDePasta | None:
+def encontraCategoria(extensao: str, categorias: list[configs.CategoriaDePasta]) -> configs.CategoriaDePasta | None:
     for categoria in categorias:
         if extensao in categoria.extensoes:
             return categoria
