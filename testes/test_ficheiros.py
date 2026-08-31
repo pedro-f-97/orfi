@@ -72,10 +72,6 @@ def test_defineDestino(tmp_path):
     assert destinoDefinido is not None
     assert destinoDefinido == tmp_path  / "Fotos"
 
-def test_encaminhaCopias():
-    
-    print()
-
 def test_encontraCategoria(tmp_path):
     categorias = [
         CategoriaDePasta("Notas", {".txt"}, tmp_path / "Notas"),
