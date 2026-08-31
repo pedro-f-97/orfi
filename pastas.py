@@ -1,5 +1,6 @@
 from pathlib import Path
 
+import configs
 from configs import CategoriaDePasta
 from ficheiros import encontraCategoria
 
@@ -12,11 +13,11 @@ def devolvePastas(setExt: set[str], categorias: list[CategoriaDePasta]) -> set[s
         if categoria is not None:
             pastas.add(categoria.nome)
         else:
-            print(f"Categoria não encontrada para {ext}")
+            print(f"{configs.CoresTexto.AMARELO}Categoria não encontrada para {ext}{configs.CoresTexto.RESET}")
     if len(pastas) > 0:
-        print("Pastas para criar: ", pastas)
+        print(f"{configs.CoresTexto.AMARELO}Pastas para criar: {pastas}{configs.CoresTexto.RESET}")
     else:
-        print("Não vai criar pastas.")
+        print(f"{configs.CoresTexto.AMARELO}Não vai criar pastas.{configs.CoresTexto.RESET}")
     return pastas
         
 
@@ -28,6 +29,6 @@ def criaPastas(caminho: Path, pastas: set[str], categorias: list[CategoriaDePast
                 categoria.caminho = caminhoFinal
         if not caminhoFinal.exists():
             caminhoFinal.mkdir(parents = False, exist_ok = True)
-            print(f"Pasta criada - {pasta}")
+            print(f"{configs.CoresTexto.VERDE}Pasta criada - {pasta}{configs.CoresTexto.RESET}")
         else:
-            print(f"Pasta {pasta} já existe. ")
+            print(f"{configs.CoresTexto.AMARELO}Pasta {pasta} já existe. {configs.CoresTexto.RESET}")

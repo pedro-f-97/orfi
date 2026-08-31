@@ -2,6 +2,14 @@ from dataclasses import dataclass
 from pathlib import Path
 
 
+class CoresTexto:
+    VERDE = "\033[92m"
+    VERMELHO = "\033[91m"
+    AMARELO = "\033[93m"
+    AZUL = "\033[94m"
+    RESET = "\033[0m"
+
+
 @dataclass
 class CategoriaDePasta:
     nome: str
