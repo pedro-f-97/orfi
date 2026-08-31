@@ -24,12 +24,26 @@ parser.add_argument(
     help="copia os ficheiros em vez de mover"
 )
 
+parser.add_argument(
+    "-r",
+    "--reverter",
+    action="store_true",
+    help="reverte o processo de organização"
+)
+
 argumentos = parser.parse_args()
 
 if argumentos.aqui:
     pastaSelecionada = alvo.defineAlvoAqui()
 else:
     pastaSelecionada = alvo.defineAlvo()
+
+if argumentos.copiar:
+    trabalho = ficheiros.copiaFicheiro
+    tratamento = "copiados."
+else:
+    trabalho = ficheiros.moveFicheiro
+    tratamento = "movidos."
 
 if pastaSelecionada is None:
     print(f"{configs.CoresTexto.AMARELO}Pasta inválida.{configs.CoresTexto.RESET}")
@@ -38,6 +52,24 @@ if pastaSelecionada is None:
 print(f"{configs.CoresTexto.AZUL}Pasta selecionada: {pastaSelecionada} {configs.CoresTexto.RESET}")
 
 categorias = configs.iniciarCategorias()
+
+if argumentos.reverter:
+    #1º - no diretório definido tem de procurar pastas com nomes que coincidam com nomes nas categorias de pasta
+    #2º - para cada uma dessas pastas, obter ficheiros e adicionar cada um a uma lista
+    #3º - percorrer a lista, movendo ou copiando cada ficheiro para a pasta base
+    pastasParaReverter = pastas.pastasExistentes(pastaSelecionada, categorias)
+    if pastasParaReverter:
+        ficheirosParaReverter = ficheiros.ficheirosParaReverter(pastasParaReverter)
+        if ficheirosParaReverter:
+            total = 0
+            for ficheiro in ficheirosParaReverter:
+                total += trabalho(ficheiro, pastaSelecionada)
+            print(f"{configs.CoresTexto.VERDE}Revertido, {total} ficheiros {tratamento}{configs.CoresTexto.RESET}")
+        else:
+            print(f"{configs.CoresTexto.AMARELO}Nada para reverter.{configs.CoresTexto.RESET}")
+    else:
+        print(f"{configs.CoresTexto.AMARELO}Nada para reverter.{configs.CoresTexto.RESET}")
+    sys.exit()
 
 pastasParaCriar = pastas.devolvePastas(ficheiros.devolveExt(pastaSelecionada), categorias)
 
@@ -53,13 +85,6 @@ else:
     sys.exit()
 
 ficheirosLista = ficheiros.devolveFicheiros(pastaSelecionada)
-
-if argumentos.copiar:
-    trabalho = ficheiros.copiaFicheiro
-    tratamento = "copiados."
-else:
-    trabalho = ficheiros.moveFicheiro
-    tratamento = "movidos."
 
 total = 0
 for ficheiro in ficheirosLista:

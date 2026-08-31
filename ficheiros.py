@@ -68,3 +68,11 @@ def moveFicheiro(ficheiro: Path, destino: Path) -> int:
         return 0
     print(f"{configs.CoresTexto.VERDE}{ficheiro.name} movido{configs.CoresTexto.RESET}")
     return 1 
+
+def ficheirosParaReverter(pastas: set) -> set:
+    ficheirosParaReverter = set()
+    for pasta in pastas:
+        for elemento in pasta.iterdir():
+            if elemento.is_dir() == False:
+                ficheirosParaReverter.add(elemento)
+    return ficheirosParaReverter
