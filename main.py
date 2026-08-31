@@ -17,6 +17,13 @@ parser.add_argument(
     help="utiliza a pasta atual como pasta alvo"
 )
 
+parser.add_argument(
+    "-c",
+    "--copiar",
+    action="store_true",
+    help="copia os ficheiros em vez de mover"
+)
+
 argumentos = parser.parse_args()
 
 if argumentos.aqui:
@@ -47,12 +54,19 @@ else:
 
 ficheirosLista = ficheiros.devolveFicheiros(pastaSelecionada)
 
+if argumentos.copiar:
+    trabalho = ficheiros.copiaFicheiro
+    tratamento = "copiados."
+else:
+    trabalho = ficheiros.moveFicheiro
+    tratamento = "movidos."
+
 total = 0
 for ficheiro in ficheirosLista:
     destino = ficheiros.defineDestino(ficheiro, categorias)
     if destino is not None:
-        total += ficheiros.moveFicheiro(ficheiro, destino)
+        total += trabalho(ficheiro, destino)
     else:
         print(f"{configs.CoresTexto.AMARELO}Categoria ou caminho não encontrados para {ficheiro.name}{configs.CoresTexto.RESET}")
 
-print(f"{configs.CoresTexto.VERDE}Feito, {total} ficheiros tratados.{configs.CoresTexto.RESET}")
+print(f"{configs.CoresTexto.VERDE}Feito, {total} ficheiros {tratamento}{configs.CoresTexto.RESET}")
