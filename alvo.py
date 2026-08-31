@@ -21,3 +21,6 @@ def defineAlvo() -> Path | None:
 
     pasta = Path(pastaSelecionada)
     return pasta
+
+def defineAlvoAqui() -> Path:
+    return Path.cwd()
