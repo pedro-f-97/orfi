@@ -4,7 +4,8 @@ import sys
 import alvo
 import configs
 import ficheiros
-import pastas
+import organizar
+import reverter
 
 parser = argparse.ArgumentParser(
     description="Organiza ficheiros por categorias."
@@ -54,44 +55,7 @@ print(f"{configs.CoresTexto.AZUL}Pasta selecionada: {pastaSelecionada} {configs.
 categorias = configs.iniciarCategorias()
 
 if argumentos.reverter:
-    #1º - no diretório definido tem de procurar pastas com nomes que coincidam com nomes nas categorias de pasta
-    #2º - para cada uma dessas pastas, obter ficheiros e adicionar cada um a uma lista
-    #3º - percorrer a lista, movendo ou copiando cada ficheiro para a pasta base
-    pastasParaReverter = pastas.pastasExistentes(pastaSelecionada, categorias)
-    if pastasParaReverter:
-        ficheirosParaReverter = ficheiros.ficheirosParaReverter(pastasParaReverter)
-        if ficheirosParaReverter:
-            total = 0
-            for ficheiro in ficheirosParaReverter:
-                total += trabalho(ficheiro, pastaSelecionada)
-            print(f"{configs.CoresTexto.VERDE}Revertido, {total} ficheiros {tratamento}{configs.CoresTexto.RESET}")
-        else:
-            print(f"{configs.CoresTexto.AMARELO}Nada para reverter.{configs.CoresTexto.RESET}")
-    else:
-        print(f"{configs.CoresTexto.AMARELO}Nada para reverter.{configs.CoresTexto.RESET}")
+    reverter.reverte(pastaSelecionada, categorias, trabalho, tratamento)
     sys.exit()
-
-pastasParaCriar = pastas.devolvePastas(ficheiros.devolveExt(pastaSelecionada), categorias)
-
-if pastasParaCriar == set():
-    print(f"{configs.CoresTexto.AMARELO}Nada para fazer.{configs.CoresTexto.RESET}")
-    sys.exit()
-
-confirmacao = input(f"{configs.CoresTexto.AZUL}Criar as pastas {pastasParaCriar}? (s/n): {configs.CoresTexto.RESET}")
-if confirmacao.lower() == "s":
-    pastas.criaPastas(pastaSelecionada, pastasParaCriar, categorias)
 else:
-    print(f"{configs.CoresTexto.AMARELO}Operação Cancelada{configs.CoresTexto.RESET}")
-    sys.exit()
-
-ficheirosLista = ficheiros.devolveFicheiros(pastaSelecionada)
-
-total = 0
-for ficheiro in ficheirosLista:
-    destino = ficheiros.defineDestino(ficheiro, categorias)
-    if destino is not None:
-        total += trabalho(ficheiro, destino)
-    else:
-        print(f"{configs.CoresTexto.AMARELO}Categoria ou caminho não encontrados para {ficheiro.name}{configs.CoresTexto.RESET}")
-
-print(f"{configs.CoresTexto.VERDE}Feito, {total} ficheiros {tratamento}{configs.CoresTexto.RESET}")
+    organizar.organiza(pastaSelecionada, categorias, trabalho, tratamento)
