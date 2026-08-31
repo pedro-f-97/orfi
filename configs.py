@@ -15,6 +15,7 @@ class CategoriaDePasta:
     nome: str
     extensoes: set[str]
     caminho: Path | None = None
+    defeito: bool = False
 
 def iniciarCategorias() -> list[CategoriaDePasta]:
     categorias: list[CategoriaDePasta] = []
@@ -22,5 +23,5 @@ def iniciarCategorias() -> list[CategoriaDePasta]:
     categorias.append(CategoriaDePasta("Documentos", {".txt", ".docx", ".pdf", ".md"}))
     categorias.append(CategoriaDePasta("Excel", {".xlsx", ".xltm", ".csv"}))
     categorias.append(CategoriaDePasta("Emails", {".msg"}))
-    categorias.append(CategoriaDePasta("Outros", set()))
+    categorias.append(CategoriaDePasta("Outros", set(),None ,True))
     return categorias

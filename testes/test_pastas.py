@@ -6,7 +6,7 @@ def test_devolvePastas(tmp_path):
     categorias = [
         CategoriaDePasta("Docs", {".txt"}, tmp_path / "Docs"),
         CategoriaDePasta("Fotos", {".jpg"}, tmp_path / "Fotos"),
-        CategoriaDePasta("Outros", {""}, tmp_path / "Outros"),
+        CategoriaDePasta("Outros", set(), tmp_path / "Outros", True),
     ]
     extensoes = {".txt", ".jpg", ".bat"}
     pastasDevolvidas = devolvePastas(extensoes, categorias)

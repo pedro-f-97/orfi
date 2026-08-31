@@ -44,7 +44,7 @@ def encontraCategoria(extensao: str, categorias: list[CategoriaDePasta]) -> Cate
         if extensao in categoria.extensoes:
             return categoria
     for categoria in categorias:
-        if categoria.nome=="Outros":
+        if categoria.defeito:
             return categoria
 
 def apagaFicheiro(ficheiro:Path) -> int:
