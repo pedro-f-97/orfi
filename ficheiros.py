@@ -11,7 +11,7 @@ def devolveExt(pasta: Path) -> set[str]:
         if not ficheiro.is_dir(): #apenas ficheiros, não pastas
             ext.add(ficheiro.suffix.lower())
     if len(ext) > 0:
-        print(f"{configs.CoresTexto.AZUL}Extensões existentes: {configs.CoresTexto.RESET}", ext) 
+        print(f"{configs.CoresTexto.AZUL}Extensões existentes: {ext} {configs.CoresTexto.RESET}") 
     return ext
 
 def devolveFicheiros(pasta: Path) -> list[Path]:
