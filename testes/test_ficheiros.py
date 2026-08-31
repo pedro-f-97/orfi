@@ -8,6 +8,7 @@ from ficheiros import (
     devolveExt,
     devolveFicheiros,
     encontraCategoria,
+    ficheirosParaReverter,
     moveFicheiro,
 )
 
@@ -116,3 +117,27 @@ def test_apagaFicheiro(tmp_path):
     assert paraApagar.exists()
     assert apagaFicheiro(paraApagar) == 1
     assert paraApagar.exists() == False
+
+def test_ficheirosParaReverter(tmp_path):
+    pastas = set()
+    pastas.add(tmp_path / "Imagens")
+    pastas.add(tmp_path / "Documentos")
+    for pasta in pastas:
+        pasta.mkdir()
+
+    ficheirosGerados = set()
+    txtCriar = (tmp_path / "Documentos" / "doc.txt")
+    txtCriar.touch()
+    ficheirosGerados.add(txtCriar)
+    pdfCriar = (tmp_path / "Documentos" / "doc.pdf")
+    pdfCriar.touch()
+    ficheirosGerados.add(pdfCriar)
+    pngCriar = (tmp_path / "Imagens" / "img.png")
+    pngCriar.touch()
+    ficheirosGerados.add(pngCriar)
+    jpgCriar = (tmp_path / "Imagens" / "img.jpg")
+    jpgCriar.touch()
+    ficheirosGerados.add(jpgCriar)
+
+    paraValidar = ficheirosParaReverter(pastas)
+    assert paraValidar == ficheirosGerados
