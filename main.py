@@ -1,15 +1,32 @@
 import sys
 from pathlib import Path
+from tkinter import Tk, filedialog
 
 import configs
 import ficheiros
 import pastas
 
-while True:
-    pasta = Path(input(f"{configs.CoresTexto.AZUL}Definir pasta para organizar: {configs.CoresTexto.RESET}"))
-    if pasta.is_dir():
-        break
+janela = Tk()
+janela.withdraw()
+
+pastaSelecionada = filedialog.askdirectory(
+    title="Selecionar pasta para organizar",
+    mustexist=True
+)
+
+janela.destroy()
+
+print(f"{configs.CoresTexto.AZUL}Pasta selecionada: {pastaSelecionada} {configs.CoresTexto.RESET}")
+
+if not pastaSelecionada:
+    print(f"{configs.CoresTexto.AMARELO}Nenhuma pasta selecionada.{configs.CoresTexto.RESET}")
+    sys.exit()
+
+if not Path(pastaSelecionada).is_dir():
     print(f"{configs.CoresTexto.AMARELO}Pasta inválida.{configs.CoresTexto.RESET}")
+    sys.exit()
+    
+pasta = Path(pastaSelecionada)
 
 categorias = configs.iniciarCategorias()
 
