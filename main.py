@@ -51,8 +51,8 @@ total = 0
 for ficheiro in ficheirosLista:
     destino = ficheiros.defineDestino(ficheiro, categorias)
     if destino is not None:
-        total += ficheiros.copiaFicheiro(ficheiro, destino)
+        total += ficheiros.moveFicheiro(ficheiro, destino)
     else:
         print(f"{configs.CoresTexto.AMARELO}Categoria ou caminho não encontrados para {ficheiro.name}{configs.CoresTexto.RESET}")
 
-print(f"{configs.CoresTexto.VERDE}Feito, {total} ficheiros copiados.{configs.CoresTexto.RESET}")
+print(f"{configs.CoresTexto.VERDE}Feito, {total} ficheiros tratados.{configs.CoresTexto.RESET}")
