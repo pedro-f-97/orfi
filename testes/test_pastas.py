@@ -1,5 +1,5 @@
 from configs import CategoriaDePasta
-from pastas import criaPastas, devolvePastas
+from pastas import criaPastas, devolvePastas, pastasExistentes
 
 
 def test_devolvePastas(tmp_path):
@@ -34,3 +34,24 @@ def test_criaPastas(tmp_path):
         pastaExistente = tmp_path / "Destino" / categoria.nome
         assert pastaExistente.is_dir()
         assert categoria.caminho == pastaExistente
+
+def test_pastasExistentes(tmp_path):
+    categorias = [
+        CategoriaDePasta("Documentos", {".txt"}),
+        CategoriaDePasta("Imagens", {".jpg"}),
+        CategoriaDePasta("Outros", {""}),
+    ]
+
+    pastas = set()
+    pastas.add(tmp_path / "Imagens")
+    pastas.add(tmp_path / "Documentos")
+    for pasta in pastas:
+        pasta.mkdir()
+
+    lixo = (tmp_path / "ficheiro.txt")
+    lixo.touch()
+    lixo = (tmp_path / "PastaIncrivel")
+    lixo.mkdir()
+
+    assert pastasExistentes(tmp_path, categorias) == pastas
+    
