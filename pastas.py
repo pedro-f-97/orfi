@@ -32,7 +32,7 @@ def criaPastas(caminho: Path, pastas: set[str], categorias: list[configs.Categor
         else:
             print(f"{configs.CoresTexto.AMARELO}Pasta {pasta} já existe. {configs.CoresTexto.RESET}")
 
-def pastasExistentes(caminho: Path, categorias: list[configs.CategoriaDePasta]) -> set:
+def pastasExistentes(caminho: Path, categorias: list[configs.CategoriaDePasta]) -> set[Path]:
     pastasParaReverter = set()
     for pasta in caminho.iterdir():
         if pasta.is_dir():
