@@ -31,8 +31,5 @@ def reverte(pastaSelecionada: Path, categorias: list[configs.CategoriaDePasta], 
         total += trabalho(ficheiro, pastaSelecionada)
 
     if modo == configs.Modo.MOVER:
-        for pasta in pastasParaReverter:
-            if not any(pasta.iterdir()):
-                print(f"{configs.CoresTexto.VERDE}Pasta vazia '{pasta}' foi eliminada.{configs.CoresTexto.RESET}")
-                pasta.rmdir()
+        pastas.eliminaPastasVazias(pastasParaReverter)
     print(f"{configs.CoresTexto.VERDE}Revertido, {total} ficheiros {tratamento}{configs.CoresTexto.RESET}")

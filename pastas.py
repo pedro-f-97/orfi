@@ -40,3 +40,9 @@ def pastasExistentes(caminho: Path, categorias: list[configs.CategoriaDePasta]) 
                 if pasta.stem == categoria.nome:
                     pastasParaReverter.add(pasta)
     return pastasParaReverter
+
+def eliminaPastasVazias(pastasParaReverter: set[Path]):
+    for pasta in pastasParaReverter:
+            if not any(pasta.iterdir()):
+                print(f"{configs.CoresTexto.VERDE}Pasta vazia '{pasta}' foi eliminada.{configs.CoresTexto.RESET}")
+                pasta.rmdir()
