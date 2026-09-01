@@ -1,6 +1,6 @@
 # Orfi
 
-**Orfi** é uma ferramenta de linha de comandos que organiza ficheiros soltos em pastas categorizadas automaticamente.
+**Orfi** organiza ficheiros soltos por pastas categorizadas através da linha de comandos.
 
 ## Funcionalidades
 
@@ -26,10 +26,9 @@ python -m pip install .
 ## Utilização
 
 ```bash
-orfi            # organiza a pasta atual
-orfi -a         # permite definir a pasta alvo
-orfi -a  -c     # copia os ficheiros para a pasta alvo
-orfi -a  -r     # reverte a organização
+orfi            
+orfi -a         
+...   
 ```
 
 ## Testes
