@@ -1,60 +1,63 @@
 import argparse
-import sys
 
 import alvo
 import configs
 import organizar
 import reverter
 
-parser = argparse.ArgumentParser(
-    description="Organiza ficheiros por categorias."
-)
 
-parser.add_argument(
-    "-a",
-    "--alvo",
-    action="store_true",
-    help="permite definir a pasta alvo"
-)
+def main():
+    parser = argparse.ArgumentParser(
+        description="Organiza ficheiros por categorias."
+    )
 
-parser.add_argument(
-    "-c",
-    "--copiar",
-    action="store_true",
-    help="copia os ficheiros em vez de mover"
-)
+    parser.add_argument(
+        "-a",
+        "--alvo",
+        action="store_true",
+        help="permite definir a pasta alvo"
+    )
 
-parser.add_argument(
-    "-r",
-    "--reverter",
-    action="store_true",
-    help="reverte o processo de organização"
-)
+    parser.add_argument(
+        "-c",
+        "--copiar",
+        action="store_true",
+        help="copia os ficheiros em vez de mover"
+    )
 
-argumentos = parser.parse_args()
+    parser.add_argument(
+        "-r",
+        "--reverter",
+        action="store_true",
+        help="reverte o processo de organização"
+    )
 
-if argumentos.alvo:
-    pastaSelecionada = alvo.defineAlvo()
-else:
-    pastaSelecionada = alvo.defineAlvoAqui()
+    argumentos = parser.parse_args()
 
-if argumentos.copiar:
-    modo = configs.Modo.COPIAR
-else:
-    modo = configs.Modo.MOVER
+    if argumentos.alvo:
+        pastaSelecionada = alvo.defineAlvo()
+    else:
+        pastaSelecionada = alvo.defineAlvoAqui()
 
-if pastaSelecionada is None:
-    print(f"{configs.CoresTexto.AMARELO}Pasta inválida.{configs.CoresTexto.RESET}")
-    sys.exit()
+    if argumentos.copiar:
+        modo = configs.Modo.COPIAR
+    else:
+        modo = configs.Modo.MOVER
 
-print(f"{configs.CoresTexto.AZUL}Pasta selecionada: {pastaSelecionada} {configs.CoresTexto.RESET}")
+    if pastaSelecionada is None:
+        print(f"{configs.CoresTexto.AMARELO}Pasta inválida.{configs.CoresTexto.RESET}")
+        return
 
-categorias = configs.iniciarCategorias()
+    print(f"{configs.CoresTexto.AZUL}Pasta selecionada: {pastaSelecionada} {configs.CoresTexto.RESET}")
 
-if argumentos.reverter:
-    reverter.reverte(pastaSelecionada, categorias, modo)
+    categorias = configs.iniciarCategorias()
 
-else:
-    organizar.organiza(pastaSelecionada, categorias, modo)
-    
-sys.exit()
+    if argumentos.reverter:
+        reverter.reverte(pastaSelecionada, categorias, modo)
+
+    else:
+        organizar.organiza(pastaSelecionada, categorias, modo)
+        
+
+if __name__ == "__main__":
+    main()    
