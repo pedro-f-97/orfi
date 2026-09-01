@@ -1,5 +1,5 @@
 from configs import CategoriaDePasta
-from pastas import criaPastas, devolvePastas, pastasExistentes
+from pastas import criaPastas, devolvePastas, eliminaPastasVazias, pastasExistentes
 
 
 def test_devolvePastas(tmp_path):
@@ -54,4 +54,28 @@ def test_pastasExistentes(tmp_path):
     lixo.mkdir()
 
     assert pastasExistentes(tmp_path, categorias) == pastas
+
+def test_eliminaPastasVazias(tmp_path):
+    pastasVazias = set()
+    pastasVazias.add(tmp_path / "Imagens")
+    pastasVazias.add(tmp_path / "Documentos")
+    for pasta in pastasVazias:
+        pasta.mkdir()
     
+    pastasConteudo = set()
+    pastasConteudo.add(tmp_path / "Coisas")
+    pastasConteudo.add(tmp_path / "Projecto_A")
+    for pasta in pastasConteudo:
+        pasta.mkdir()
+        ficheiro = (pasta / "ficheiro.txt")
+        ficheiro.touch()
+
+    pastasConjunto = pastasVazias.union(pastasConteudo)
+
+    eliminaPastasVazias(pastasConjunto)
+
+    for pasta in pastasVazias:
+        assert not pasta.exists()
+    
+    for pasta in pastasConteudo:
+        assert pasta.exists()
