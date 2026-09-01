@@ -1,8 +1,6 @@
 from pathlib import Path
 
-import configs
-import ficheiros
-import pastas
+from . import configs, ficheiros, pastas
 
 
 def organiza(pastaSelecionada: Path, categorias: list[configs.CategoriaDePasta], modo: configs.Modo):

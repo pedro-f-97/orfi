@@ -1,9 +1,6 @@
 import argparse
 
-import alvo
-import configs
-import organizar
-import reverter
+from . import alvo, configs, organizar, reverter
 
 
 def main():

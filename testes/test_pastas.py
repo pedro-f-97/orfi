@@ -1,23 +1,23 @@
-from configs import CategoriaDePasta
-from pastas import criaPastas, devolvePastas, eliminaPastasVazias, pastasExistentes
+import orfi.configs
+import orfi.pastas
 
 
 def test_devolvePastas(tmp_path):
     categorias = [
-        CategoriaDePasta("Docs", {".txt"}, tmp_path / "Docs"),
-        CategoriaDePasta("Fotos", {".jpg"}, tmp_path / "Fotos"),
-        CategoriaDePasta("Outros", set(), tmp_path / "Outros", True),
+        orfi.configs.CategoriaDePasta("Docs", {".txt"}, tmp_path / "Docs"),
+        orfi.configs.CategoriaDePasta("Fotos", {".jpg"}, tmp_path / "Fotos"),
+        orfi.configs.CategoriaDePasta("Outros", set(), tmp_path / "Outros", True),
     ]
     extensoes = {".txt", ".jpg", ".bat"}
-    pastasDevolvidas = devolvePastas(extensoes, categorias)
+    pastasDevolvidas = orfi.pastas.devolvePastas(extensoes, categorias)
     
     assert pastasDevolvidas == {"Docs", "Fotos", "Outros"}
 
 def test_criaPastas(tmp_path):
     categorias = [
-        CategoriaDePasta("Docs", {".txt"}),
-        CategoriaDePasta("Fotos", {".jpg"}),
-        CategoriaDePasta("Outros", {""}),
+        orfi.configs.CategoriaDePasta("Docs", {".txt"}),
+        orfi.configs.CategoriaDePasta("Fotos", {".jpg"}),
+        orfi.configs.CategoriaDePasta("Outros", {""}),
     ]
     pastaDestino = (tmp_path / "Destino")
     pastaDestino.mkdir()
@@ -28,7 +28,7 @@ def test_criaPastas(tmp_path):
         assert not pastaInexistente.is_dir()
         assert categoria.caminho is None
 
-    criaPastas(pastaDestino, pastasParaCriar, categorias)
+    orfi.pastas.criaPastas(pastaDestino, pastasParaCriar, categorias)
 
     for categoria in categorias:
         pastaExistente = tmp_path / "Destino" / categoria.nome
@@ -37,9 +37,9 @@ def test_criaPastas(tmp_path):
 
 def test_pastasExistentes(tmp_path):
     categorias = [
-        CategoriaDePasta("Documentos", {".txt"}),
-        CategoriaDePasta("Imagens", {".jpg"}),
-        CategoriaDePasta("Outros", {""}),
+        orfi.configs.CategoriaDePasta("Documentos", {".txt"}),
+        orfi.configs.CategoriaDePasta("Imagens", {".jpg"}),
+        orfi.configs.CategoriaDePasta("Outros", {""}),
     ]
 
     pastas = set()
@@ -53,7 +53,7 @@ def test_pastasExistentes(tmp_path):
     lixo = (tmp_path / "PastaIncrivel")
     lixo.mkdir()
 
-    assert pastasExistentes(tmp_path, categorias) == pastas
+    assert orfi.pastas.pastasExistentes(tmp_path, categorias) == pastas
 
 def test_eliminaPastasVazias(tmp_path):
     pastasVazias = set()
@@ -72,7 +72,7 @@ def test_eliminaPastasVazias(tmp_path):
 
     pastasConjunto = pastasVazias.union(pastasConteudo)
 
-    eliminaPastasVazias(pastasConjunto)
+    orfi.pastas.eliminaPastasVazias(pastasConjunto)
 
     for pasta in pastasVazias:
         assert not pasta.exists()

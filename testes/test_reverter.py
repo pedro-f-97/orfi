@@ -1,14 +1,14 @@
-from configs import CategoriaDePasta, Modo
-from reverter import reverte
+import orfi.configs
+import orfi.reverter
 
 
 def test_reverteMover(tmp_path):
-    modo = Modo.MOVER
+    modo = orfi.configs.Modo.MOVER
 
     categorias = [
-        CategoriaDePasta("Docs", {".txt"}, tmp_path / "Docs"),
-        CategoriaDePasta("Fotos", {".jpg"}, tmp_path / "Fotos"),
-        CategoriaDePasta("Emails", {".msg"}, tmp_path / "Emails"),
+        orfi.configs.CategoriaDePasta("Docs", {".txt"}, tmp_path / "Docs"),
+        orfi.configs.CategoriaDePasta("Fotos", {".jpg"}, tmp_path / "Fotos"),
+        orfi.configs.CategoriaDePasta("Emails", {".msg"}, tmp_path / "Emails"),
     ]
 
     pastaBase = (tmp_path / "Base")
@@ -28,7 +28,7 @@ def test_reverteMover(tmp_path):
             ficheirosCriados.add(ficheiro)
             assert ficheiro.exists()
 
-    reverte(pastaBase, categorias, modo)
+    orfi.reverter.reverte(pastaBase, categorias, modo)
 
     for pasta in pastasCriadas:
         assert not pasta.exists()
@@ -38,12 +38,12 @@ def test_reverteMover(tmp_path):
         assert (pastaBase / ficheiro.name).exists()
 
 def test_reverteCopiar(tmp_path):
-    modo = Modo.COPIAR
+    modo = orfi.configs.Modo.COPIAR
 
     categorias = [
-        CategoriaDePasta("Docs", {".txt"}, tmp_path / "Docs"),
-        CategoriaDePasta("Fotos", {".jpg"}, tmp_path / "Fotos"),
-        CategoriaDePasta("Emails", {".msg"}, tmp_path / "Emails"),
+        orfi.configs.CategoriaDePasta("Docs", {".txt"}, tmp_path / "Docs"),
+        orfi.configs.CategoriaDePasta("Fotos", {".jpg"}, tmp_path / "Fotos"),
+        orfi.configs.CategoriaDePasta("Emails", {".msg"}, tmp_path / "Emails"),
     ]
 
     pastaBase = (tmp_path / "Base")
@@ -63,7 +63,7 @@ def test_reverteCopiar(tmp_path):
             ficheirosCriados.add(ficheiro)
             assert ficheiro.exists()
     
-    reverte(pastaBase, categorias, modo)
+    orfi.reverter.reverte(pastaBase, categorias, modo)
 
     for pasta in pastasCriadas:
         assert pasta.exists()
@@ -73,28 +73,28 @@ def test_reverteCopiar(tmp_path):
         assert (pastaBase / ficheiro.name).exists()
 
 def test_reverteSemPastas(tmp_path):
-    modo = Modo.MOVER
+    modo = orfi.configs.Modo.MOVER
 
     categorias = [
-        CategoriaDePasta("Docs", {".txt"}, tmp_path / "Docs"),
-        CategoriaDePasta("Fotos", {".jpg"}, tmp_path / "Fotos"),
-        CategoriaDePasta("Outros", {""}, tmp_path / "Outros", True),
+        orfi.configs.CategoriaDePasta("Docs", {".txt"}, tmp_path / "Docs"),
+        orfi.configs.CategoriaDePasta("Fotos", {".jpg"}, tmp_path / "Fotos"),
+        orfi.configs.CategoriaDePasta("Outros", {""}, tmp_path / "Outros", True),
     ]
 
     pastaBase = (tmp_path / "Base")
     pastaBase.mkdir()
 
-    reverte(pastaBase, categorias, modo)
+    orfi.reverter.reverte(pastaBase, categorias, modo)
 
     assert not any(pastaBase.iterdir())
 
 def test_reverteSemFicheiros(tmp_path):
-    modo = Modo.MOVER
+    modo = orfi.configs.Modo.MOVER
 
     categorias = [
-        CategoriaDePasta("Docs", {".txt"}, tmp_path / "Docs"),
-        CategoriaDePasta("Fotos", {".jpg"}, tmp_path / "Fotos"),
-        CategoriaDePasta("Outros", {""}, tmp_path / "Outros", True),
+        orfi.configs.CategoriaDePasta("Docs", {".txt"}, tmp_path / "Docs"),
+        orfi.configs.CategoriaDePasta("Fotos", {".jpg"}, tmp_path / "Fotos"),
+        orfi.configs.CategoriaDePasta("Outros", {""}, tmp_path / "Outros", True),
     ]
 
     pastaBase = (tmp_path / "Base")
@@ -105,7 +105,7 @@ def test_reverteSemFicheiros(tmp_path):
         pasta.mkdir()
         assert pasta.exists()
     
-    reverte(pastaBase, categorias, modo)
+    orfi.reverter.reverte(pastaBase, categorias, modo)
 
     for categoria in categorias:
         pasta = (pastaBase / categoria.nome)
@@ -113,12 +113,12 @@ def test_reverteSemFicheiros(tmp_path):
         assert not any(pasta.iterdir())
 
 def test_reverteConflito(tmp_path, monkeypatch):
-    modo = Modo.MOVER
+    modo = orfi.configs.Modo.MOVER
 
     categorias = [
-        CategoriaDePasta("Docs", {".txt"}, tmp_path / "Docs"),
-        CategoriaDePasta("Fotos", {".jpg"}, tmp_path / "Fotos"),
-        CategoriaDePasta("Outros", {""}, tmp_path / "Outros", True),
+        orfi.configs.CategoriaDePasta("Docs", {".txt"}, tmp_path / "Docs"),
+        orfi.configs.CategoriaDePasta("Fotos", {".jpg"}, tmp_path / "Fotos"),
+        orfi.configs.CategoriaDePasta("Outros", {""}, tmp_path / "Outros", True),
     ]
 
     pastaBase = (tmp_path / "Base")
@@ -138,7 +138,7 @@ def test_reverteConflito(tmp_path, monkeypatch):
             ficheiro.touch()
 
     monkeypatch.setattr("builtins.input", lambda _: "n")
-    reverte(pastaBase, categorias, modo)
+    orfi.reverter.reverte(pastaBase, categorias, modo)
 
     tipos = set()
     for path in pastaBase.iterdir():

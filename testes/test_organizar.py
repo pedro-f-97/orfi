@@ -1,14 +1,14 @@
-from configs import CategoriaDePasta, Modo
-from organizar import organiza
+import orfi.configs
+import orfi.organizar
 
 
 def test_organizaMover(tmp_path, monkeypatch):
-    modo = Modo.MOVER
+    modo = orfi.configs.Modo.MOVER
 
     categorias = [
-        CategoriaDePasta("Docs", {".txt", ".pdf"}, tmp_path / "Docs"),
-        CategoriaDePasta("Fotos", {".jpg", ".png"}, tmp_path / "Fotos"),
-        CategoriaDePasta("Emails", {".msg"}, tmp_path / "Emails"),
+        orfi.configs.CategoriaDePasta("Docs", {".txt", ".pdf"}, tmp_path / "Docs"),
+        orfi.configs.CategoriaDePasta("Fotos", {".jpg", ".png"}, tmp_path / "Fotos"),
+        orfi.configs.CategoriaDePasta("Emails", {".msg"}, tmp_path / "Emails"),
     ]
 
     pastaBase = (tmp_path / "Base")
@@ -25,7 +25,7 @@ def test_organizaMover(tmp_path, monkeypatch):
         (pastaBase / ficheiro).touch()
 
     monkeypatch.setattr("builtins.input", lambda _: "s")
-    organiza(pastaBase, categorias, modo)
+    orfi.organizar.organiza(pastaBase, categorias, modo)
 
     for path in pastaBase.iterdir():
         assert path.is_dir()
@@ -38,12 +38,12 @@ def test_organizaMover(tmp_path, monkeypatch):
     assert not ficheiros
 
 def test_organizaCopiar(tmp_path, monkeypatch):
-    modo = Modo.COPIAR
+    modo = orfi.configs.Modo.COPIAR
 
     categorias = [
-        CategoriaDePasta("Docs", {".txt", ".pdf"}, tmp_path / "Docs"),
-        CategoriaDePasta("Fotos", {".jpg", ".png"}, tmp_path / "Fotos"),
-        CategoriaDePasta("Emails", {".msg"}, tmp_path / "Emails"),
+        orfi.configs.CategoriaDePasta("Docs", {".txt", ".pdf"}, tmp_path / "Docs"),
+        orfi.configs.CategoriaDePasta("Fotos", {".jpg", ".png"}, tmp_path / "Fotos"),
+        orfi.configs.CategoriaDePasta("Emails", {".msg"}, tmp_path / "Emails"),
     ]
 
     pastaBase = (tmp_path / "Base")
@@ -60,7 +60,7 @@ def test_organizaCopiar(tmp_path, monkeypatch):
         (pastaBase / ficheiro).touch()
 
     monkeypatch.setattr("builtins.input", lambda _: "s")
-    organiza(pastaBase, categorias, modo)
+    orfi.organizar.organiza(pastaBase, categorias, modo)
 
     ficheirosBase = set()
     ficheirosCopiados = set()
@@ -78,11 +78,11 @@ def test_organizaCopiar(tmp_path, monkeypatch):
     assert ficheirosCopiados == ficheiros
 
 def test_organizaOutros(tmp_path, monkeypatch):
-    modo = Modo.MOVER
+    modo = orfi.configs.Modo.MOVER
 
     categorias = [
-        CategoriaDePasta("Fotos", {".jpg"}, tmp_path / "Fotos"),
-        CategoriaDePasta("Outros", {""}, tmp_path / "Outros", True),
+        orfi.configs.CategoriaDePasta("Fotos", {".jpg"}, tmp_path / "Fotos"),
+        orfi.configs.CategoriaDePasta("Outros", {""}, tmp_path / "Outros", True),
     ]
 
     pastaBase = (tmp_path / "Base")
@@ -96,7 +96,7 @@ def test_organizaOutros(tmp_path, monkeypatch):
         (pastaBase / ficheiro).touch()
 
     monkeypatch.setattr("builtins.input", lambda _: "s")
-    organiza(pastaBase, categorias, modo)
+    orfi.organizar.organiza(pastaBase, categorias, modo)
 
     for ficheiro in ficheiros:
         assert not (pastaBase / ficheiro).exists()
@@ -109,18 +109,18 @@ def test_organizaOutros(tmp_path, monkeypatch):
     assert not ficheiros
 
 def test_organizaVazio(tmp_path):
-    modo = Modo.MOVER
+    modo = orfi.configs.Modo.MOVER
 
     categorias = [
-        CategoriaDePasta("Docs", {".txt"}, tmp_path / "Docs"),
-        CategoriaDePasta("Fotos", {".jpg"}, tmp_path / "Fotos"),
-        CategoriaDePasta("Outros", {""}, tmp_path / "Outros", True),
+        orfi.configs.CategoriaDePasta("Docs", {".txt"}, tmp_path / "Docs"),
+        orfi.configs.CategoriaDePasta("Fotos", {".jpg"}, tmp_path / "Fotos"),
+        orfi.configs.CategoriaDePasta("Outros", {""}, tmp_path / "Outros", True),
     ]
 
     pastaBase = (tmp_path / "Base")
     pastaBase.mkdir()
 
-    organiza(pastaBase, categorias, modo)
+    orfi.organizar.organiza(pastaBase, categorias, modo)
 
     for categoria in categorias:
         assert not (pastaBase / categoria.nome).exists()

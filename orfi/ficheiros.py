@@ -1,7 +1,7 @@
 from pathlib import Path
 from shutil import copy2, move
 
-import configs
+from . import configs
 
 
 def devolveExt(pasta: Path) -> set[str]:

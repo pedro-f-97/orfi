@@ -1,14 +1,13 @@
 from pathlib import Path
 
-import configs
-from ficheiros import encontraCategoria
+from . import configs, ficheiros
 
 
 def devolvePastas(setExt: set[str], categorias: list[configs.CategoriaDePasta]) -> set[str]:
     pastas = set()
     
     for ext in setExt:
-        categoria = encontraCategoria(ext, categorias)
+        categoria = ficheiros.encontraCategoria(ext, categorias)
         if categoria is not None:
             pastas.add(categoria.nome)
         else:

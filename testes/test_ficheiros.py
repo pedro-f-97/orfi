@@ -1,16 +1,7 @@
 from pathlib import Path
 
-from configs import CategoriaDePasta
-from ficheiros import (
-    apagaFicheiro,
-    copiaFicheiro,
-    defineDestino,
-    devolveExt,
-    devolveFicheiros,
-    encontraCategoria,
-    ficheirosParaReverter,
-    moveFicheiro,
-)
+import orfi.configs
+import orfi.ficheiros
 
 
 def test_devolveExt(tmp_path):
@@ -18,7 +9,7 @@ def test_devolveExt(tmp_path):
     (tmp_path / "excel.xlsx").touch()
     (tmp_path / "texto.txt").touch()
     (tmp_path / "excel.xlsx").touch()
-    resultado = devolveExt(tmp_path)
+    resultado = orfi.ficheiros.devolveExt(tmp_path)
 
     assert resultado == {".jpg", ".txt", ".xlsx"}
 
@@ -27,7 +18,7 @@ def test_devolveFicheiros(tmp_path):
     (tmp_path / "excel.xlsx").touch()
     (tmp_path / "texto.txt").touch()
     (tmp_path / "excel2.xlsx").touch()
-    resultado = devolveFicheiros(tmp_path)
+    resultado = orfi.ficheiros.devolveFicheiros(tmp_path)
 
     assert len(resultado) == 4
     assert set(resultado) == {
@@ -42,7 +33,7 @@ def test_copiaFicheiro(tmp_path):
     paraCopiar.touch()
     pastaDestino = (tmp_path / "Destino")
     pastaDestino.mkdir()
-    assert copiaFicheiro(paraCopiar, pastaDestino) == 1
+    assert orfi.ficheiros.copiaFicheiro(paraCopiar, pastaDestino) == 1
 
     ficheiroCopia = Path(pastaDestino / "texto.txt")
     assert ficheiroCopia.exists()
@@ -55,7 +46,7 @@ def test_existente_copiaFicheiro(tmp_path, monkeypatch):
     pastaDestino.mkdir()
     (pastaDestino / "texto.txt").touch()
     monkeypatch.setattr("builtins.input", lambda _: "n")
-    assert copiaFicheiro(paraCopiar, pastaDestino) == 0
+    assert orfi.ficheiros.copiaFicheiro(paraCopiar, pastaDestino) == 0
 
     ficheiroCopia = Path(pastaDestino / "texto.txt")
     assert ficheiroCopia.exists()
@@ -64,24 +55,24 @@ def test_existente_copiaFicheiro(tmp_path, monkeypatch):
 
 def test_defineDestino(tmp_path):
     categorias = [
-        CategoriaDePasta("Fotos", {".jpg"}, tmp_path / "Fotos"),
-        CategoriaDePasta("Outros", {""}, tmp_path / "Outros"),
+        orfi.configs.CategoriaDePasta("Fotos", {".jpg"}, tmp_path / "Fotos"),
+        orfi.configs.CategoriaDePasta("Outros", {""}, tmp_path / "Outros"),
     ]
 
     ficheiro = (tmp_path / "img.jpg")
     ficheiro.touch()
 
-    destinoDefinido = defineDestino(ficheiro, categorias)
+    destinoDefinido = orfi.ficheiros.defineDestino(ficheiro, categorias)
     assert destinoDefinido is not None
     assert destinoDefinido == tmp_path  / "Fotos"
 
 def test_encontraCategoria(tmp_path):
     categorias = [
-        CategoriaDePasta("Notas", {".txt"}, tmp_path / "Notas"),
-        CategoriaDePasta("Outros", {""}, tmp_path / "Outros"),
+        orfi.configs.CategoriaDePasta("Notas", {".txt"}, tmp_path / "Notas"),
+        orfi.configs.CategoriaDePasta("Outros", {""}, tmp_path / "Outros"),
     ]
 
-    categoria = encontraCategoria(".txt", categorias)
+    categoria = orfi.ficheiros.encontraCategoria(".txt", categorias)
 
     assert categoria is not None
     assert categoria.nome == "Notas"
@@ -91,7 +82,7 @@ def test_moveFicheiro(tmp_path):
     paraMover.touch()
     pastaDestino = (tmp_path / "Destino")
     pastaDestino.mkdir()
-    assert moveFicheiro(paraMover, pastaDestino) == 1
+    assert orfi.ficheiros.moveFicheiro(paraMover, pastaDestino) == 1
 
     ficheiroMovido = Path(pastaDestino / "texto.txt")
     assert paraMover.exists() == False
@@ -105,7 +96,7 @@ def test_existente_moveFicheiro(tmp_path, monkeypatch):
     pastaDestino.mkdir()
     (pastaDestino / "texto.txt").touch()
     monkeypatch.setattr("builtins.input", lambda _: "n")
-    assert moveFicheiro(paraMover, pastaDestino) == 0
+    assert orfi.ficheiros.moveFicheiro(paraMover, pastaDestino) == 0
     assert paraMover.exists()
     ficheiroMovido = Path(pastaDestino / "texto.txt")
     assert ficheiroMovido.exists()
@@ -115,7 +106,7 @@ def test_apagaFicheiro(tmp_path):
     paraApagar = (tmp_path / "texto.txt")
     paraApagar.touch()
     assert paraApagar.exists()
-    assert apagaFicheiro(paraApagar) == 1
+    assert orfi.ficheiros.apagaFicheiro(paraApagar) == 1
     assert paraApagar.exists() == False
 
 def test_ficheirosParaReverter(tmp_path):
@@ -139,5 +130,5 @@ def test_ficheirosParaReverter(tmp_path):
     jpgCriar.touch()
     ficheirosGerados.add(jpgCriar)
 
-    paraValidar = ficheirosParaReverter(pastas)
+    paraValidar = orfi.ficheiros.ficheirosParaReverter(pastas)
     assert paraValidar == ficheirosGerados
