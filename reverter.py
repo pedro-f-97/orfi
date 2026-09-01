@@ -18,13 +18,13 @@ def reverte(pastaSelecionada: Path, categorias: list[configs.CategoriaDePasta], 
 
     if pastasParaReverter == set():
         print(f"{configs.CoresTexto.AMARELO}Nada para reverter.{configs.CoresTexto.RESET}")
-        sys.exit()
+        return
     
     ficheirosParaReverter = ficheiros.ficheirosParaReverter(pastasParaReverter)
 
     if ficheirosParaReverter == set():
         print(f"{configs.CoresTexto.AMARELO}Nada para reverter.{configs.CoresTexto.RESET}")
-        sys.exit()
+        return
     
     total = 0
     for ficheiro in ficheirosParaReverter:

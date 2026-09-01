@@ -18,14 +18,14 @@ def organiza(pastaSelecionada: Path, categorias: list[configs.CategoriaDePasta],
 
     if pastasParaCriar == set():
         print(f"{configs.CoresTexto.AMARELO}Nada para fazer.{configs.CoresTexto.RESET}")
-        sys.exit()
+        return
 
     confirmacao = input(f"{configs.CoresTexto.AZUL}Criar as pastas {pastasParaCriar}? (s/n): {configs.CoresTexto.RESET}")
     if confirmacao.lower() == "s":
         pastas.criaPastas(pastaSelecionada, pastasParaCriar, categorias)
     else:
         print(f"{configs.CoresTexto.AMARELO}Operação Cancelada{configs.CoresTexto.RESET}")
-        sys.exit()
+        return
 
     ficheirosLista = ficheiros.devolveFicheiros(pastaSelecionada)
 

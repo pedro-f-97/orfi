@@ -53,6 +53,8 @@ categorias = configs.iniciarCategorias()
 
 if argumentos.reverter:
     reverter.reverte(pastaSelecionada, categorias, modo)
-    sys.exit()
+
 else:
     organizar.organiza(pastaSelecionada, categorias, modo)
+    
+sys.exit()
