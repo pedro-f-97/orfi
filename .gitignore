@@ -3,4 +3,5 @@ paraTestes
 .venv/
 .pytest_cache/
 .vscode
+.ruff_cache
 pastaTestes
