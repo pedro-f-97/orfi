@@ -1,5 +1,4 @@
 import sys
-from collections.abc import Callable
 from pathlib import Path
 
 import configs
@@ -7,7 +6,14 @@ import ficheiros
 import pastas
 
 
-def organiza(pastaSelecionada: Path, categorias: list[configs.CategoriaDePasta], trabalho: Callable[[Path, Path], int], tratamento: str):
+def organiza(pastaSelecionada: Path, categorias: list[configs.CategoriaDePasta], modo: configs.Modo):
+    if modo == configs.Modo.COPIAR:
+        trabalho = ficheiros.copiaFicheiro
+        tratamento = "copiados."
+    elif modo == configs.Modo.MOVER:
+        trabalho = ficheiros.moveFicheiro
+        tratamento = "movidos."
+
     pastasParaCriar = pastas.devolvePastas(ficheiros.devolveExt(pastaSelecionada), categorias)
 
     if pastasParaCriar == set():

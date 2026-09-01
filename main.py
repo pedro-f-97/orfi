@@ -3,7 +3,6 @@ import sys
 
 import alvo
 import configs
-import ficheiros
 import organizar
 import reverter
 
@@ -40,11 +39,9 @@ else:
     pastaSelecionada = alvo.defineAlvo()
 
 if argumentos.copiar:
-    trabalho = ficheiros.copiaFicheiro
-    tratamento = "copiados."
+    modo = configs.Modo.COPIAR
 else:
-    trabalho = ficheiros.moveFicheiro
-    tratamento = "movidos."
+    modo = configs.Modo.MOVER
 
 if pastaSelecionada is None:
     print(f"{configs.CoresTexto.AMARELO}Pasta inválida.{configs.CoresTexto.RESET}")
@@ -55,7 +52,7 @@ print(f"{configs.CoresTexto.AZUL}Pasta selecionada: {pastaSelecionada} {configs.
 categorias = configs.iniciarCategorias()
 
 if argumentos.reverter:
-    reverter.reverte(pastaSelecionada, categorias, trabalho, tratamento)
+    reverter.reverte(pastaSelecionada, categorias, modo)
     sys.exit()
 else:
-    organizar.organiza(pastaSelecionada, categorias, trabalho, tratamento)
+    organizar.organiza(pastaSelecionada, categorias, modo)

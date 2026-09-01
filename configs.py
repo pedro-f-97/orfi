@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from enum import Enum
 from pathlib import Path
 
 
@@ -25,3 +26,7 @@ def iniciarCategorias() -> list[CategoriaDePasta]:
     categorias.append(CategoriaDePasta("Emails", {".msg"}))
     categorias.append(CategoriaDePasta("Outros", set(),None ,True))
     return categorias
+
+class Modo(Enum):
+    COPIAR = "copiar"
+    MOVER = "mover"

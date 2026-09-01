@@ -1,5 +1,4 @@
 import sys
-from collections.abc import Callable
 from pathlib import Path
 
 import configs
@@ -7,7 +6,14 @@ import ficheiros
 import pastas
 
 
-def reverte(pastaSelecionada: Path, categorias: list[configs.CategoriaDePasta], trabalho: Callable[[Path, Path], int], tratamento: str):
+def reverte(pastaSelecionada: Path, categorias: list[configs.CategoriaDePasta], modo: configs.Modo):
+    if modo == configs.Modo.COPIAR:
+        trabalho = ficheiros.copiaFicheiro
+        tratamento = "copiados."
+    elif modo == configs.Modo.MOVER:
+        trabalho = ficheiros.moveFicheiro
+        tratamento = "movidos."
+
     pastasParaReverter = pastas.pastasExistentes(pastaSelecionada, categorias)
 
     if pastasParaReverter == set():
@@ -24,7 +30,7 @@ def reverte(pastaSelecionada: Path, categorias: list[configs.CategoriaDePasta], 
     for ficheiro in ficheirosParaReverter:
         total += trabalho(ficheiro, pastaSelecionada)
 
-    if tratamento == "movidos.":
+    if modo == configs.Modo.MOVER:
         for pasta in pastasParaReverter:
             if not any(pasta.iterdir()):
                 print(f"{configs.CoresTexto.VERDE}Pasta vazia '{pasta}' foi eliminada.{configs.CoresTexto.RESET}")
