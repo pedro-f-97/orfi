@@ -76,3 +76,51 @@ def test_organizaCopiar(tmp_path, monkeypatch):
             ficheirosBase.add(path.name)
     assert ficheirosBase == ficheiros
     assert ficheirosCopiados == ficheiros
+
+def test_organizaOutros(tmp_path, monkeypatch):
+    modo = Modo.MOVER
+
+    categorias = [
+        CategoriaDePasta("Fotos", {".jpg"}, tmp_path / "Fotos"),
+        CategoriaDePasta("Outros", {""}, tmp_path / "Outros", True),
+    ]
+
+    pastaBase = (tmp_path / "Base")
+    pastaBase.mkdir()
+
+    ficheiros = set()
+    ficheiros.add("outro.bat")
+    ficheiros.add("comp.zip")
+
+    for ficheiro in ficheiros:
+        (pastaBase / ficheiro).touch()
+
+    monkeypatch.setattr("builtins.input", lambda _: "s")
+    organiza(pastaBase, categorias, modo)
+
+    for ficheiro in ficheiros:
+        assert not (pastaBase / ficheiro).exists()
+
+    for categoria in categorias:
+        if categoria.defeito:
+            for path in (pastaBase / categoria.nome).iterdir():
+                if path.name in ficheiros:
+                    ficheiros.discard(path.name)
+    assert not ficheiros
+
+def test_organizaVazio(tmp_path):
+    modo = Modo.MOVER
+
+    categorias = [
+        CategoriaDePasta("Docs", {".txt"}, tmp_path / "Docs"),
+        CategoriaDePasta("Fotos", {".jpg"}, tmp_path / "Fotos"),
+        CategoriaDePasta("Outros", {""}, tmp_path / "Outros", True),
+    ]
+
+    pastaBase = (tmp_path / "Base")
+    pastaBase.mkdir()
+
+    organiza(pastaBase, categorias, modo)
+
+    for categoria in categorias:
+        assert not (pastaBase / categoria.nome).exists()
