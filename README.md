@@ -9,6 +9,10 @@ Organiza ficheiros soltos por pastas categorizadas através da linha de comandos
 - Mover ou copiar ficheiros
 - Reverter a organização
 
+## Instalação
+
+python -m pip install .
+
 ## Opções
 
 -a, --alvo       Permite definir a pasta alvo
