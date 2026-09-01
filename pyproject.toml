@@ -2,7 +2,7 @@
 name = "orfi"
 version = "0.1.0"
 description = "Organiza ficheiros por categorias."
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 
 [project.scripts]
 orfi = "orfi.main:main"

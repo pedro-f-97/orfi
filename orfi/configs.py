@@ -1,3 +1,5 @@
+import os
+import sys
 from dataclasses import dataclass
 from enum import Enum
 from pathlib import Path
@@ -27,6 +29,15 @@ def iniciarCategorias() -> list[CategoriaDePasta]:
     categorias.append(CategoriaDePasta("Outros", set(),None ,True))
     return categorias
 
+def lerCategorias():
+    print()
+
 class Modo(Enum):
     COPIAR = "copiar"
     MOVER = "mover"
+
+def caminhoConfiguracao() -> Path:
+    if sys.platform == "win32":
+        return Path(os.environ["APPDATA"]) / "orfi" / "config.toml"
+    else:
+        return Path.home() / ".config" / "orfi" / "config.toml"
