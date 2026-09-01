@@ -1,0 +1,7 @@
+[project]
+name = "orfi"
+version = "0.1.0"
+description = "Organiza ficheiros por categorias."
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
