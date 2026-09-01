@@ -1,5 +1,3 @@
-from pathlib import Path
-
 from configs import CategoriaDePasta, Modo
 from reverter import reverte
 
