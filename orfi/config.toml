@@ -1,0 +1,20 @@
+[[categorias]]
+nome = "Imagens"
+extensoes = [".jpg", ".png", ".bmp"]
+
+[[categorias]]
+nome = "Documentos"
+extensoes = [".txt", ".docx", ".pdf", ".md"]
+
+[[categorias]]
+nome = "Excel"
+extensoes = [".xlsx", ".xltm", ".csv"]
+
+[[categorias]]
+nome = "Emails"
+extensoes = [".msg"]
+
+[[categorias]]
+nome = "Outros"
+extensoes = []
+defeito = true
