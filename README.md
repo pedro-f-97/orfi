@@ -11,7 +11,7 @@ Organiza ficheiros soltos por pastas categorizadas através da linha de comandos
 
 ## Opções
 
--a, --aqui       Utiliza a pasta atual como destino
+-a, --alvo       Permite definir a pasta alvo
 -c, --copiar     Copia os ficheiros em vez de os mover
 -r, --reverter   Reverte a organização
 

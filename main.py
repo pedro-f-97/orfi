@@ -12,9 +12,9 @@ parser = argparse.ArgumentParser(
 
 parser.add_argument(
     "-a",
-    "--aqui",
+    "--alvo",
     action="store_true",
-    help="utiliza a pasta atual como pasta alvo"
+    help="permite definir a pasta alvo"
 )
 
 parser.add_argument(
@@ -33,10 +33,10 @@ parser.add_argument(
 
 argumentos = parser.parse_args()
 
-if argumentos.aqui:
-    pastaSelecionada = alvo.defineAlvoAqui()
-else:
+if argumentos.alvo:
     pastaSelecionada = alvo.defineAlvo()
+else:
+    pastaSelecionada = alvo.defineAlvoAqui()
 
 if argumentos.copiar:
     modo = configs.Modo.COPIAR
