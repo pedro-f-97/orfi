@@ -1,35 +1,9 @@
-import argparse
-
-from . import alvo, configs, organizar, reverter
+from . import alvo, configs, inicializar, organizar, reverter
 
 
 def main():
-    parser = argparse.ArgumentParser(
-        description="Organiza ficheiros por categorias."
-    )
 
-    parser.add_argument(
-        "-a",
-        "--alvo",
-        action="store_true",
-        help="permite definir a pasta alvo"
-    )
-
-    parser.add_argument(
-        "-c",
-        "--copiar",
-        action="store_true",
-        help="copia os ficheiros em vez de mover"
-    )
-
-    parser.add_argument(
-        "-r",
-        "--reverter",
-        action="store_true",
-        help="reverte o processo de organização"
-    )
-
-    argumentos = parser.parse_args()
+    argumentos = inicializar.trataArgumentos()
 
     if argumentos.alvo:
         pastaSelecionada = alvo.defineAlvo()
