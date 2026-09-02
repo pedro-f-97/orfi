@@ -1,3 +1,5 @@
+import datetime
+import os
 from pathlib import Path
 from shutil import copy2, move
 
@@ -75,3 +77,18 @@ def ficheirosParaReverter(pastas: set[Path]) -> set[Path]:
             if elemento.is_dir() == False:
                 ficheirosParaReverter.add(elemento)
     return ficheirosParaReverter
+
+def datarFicheiro(ficheiro: Path) -> Path:
+    data = devolveDataCriacao(ficheiro)
+    formato = data.strftime("%y%m%d")
+
+    return ficheiro.with_name(formato + "_" + ficheiro.name)
+
+def devolveDataCriacao(ficheiro: Path) -> datetime.datetime:
+    data = float
+    try:
+        data = os.stat(ficheiro).st_birthtime
+    except AttributeError:
+        data = os.stat(ficheiro).st_mtime
+    
+    return datetime.datetime.fromtimestamp(data, tz = None)
