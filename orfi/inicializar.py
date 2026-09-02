@@ -27,5 +27,12 @@ def trataArgumentos() -> argparse.Namespace:
         help="reverte o processo de organização"
     )
 
+    parser.add_argument(
+        "-d",
+        "--datar",
+        action="store_true",
+        help="adiciona a data de criação ao nome"
+    )
+
     argumentos = parser.parse_args()
     return argumentos
