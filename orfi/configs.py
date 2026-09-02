@@ -68,3 +68,79 @@ def carregarConfiguracao(caminho: Path | None = None) -> list[CategoriaDePasta]:
         categorias.append(novaCategoria)
 
     return categorias
+
+def verificaConfiguracao(categorias: list[CategoriaDePasta]) -> bool:
+    ok = True
+    verificacoes = [
+        verificaExtFormato,
+        verificaExtDuplicadas,
+        verificaCategoriasDuplicadas,
+        verificaCategoriasDefeito,
+    ]
+
+    for verifica in verificacoes:
+        if not verifica(categorias):
+            ok = False
+
+    return ok
+
+def verificaExtDuplicadas(categorias: list[CategoriaDePasta]) -> bool:
+    extensoesPorCategoria = dict()
+
+    for categoria in categorias:
+        for extensao in categoria.extensoes:
+            if extensao not in extensoesPorCategoria:
+                extensoesPorCategoria[extensao] = []
+
+            extensoesPorCategoria[extensao].append(categoria.nome)
+
+    erros = dict()
+
+    for extensao, categoriasExt in extensoesPorCategoria.items():
+        if len(categoriasExt) > 1:
+            erros[extensao] = categoriasExt
+
+    if erros:
+        for extensao, categoriasExt in erros.items():
+            print(
+                f"{CoresTexto.VERMELHO}Extensão duplicada '{extensao}' nas categorias {categoriasExt}.{CoresTexto.RESET}"
+            )
+
+        return False
+
+    return True
+
+def verificaCategoriasDuplicadas(categorias: list[CategoriaDePasta]) -> bool:
+    categoriasValidar = set()
+    erros = set()
+    for categoria in categorias:
+        if categoria.nome in categoriasValidar:
+            erros.add(categoria.nome)
+        else:
+            categoriasValidar.add(categoria.nome)
+
+    if erros:
+        print(f"{CoresTexto.VERMELHO}Categoria(s) duplicada(s) '{erros}'.{CoresTexto.RESET}")
+        return False
+    return True
+
+def verificaCategoriasDefeito(categorias: list[CategoriaDePasta]) -> bool:
+    categoriasDefeito = set()
+    for categoria in categorias:
+        if categoria.defeito:
+            categoriasDefeito.add(categoria.nome)
+    if len(categoriasDefeito) > 1:
+        print(f"{CoresTexto.VERMELHO}Mais do que uma categoria por defeito: '{categoriasDefeito}'.{CoresTexto.RESET}")
+        return False
+    return True
+
+def verificaExtFormato(categorias: list[CategoriaDePasta]) -> bool:
+    extErros = set()
+    for categoria in categorias:
+        for ext in categoria.extensoes:
+            if ext.count(".") != 1 or not ext.startswith("."):
+                extErros.add(ext)
+    if extErros:
+        print(f"{CoresTexto.VERMELHO}Extensões incorretas: '{extErros}'.{CoresTexto.RESET}")
+        return False
+    return True

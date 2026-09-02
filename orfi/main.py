@@ -41,13 +41,16 @@ def main():
     else:
         modo = configs.Modo.MOVER
 
+    categorias = configs.carregarConfiguracao()
+    if not configs.verificaConfiguracao(categorias):
+        print(f"{configs.CoresTexto.AMARELO}Configuração inválida, corrigir o config.toml.{configs.CoresTexto.RESET}")
+        return
+
     if pastaSelecionada is None:
         print(f"{configs.CoresTexto.AMARELO}Pasta inválida.{configs.CoresTexto.RESET}")
         return
 
     print(f"{configs.CoresTexto.AZUL}Pasta selecionada: {pastaSelecionada} {configs.CoresTexto.RESET}")
-
-    categorias = configs.carregarConfiguracao() #configs.iniciarCategorias()
 
     if argumentos.reverter:
         reverter.reverte(pastaSelecionada, categorias, modo)

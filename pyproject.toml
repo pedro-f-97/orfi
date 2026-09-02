@@ -15,3 +15,6 @@ include = ["orfi*"]
 
 [tool.setuptools.package-data]
 orfi = ["config.toml"]
+
+[tool.ruff.lint]
+ignore = ["C408"]
