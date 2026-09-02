@@ -1,18 +1,118 @@
 [[categorias]]
 nome = "Imagens"
-extensoes = [".jpg", ".png", ".bmp"]
+extensoes = [
+    ".jpg", ".jpeg", ".png", ".gif", ".bmp",
+    ".tif", ".tiff", ".webp", ".svg", ".ico",
+    ".heic", ".avif", ".psd"
+]
 
 [[categorias]]
 nome = "Documentos"
-extensoes = [".txt", ".docx", ".pdf", ".md"]
+extensoes = [
+    ".txt", ".doc", ".docx", ".docm",
+    ".odt", ".rtf", ".pdf", ".md",
+    ".tex", ".pages", ".wpd"
+]
 
 [[categorias]]
-nome = "Excel"
-extensoes = [".xlsx", ".xltm", ".csv"]
+nome = "FolhasCalculo"
+extensoes = [
+    ".xls", ".xlsx", ".xlsm", ".xlt", ".xltx", ".xltm",
+    ".csv", ".ods"
+]
+
+[[categorias]]
+nome = "Apresentacoes"
+extensoes = [
+    ".ppt", ".pptx", ".pptm", ".pps", ".ppsx",
+    ".odp", ".key"
+]
 
 [[categorias]]
 nome = "Emails"
-extensoes = [".msg"]
+extensoes = [
+    ".msg", ".eml"
+]
+
+[[categorias]]
+nome = "Dados"
+extensoes = [
+    ".json", ".xml", ".yaml", ".yml",
+    ".ini", ".cfg", ".conf"
+]
+
+[[categorias]]
+nome = "Codigo"
+extensoes = [
+    ".py", ".pyw", ".bat", ".cmd",
+    ".ps1", ".sh", ".bash",
+    ".js", ".ts", ".java", ".c", ".h",
+    ".cpp", ".hpp", ".cs", ".go", ".rs"
+]
+
+[[categorias]]
+nome = "Web"
+extensoes = [
+    ".html", ".htm", ".css",
+    ".scss", ".sass", ".less",
+    ".jsx", ".tsx", ".vue"
+]
+
+[[categorias]]
+nome = "Audio"
+extensoes = [
+    ".mp3", ".wav", ".flac", ".aac",
+    ".m4a", ".ogg", ".oga", ".wma",
+    ".aif", ".aiff", ".mid", ".midi"
+]
+
+[[categorias]]
+nome = "Videos"
+extensoes = [
+    ".mp4", ".mkv", ".avi", ".mov",
+    ".wmv", ".webm", ".m4v", ".mpg",
+    ".mpeg", ".3gp", ".ts"
+]
+
+[[categorias]]
+nome = "3D"
+extensoes = [
+    ".stl", ".3mf", ".obj", ".fbx",
+    ".3ds", ".blend", ".dae", ".gltf", ".glb",
+    ".step", ".stp", ".iges", ".igs",
+    ".3dm", ".dwg", ".dxf"
+]
+
+[[categorias]]
+nome = "Arquivos"
+extensoes = [
+    ".zip", ".rar", ".7z", ".tar",
+    ".gz", ".bz2", ".xz", ".cab"
+]
+
+[[categorias]]
+nome = "Discos"
+extensoes = [
+    ".iso", ".img", ".bin", ".cue"
+]
+
+[[categorias]]
+nome = "eBooks"
+extensoes = [
+    ".epub", ".mobi", ".azw", ".azw3", ".fb2"
+]
+
+[[categorias]]
+nome = "Fontes"
+extensoes = [
+    ".ttf", ".otf", ".woff", ".woff2"
+]
+
+[[categorias]]
+nome = "BasesDados"
+extensoes = [
+    ".db", ".sqlite", ".sqlite3", ".mdb", ".accdb"
+]
 
 [[categorias]]
 nome = "Outros"
