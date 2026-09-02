@@ -47,7 +47,7 @@ def main():
 
     print(f"{configs.CoresTexto.AZUL}Pasta selecionada: {pastaSelecionada} {configs.CoresTexto.RESET}")
 
-    categorias = configs.iniciarCategorias()
+    categorias = configs.carregarConfiguracao() #configs.iniciarCategorias()
 
     if argumentos.reverter:
         reverter.reverte(pastaSelecionada, categorias, modo)

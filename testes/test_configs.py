@@ -39,6 +39,11 @@ def test_carregarConfiguracaoStandard(tmp_path):
     assert caminho.exists()
     assert len(categorias) > 0
 
+def test_configuracaoStandardExiste():
+    caminho = Path(orfi.configs.__file__).parent / "config.toml"
+
+    assert caminho.exists()
+
 def test_carregarConfiguracaoPersonalizada(tmp_path):
     caminho = tmp_path / "config.toml"
 

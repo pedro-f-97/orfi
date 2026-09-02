@@ -12,3 +12,6 @@ pythonpath = ["."]
 
 [tool.setuptools.packages.find]
 include = ["orfi*"]
+
+[tool.setuptools.package-data]
+orfi = ["config.toml"]
