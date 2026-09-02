@@ -1,3 +1,4 @@
+import datetime
 from pathlib import Path
 
 import orfi.configs
@@ -132,3 +133,17 @@ def test_ficheirosParaReverter(tmp_path):
 
     paraValidar = orfi.ficheiros.ficheirosParaReverter(pastas)
     assert paraValidar == ficheirosGerados
+
+def test_devolveDataCriacao(tmp_path):
+    ficheiro = (tmp_path / "img.jpg")
+    ficheiro.touch()
+    dataAgora = datetime.datetime.now(tz = None).strftime("%y%m%d")
+    assert orfi.ficheiros.devolveDataCriacao(ficheiro).strftime("%y%m%d") == dataAgora
+
+def test_datarFicheiro(tmp_path):
+    ficheiro = (tmp_path / "img.jpg")
+    ficheiro.touch()
+    dataAgora = datetime.datetime.now(tz = None).strftime("%y%m%d")
+    ficheiroAlterado = orfi.ficheiros.datarFicheiro(ficheiro)
+    assert ficheiroAlterado.name.startswith(dataAgora)
+    assert ficheiroAlterado.name.endswith("_img.jpg")
