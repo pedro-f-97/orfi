@@ -17,4 +17,4 @@ include = ["orfi*"]
 orfi = ["config.toml"]
 
 [tool.ruff.lint]
-ignore = ["C408", "DTZ006", "DTZ005"]
+ignore = ["C408", "DTZ006", "DTZ005", "DTZ007"]

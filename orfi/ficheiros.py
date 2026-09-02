@@ -92,3 +92,13 @@ def devolveDataCriacao(ficheiro: Path) -> datetime.datetime:
         data = os.stat(ficheiro).st_mtime
     
     return datetime.datetime.fromtimestamp(data, tz = None)
+
+def reverteDatarFicheiro(ficheiro: Path) -> Path | None:
+    if ficheiro.name[7] != "_":
+        return None
+    prefixo = ficheiro.name[0:6]
+    try:
+        datetime.datetime.strptime(prefixo, "%y%m%d")
+    except ValueError:
+        return None
+    return ficheiro.with_name(ficheiro.name[7:])
