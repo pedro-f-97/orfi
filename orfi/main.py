@@ -1,4 +1,5 @@
 import logging
+import time
 
 from . import alvo, configs, inicializar, logs, organizar, reverter
 
@@ -6,6 +7,8 @@ logger = logging.getLogger(__name__)
 
 def main():
     logs.configuraLogs()
+    logger.info("   --INÍCIO DE EXECUÇÃO--  ")
+    inicio = time.perf_counter()
 
     argumentos = inicializar.trataArgumentos()
 
@@ -43,8 +46,9 @@ def main():
         
     else:
         organizar.organiza(pastaSelecionada, categorias, modo)
-    logger.info("Fim de operação.")
+    duracao = time.perf_counter() - inicio
+    logger.info("   --FIM DE EXECUÇÃO--  ")
+    logger.info("   --%.2f SEGUNDOS--   ", duracao)
         
-
 if __name__ == "__main__":
     main()    
