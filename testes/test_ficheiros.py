@@ -40,6 +40,17 @@ def test_copiaFicheiro(tmp_path):
     assert ficheiroCopia.exists()
     assert ficheiroCopia.is_file()
 
+def test_copiaFicheiroFicheiroFinal(tmp_path):
+    paraCopiar = (tmp_path / "texto.txt")
+    paraCopiar.touch()
+    pastaDestino = (tmp_path / "Destino")
+    pastaDestino.mkdir()
+    ficheiroFinal = (pastaDestino / "261201_texto.txt")
+    assert orfi.ficheiros.copiaFicheiro(paraCopiar, pastaDestino, ficheiroFinal) == 1
+
+    assert ficheiroFinal.exists()
+    assert ficheiroFinal.is_file()
+
 def test_existente_copiaFicheiro(tmp_path, monkeypatch):
     paraCopiar = (tmp_path / "texto.txt")
     paraCopiar.touch()
@@ -48,6 +59,13 @@ def test_existente_copiaFicheiro(tmp_path, monkeypatch):
     (pastaDestino / "texto.txt").touch()
     monkeypatch.setattr("builtins.input", lambda _: "n")
     assert orfi.ficheiros.copiaFicheiro(paraCopiar, pastaDestino) == 0
+
+    ficheiroCopia = Path(pastaDestino / "texto.txt")
+    assert ficheiroCopia.exists()
+    assert ficheiroCopia.is_file()
+
+    monkeypatch.setattr("builtins.input", lambda _: "s")
+    assert orfi.ficheiros.copiaFicheiro(paraCopiar, pastaDestino) == 1
 
     ficheiroCopia = Path(pastaDestino / "texto.txt")
     assert ficheiroCopia.exists()
@@ -90,6 +108,18 @@ def test_moveFicheiro(tmp_path):
     assert ficheiroMovido.exists()
     assert ficheiroMovido.is_file()
 
+def test_moveFicheiroFicheiroFinal(tmp_path):
+    paraMover = (tmp_path / "texto.txt")
+    paraMover.touch()
+    pastaDestino = (tmp_path / "Destino")
+    pastaDestino.mkdir()
+    ficheiroFinal = (pastaDestino / "261201_texto.txt")
+    assert orfi.ficheiros.moveFicheiro(paraMover, pastaDestino, ficheiroFinal) == 1
+
+    assert paraMover.exists() == False
+    assert ficheiroFinal.exists()
+    assert ficheiroFinal.is_file()
+
 def test_existente_moveFicheiro(tmp_path, monkeypatch):
     paraMover = (tmp_path / "texto.txt")
     paraMover.touch()
@@ -99,6 +129,13 @@ def test_existente_moveFicheiro(tmp_path, monkeypatch):
     monkeypatch.setattr("builtins.input", lambda _: "n")
     assert orfi.ficheiros.moveFicheiro(paraMover, pastaDestino) == 0
     assert paraMover.exists()
+    ficheiroMovido = Path(pastaDestino / "texto.txt")
+    assert ficheiroMovido.exists()
+    assert ficheiroMovido.is_file()
+    
+    monkeypatch.setattr("builtins.input", lambda _: "s")
+    assert orfi.ficheiros.moveFicheiro(paraMover, pastaDestino) == 1
+    assert not paraMover.exists()
     ficheiroMovido = Path(pastaDestino / "texto.txt")
     assert ficheiroMovido.exists()
     assert ficheiroMovido.is_file()
