@@ -35,3 +35,22 @@ def organiza(pastaSelecionada: Path, categorias: list[configs.CategoriaDePasta],
             print(f"{configs.CoresTexto.AMARELO}Categoria ou caminho não encontrados para {ficheiro.name}{configs.CoresTexto.RESET}")
 
     print(f"{configs.CoresTexto.VERDE}Feito, {total} ficheiros {tratamento}{configs.CoresTexto.RESET}")
+
+def datar(pastaSelecionada: Path, categorias: list[configs.CategoriaDePasta], modo: configs.Modo):
+    if modo == configs.Modo.COPIAR:
+        trabalho = ficheiros.copiaFicheiro
+        tratamento = "copiados e datados."
+    elif modo == configs.Modo.MOVER:
+        trabalho = ficheiros.moveFicheiro
+        tratamento = "datados."
+
+    ficheirosLista = ficheiros.devolveFicheiros(pastaSelecionada)
+
+    total = 0
+    for ficheiro in ficheirosLista:
+        if ficheiros.verificaDatado(ficheiro):
+            print(f"{configs.CoresTexto.AMARELO}Ficheiro já datado: {ficheiro.name}{configs.CoresTexto.RESET}")
+        else:
+            ficheiroFinal = ficheiros.datarFicheiro(ficheiro)
+            total += trabalho(ficheiro, pastaSelecionada, ficheiroFinal)
+    print(f"{configs.CoresTexto.VERDE}Feito, {total} ficheiros {tratamento}{configs.CoresTexto.RESET}")
