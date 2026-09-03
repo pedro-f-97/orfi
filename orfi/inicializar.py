@@ -37,5 +37,14 @@ def trataArgumentos() -> argparse.Namespace:
     )
 
     argumentos = parser.parse_args()
-    logger.info("Argumentos inseridos: %s", argumentos)
+
+    if argumentos.alvo:
+        logger.info("Argumento --alvo")
+    if argumentos.copiar:
+        logger.info("Argumento --copiar")
+    if argumentos.reverter:
+        logger.info("Argumento --reverter")
+    if argumentos.datar:
+        logger.info("Argumento --datar")
+
     return argumentos
