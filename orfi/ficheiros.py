@@ -16,7 +16,7 @@ def devolveExt(pasta: Path) -> set[str]:
             ext.add(ficheiro.suffix.lower())
     if len(ext) > 0:
         for ex in ext:
-            logger.info("Extensãos detectada: %s", ex)
+            logger.info("Extensão detectada: %s", ex)
             print(f"{configs.CoresTexto.AZUL}Extensão detectada: {ex} {configs.CoresTexto.RESET}") 
     return ext
 
@@ -94,7 +94,7 @@ def ficheirosParaReverter(pastas: set[Path]) -> set[Path]:
         for elemento in pasta.iterdir():
             if elemento.is_dir() == False:
                 ficheirosParaReverter.add(elemento)
-    logger.info("Vai reverter os ficheiros: '%s'", ficheirosParaReverter)
+    logger.info("Vai reverter %s ficheiros.", len(ficheirosParaReverter))
     return ficheirosParaReverter
 
 def datarFicheiro(ficheiro: Path) -> Path:
