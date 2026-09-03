@@ -1,5 +1,8 @@
+import logging
+
 from . import alvo, configs, inicializar, logs, organizar, reverter
 
+logger = logging.getLogger(__name__)
 
 def main():
     logs.configuraLogs()
@@ -10,6 +13,8 @@ def main():
         pastaSelecionada = alvo.defineAlvo()
     else:
         pastaSelecionada = alvo.defineAlvoAqui()
+
+    logger.info("Pasta selecionada: %s", pastaSelecionada)
 
     if argumentos.copiar:
         modo = configs.Modo.COPIAR
