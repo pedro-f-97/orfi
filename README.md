@@ -12,6 +12,7 @@
 - Configuração específica por utilizador
 - Datação dos ficheiros com a data de criação
 - Reversão da datação
+- Registo de logs
 
 ## Instalação
 
@@ -120,6 +121,10 @@ No Linux:
 ```
 
 O ficheiro de configuração do utilizador não é substituído quando o Orfi é atualizado ou reinstalado.
+
+### Logs
+
+O Orfi regista as operações executadas num ficheiro `orfi.log`, localizado junto do ficheiro de configuração.
 
 ### Categorias
 
