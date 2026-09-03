@@ -29,7 +29,11 @@ def copiaFicheiro(ficheiro: Path, pastaDestino: Path, ficheiroFinal: Path | None
         if resposta.lower() != "s":
             print(f"{configs.CoresTexto.AMARELO}{ficheiro.name} cancelado.{configs.CoresTexto.RESET}")
             return 0
-    copy2(ficheiro, ficheiroFinal)
+    try:
+        copy2(ficheiro, ficheiroFinal)
+    except OSError as erro:
+        print(f"{configs.CoresTexto.VERMELHO}Erro '{erro}' no ficheiro {ficheiro.name}: {erro}{configs.CoresTexto.RESET}")
+        return 0
     print(f"{configs.CoresTexto.VERDE}{ficheiro.name} copiado{configs.CoresTexto.RESET}")
     return 1
 
@@ -43,7 +47,7 @@ def moveFicheiro(ficheiro: Path, pastaDestino: Path, ficheiroFinal: Path | None 
     try:
         move(ficheiro, ficheiroFinal)
     except OSError as erro:
-        print(f"{configs.CoresTexto.VERMELHO}Erro ao mover {ficheiro.name}: {erro}{configs.CoresTexto.RESET}")
+        print(f"{configs.CoresTexto.VERMELHO}Erro '{erro}' no ficheiro {ficheiro.name}: {erro}{configs.CoresTexto.RESET}")
         return 0
     print(f"{configs.CoresTexto.VERDE}{ficheiro.name} movido{configs.CoresTexto.RESET}")
     return 1 
