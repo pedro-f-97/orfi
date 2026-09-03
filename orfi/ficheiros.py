@@ -22,15 +22,30 @@ def devolveFicheiros(pasta: Path) -> list[Path]:
             listaFicheiros.append(ficheiro)
     return listaFicheiros
 
-def copiaFicheiro(ficheiro: Path, destino: Path) -> int:
-    ficheiroFinal = destino / ficheiro.name
+def copiaFicheiro(ficheiro: Path, pastaDestino: Path, ficheiroFinal: Path | None = None) -> int:
+    ficheiroFinal = pastaDestino / (ficheiroFinal.name if ficheiroFinal else ficheiro.name)
     if ficheiroFinal.exists():
-        resposta = input(f"{configs.CoresTexto.AMARELO}Já existe o ficheiro {ficheiro.name} na pasta {destino}, substituir? (s/n): {configs.CoresTexto.RESET}")
+        resposta = input(f"{configs.CoresTexto.AMARELO}Já existe o ficheiro {ficheiro.name} na pasta {pastaDestino}, substituir? (s/n): {configs.CoresTexto.RESET}")
         if resposta.lower() != "s":
             print(f"{configs.CoresTexto.AMARELO}{ficheiro.name} cancelado.{configs.CoresTexto.RESET}")
             return 0
     copy2(ficheiro, ficheiroFinal)
     print(f"{configs.CoresTexto.VERDE}{ficheiro.name} copiado{configs.CoresTexto.RESET}")
+    return 1
+
+def moveFicheiro(ficheiro: Path, pastaDestino: Path, ficheiroFinal: Path | None = None) -> int:
+    ficheiroFinal = pastaDestino / (ficheiroFinal.name if ficheiroFinal else ficheiro.name)
+    if ficheiroFinal.exists():
+        resposta = input(f"{configs.CoresTexto.AMARELO}Já existe o ficheiro {ficheiro.name} na pasta {pastaDestino}, substituir? (s/n): {configs.CoresTexto.RESET}")
+        if resposta.lower() != "s":
+            print(f"{configs.CoresTexto.AMARELO}{ficheiro.name} cancelado.{configs.CoresTexto.RESET}")
+            return 0
+    try:
+        move(ficheiro, ficheiroFinal)
+    except OSError as erro:
+        print(f"{configs.CoresTexto.VERMELHO}Erro ao mover {ficheiro.name}: {erro}{configs.CoresTexto.RESET}")
+        return 0
+    print(f"{configs.CoresTexto.VERDE}{ficheiro.name} movido{configs.CoresTexto.RESET}")
     return 1 
 
 def defineDestino(ficheiro:Path, categorias: list[configs.CategoriaDePasta]) -> Path | None:
@@ -54,21 +69,6 @@ def apagaFicheiro(ficheiro:Path) -> int:
         print(f"{configs.CoresTexto.VERMELHO}{ficheiro} apagado.{configs.CoresTexto.RESET}")
         return 1
     return 0
-
-def moveFicheiro(ficheiro: Path, destino: Path) -> int:
-    ficheiroFinal = destino / ficheiro.name
-    if ficheiroFinal.exists():
-        resposta = input(f"{configs.CoresTexto.AMARELO}Já existe o ficheiro {ficheiro.name} na pasta {destino}, substituir? (s/n): {configs.CoresTexto.RESET}")
-        if resposta.lower() != "s":
-            print(f"{configs.CoresTexto.AMARELO}{ficheiro.name} cancelado.{configs.CoresTexto.RESET}")
-            return 0
-    try:
-        move(ficheiro, ficheiroFinal)
-    except OSError as erro:
-        print(f"{configs.CoresTexto.VERMELHO}Erro ao mover {ficheiro.name}: {erro}{configs.CoresTexto.RESET}")
-        return 0
-    print(f"{configs.CoresTexto.VERDE}{ficheiro.name} movido{configs.CoresTexto.RESET}")
-    return 1 
 
 def ficheirosParaReverter(pastas: set[Path]) -> set[Path]:
     ficheirosParaReverter = set()
