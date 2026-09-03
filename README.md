@@ -10,9 +10,12 @@
 - Reversão da organização
 - Categorias de ficheiros configuráveis
 - Configuração específica por utilizador
+- Datação dos ficheiros com a data de criação
+- Reversão da datação
 
 ## Instalação
 
+Requer Python 3.11 ou superior.
 Na pasta do projeto:
 
 ```bash
@@ -32,6 +35,7 @@ orfi
 | `-a`, `--alvo`   | Permite definir a pasta alvo                 |
 | `-c`, `--copiar` | Copia os ficheiros em vez de os mover |
 | `-r`, `--reverter` | Reverte a organização              |
+| `-d`, `--datar`  | Adiciona a data de criação ao nome dos ficheiros  |
 
 ## Utilização
 
@@ -53,17 +57,46 @@ Copiar os ficheiros em vez de os mover:
 orfi -c
 ```
 
-Reverter a organização:
+Reverter a organização por categorias:
 
 ```bash
 orfi -r
 ```
 
-As opções podem ser combinadas:
+Adicionar a data de criação ao nome dos ficheiros:
 
 ```bash
-orfi -a -c
-orfi -a -r
+orfi -d
+```
+
+Por exemplo:
+
+```text
+relatorio.pdf → 260903_relatorio.pdf
+```
+
+Copiar e datar os ficheiros:
+
+```bash
+orfi -d -c
+```
+
+Reverter a datação:
+
+```bash
+orfi -d -r
+```
+
+Copiar os ficheiros enquanto reverte a datação:
+
+```bash
+orfi -d -r -c
+```
+
+As opções podem ser combinadas. Por exemplo, para selecionar uma pasta, copiar os ficheiros e datá-los:
+
+```bash
+orfi -a -c -d
 ```
 
 ## Configuração
