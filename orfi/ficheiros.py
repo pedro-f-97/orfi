@@ -94,11 +94,16 @@ def devolveDataCriacao(ficheiro: Path) -> datetime.datetime:
     return datetime.datetime.fromtimestamp(data, tz = None)
 
 def reverteDatarFicheiro(ficheiro: Path) -> Path | None:
-    if len(ficheiro.name) < 8 or ficheiro.name[6] != "_":
+    if not verificaDatado(ficheiro):
         return None
+    return ficheiro.with_name(ficheiro.name[7:])
+
+def verificaDatado(ficheiro: Path) -> bool:
+    if len(ficheiro.name) < 8 or ficheiro.name[6] != "_":
+        return False
     prefixo = ficheiro.name[0:6]
     try:
         datetime.datetime.strptime(prefixo, "%y%m%d")
     except ValueError:
-        return None
-    return ficheiro.with_name(ficheiro.name[7:])
+        return False
+    return True
