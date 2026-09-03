@@ -19,7 +19,8 @@ def organiza(pastaSelecionada: Path, categorias: list[configs.CategoriaDePasta],
 
     confirmacao = input(f"{configs.CoresTexto.AZUL}Criar as pastas {pastasParaCriar}? (s/n): {configs.CoresTexto.RESET}")
     if confirmacao.lower() == "s":
-        pastas.criaPastas(pastaSelecionada, pastasParaCriar, categorias)
+        cont = pastas.criaPastas(pastaSelecionada, pastasParaCriar, categorias)
+        print(f"{configs.CoresTexto.VERDE}{cont} pastas criadas.{configs.CoresTexto.RESET}")
     else:
         print(f"{configs.CoresTexto.AMARELO}Operação Cancelada{configs.CoresTexto.RESET}")
         return

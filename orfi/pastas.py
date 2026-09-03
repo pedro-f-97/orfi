@@ -19,7 +19,8 @@ def devolvePastas(setExt: set[str], categorias: list[configs.CategoriaDePasta]) 
     return pastas
         
 
-def criaPastas(caminho: Path, pastas: set[str], categorias: list[configs.CategoriaDePasta]):
+def criaPastas(caminho: Path, pastas: set[str], categorias: list[configs.CategoriaDePasta]) -> int:
+    cont = 0
     for pasta in pastas:
         caminhoFinal = caminho / pasta
         for categoria in categorias:
@@ -28,8 +29,10 @@ def criaPastas(caminho: Path, pastas: set[str], categorias: list[configs.Categor
         if not caminhoFinal.exists():
             caminhoFinal.mkdir(parents = False, exist_ok = True)
             print(f"{configs.CoresTexto.VERDE}Pasta criada - {pasta}{configs.CoresTexto.RESET}")
+            cont += 1
         else:
             print(f"{configs.CoresTexto.AMARELO}Pasta {pasta} já existe. {configs.CoresTexto.RESET}")
+    return cont
 
 def pastasExistentes(caminho: Path, categorias: list[configs.CategoriaDePasta]) -> set[Path]:
     pastasParaReverter = set()
