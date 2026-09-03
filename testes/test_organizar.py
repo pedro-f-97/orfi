@@ -124,3 +124,27 @@ def test_organizaVazio(tmp_path):
 
     for categoria in categorias:
         assert not (pastaBase / categoria.nome).exists()
+
+def test_datar(tmp_path):
+    modo = orfi.configs.Modo.MOVER
+
+    pastaBase = (tmp_path / "Base")
+    pastaBase.mkdir()
+
+    ficheiros = set()
+    ficheiros.add("notas.txt")
+    ficheiros.add("doc.pdf")
+
+    for ficheiro in ficheiros:
+        (pastaBase / ficheiro).touch()
+
+    orfi.organizar.datar(pastaBase, modo)
+
+    for ficheiro in ficheiros:
+        assert not (pastaBase / ficheiro).exists()
+
+    cont = 0
+    for ficheiro in pastaBase.iterdir():
+        if ficheiro.name[7:] in ficheiros:
+            cont += 1
+    assert cont == 2
