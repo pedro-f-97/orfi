@@ -1,3 +1,4 @@
+import logging
 import os
 import sys
 import tomllib
@@ -5,8 +6,11 @@ from dataclasses import dataclass
 from enum import Enum
 from pathlib import Path
 
+logger = logging.getLogger(__name__)
+
 
 def caminhoConfiguracao() -> Path:
+    logger.info("OS: %s | %s",sys.platform, sys.version)
     if sys.platform == "win32":
         return Path(os.environ["APPDATA"]) / "orfi" / "config.toml"
     else:
@@ -53,6 +57,8 @@ def carregarConfiguracao(caminho: Path | None = None) -> list[CategoriaDePasta]:
 
     if not caminho.exists():
         criarConfiguracaoStandard(caminho)
+    
+    logger.info("Caminho configs: %s", caminho)
 
     with caminho.open("rb") as ficheiro:
         data = tomllib.load(ficheiro)
@@ -80,6 +86,7 @@ def verificaConfiguracao(categorias: list[CategoriaDePasta]) -> bool:
 
     for verifica in verificacoes:
         if not verifica(categorias):
+            logger.error("Erro config: %s", verifica)
             ok = False
 
     return ok
