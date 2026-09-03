@@ -147,6 +147,12 @@ def test_apagaFicheiro(tmp_path):
     assert orfi.ficheiros.apagaFicheiro(paraApagar) == 1
     assert paraApagar.exists() == False
 
+def test_apagaFicheiroVazio(tmp_path):
+    paraApagar = (tmp_path / "texto.txt")
+    assert not paraApagar.exists()
+    assert orfi.ficheiros.apagaFicheiro(paraApagar) == 0
+    assert paraApagar.exists() == False
+
 def test_ficheirosParaReverter(tmp_path):
     pastas = set()
     pastas.add(tmp_path / "Imagens")
@@ -206,3 +212,8 @@ def test_reverteDatarFicheiro(tmp_path):
     ficheiro = (tmp_path / "260903_img.jpg")
     ficheiro.touch()
     assert orfi.ficheiros.reverteDatarFicheiro(ficheiro) == (tmp_path / "img.jpg")
+
+def test_reverteDatarFicheiroVazio(tmp_path):
+    ficheiro = (tmp_path / "img.jpg")
+    ficheiro.touch()
+    assert orfi.ficheiros.reverteDatarFicheiro(ficheiro) == None
