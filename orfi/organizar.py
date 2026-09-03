@@ -36,7 +36,7 @@ def organiza(pastaSelecionada: Path, categorias: list[configs.CategoriaDePasta],
 
     print(f"{configs.CoresTexto.VERDE}Feito, {total} ficheiros {tratamento}{configs.CoresTexto.RESET}")
 
-def datar(pastaSelecionada: Path, categorias: list[configs.CategoriaDePasta], modo: configs.Modo):
+def datar(pastaSelecionada: Path, modo: configs.Modo):
     if modo == configs.Modo.COPIAR:
         trabalho = ficheiros.copiaFicheiro
         tratamento = "copiados e datados."

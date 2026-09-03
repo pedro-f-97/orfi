@@ -31,7 +31,7 @@ def reverte(pastaSelecionada: Path, categorias: list[configs.CategoriaDePasta], 
         pastas.eliminaPastasVazias(pastasParaReverter)
     print(f"{configs.CoresTexto.VERDE}Revertido, {total} ficheiros {tratamento}{configs.CoresTexto.RESET}")
 
-def reverteDatar(pastaSelecionada: Path, categorias: list[configs.CategoriaDePasta], modo: configs.Modo):
+def reverteDatar(pastaSelecionada: Path, modo: configs.Modo):
     if modo == configs.Modo.COPIAR:
         trabalho = ficheiros.copiaFicheiro
         tratamento = "copiados e revertidos."
