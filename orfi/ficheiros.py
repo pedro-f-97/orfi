@@ -15,8 +15,9 @@ def devolveExt(pasta: Path) -> set[str]:
         if not ficheiro.is_dir(): #apenas ficheiros, não pastas
             ext.add(ficheiro.suffix.lower())
     if len(ext) > 0:
-        logger.info("Extensões detectadas: %s", ext)
-        print(f"{configs.CoresTexto.AZUL}Extensões existentes: {ext} {configs.CoresTexto.RESET}") 
+        for ex in ext:
+            logger.info("Extensãos detectada: %s", ex)
+            print(f"{configs.CoresTexto.AZUL}Extensão detectada: {ex} {configs.CoresTexto.RESET}") 
     return ext
 
 def devolveFicheiros(pasta: Path) -> list[Path]:
@@ -25,7 +26,8 @@ def devolveFicheiros(pasta: Path) -> list[Path]:
         if not ficheiro.is_dir(): #apenas ficheiros, não pastas
             listaFicheiros.append(ficheiro)
     if listaFicheiros:
-        logger.info("Ficheiros detectados: %s", listaFicheiros)
+        for ficheiro in listaFicheiros:
+            logger.info("Ficheiro detectado: %s", ficheiro)
     else:
         logger.info("Não detectou nenhum ficheiro.")
     return listaFicheiros
