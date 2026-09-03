@@ -94,7 +94,7 @@ def devolveDataCriacao(ficheiro: Path) -> datetime.datetime:
     return datetime.datetime.fromtimestamp(data, tz = None)
 
 def reverteDatarFicheiro(ficheiro: Path) -> Path | None:
-    if ficheiro.name[7] != "_":
+    if len(ficheiro.name) < 8 or ficheiro.name[6] != "_":
         return None
     prefixo = ficheiro.name[0:6]
     try:
