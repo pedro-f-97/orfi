@@ -1,7 +1,9 @@
+import logging
 from pathlib import Path
 
 from . import configs, ficheiros
 
+logger = logging.getLogger(__name__)
 
 def devolvePastas(setExt: set[str], categorias: list[configs.CategoriaDePasta]) -> set[str]:
     pastas = set()
@@ -28,6 +30,7 @@ def criaPastas(caminho: Path, pastas: set[str], categorias: list[configs.Categor
                 categoria.caminho = caminhoFinal
         if not caminhoFinal.exists():
             caminhoFinal.mkdir(parents = False, exist_ok = True)
+            logger.info("Criou pasta: %s", caminhoFinal)
             print(f"{configs.CoresTexto.VERDE}Pasta criada - {pasta}{configs.CoresTexto.RESET}")
             cont += 1
         else:
@@ -47,4 +50,5 @@ def eliminaPastasVazias(pastasParaReverter: set[Path]):
     for pasta in pastasParaReverter:
             if not any(pasta.iterdir()):
                 print(f"{configs.CoresTexto.VERDE}Pasta vazia '{pasta}' foi eliminada.{configs.CoresTexto.RESET}")
+                logger.info("Eliminou pasta: %s", pasta)
                 pasta.rmdir()
