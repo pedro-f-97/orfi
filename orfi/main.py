@@ -43,6 +43,7 @@ def main():
         
     else:
         organizar.organiza(pastaSelecionada, categorias, modo)
+    logger.info("Fim de operação.")
         
 
 if __name__ == "__main__":
