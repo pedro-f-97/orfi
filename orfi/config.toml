@@ -71,7 +71,7 @@ nome = "Videos"
 extensoes = [
     ".mp4", ".mkv", ".avi", ".mov",
     ".wmv", ".webm", ".m4v", ".mpg",
-    ".mpeg", ".3gp", ".ts"
+    ".mpeg", ".3gp"
 ]
 
 [[categorias]]
