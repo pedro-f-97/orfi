@@ -1,6 +1,6 @@
 [project]
 name = "orfi"
-version = "1.0.0"
+version = "1.1.0"
 description = "Organiza ficheiros por categorias."
 requires-python = ">=3.11"
 
