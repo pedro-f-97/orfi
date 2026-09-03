@@ -28,7 +28,26 @@ def test_criaPastas(tmp_path):
         assert not pastaInexistente.is_dir()
         assert categoria.caminho is None
 
-    orfi.pastas.criaPastas(pastaDestino, pastasParaCriar, categorias)
+    assert orfi.pastas.criaPastas(pastaDestino, pastasParaCriar, categorias) == 3
+
+    for categoria in categorias:
+        pastaExistente = tmp_path / "Destino" / categoria.nome
+        assert pastaExistente.is_dir()
+        assert categoria.caminho == pastaExistente
+
+def test_criaPastasExistente(tmp_path):
+    categorias = [
+        orfi.configs.CategoriaDePasta("Docs", {".txt"}),
+        orfi.configs.CategoriaDePasta("Fotos", {".jpg"}),
+        orfi.configs.CategoriaDePasta("Outros", {""}),
+    ]
+    pastaDestino = (tmp_path / "Destino")
+    pastaDestino.mkdir()
+    pastasParaCriar = {"Docs", "Fotos", "Outros"}
+    pastaCriada = (pastaDestino / "Fotos")
+    pastaCriada.mkdir()
+
+    assert orfi.pastas.criaPastas(pastaDestino, pastasParaCriar, categorias) == 2
 
     for categoria in categorias:
         pastaExistente = tmp_path / "Destino" / categoria.nome
