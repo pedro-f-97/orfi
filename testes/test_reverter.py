@@ -144,3 +144,46 @@ def test_reverteConflito(tmp_path, monkeypatch):
     for path in pastaBase.iterdir():
         tipos.add(path.is_dir())
     assert True in tipos and False in tipos
+
+def test_reverteDatar(tmp_path):
+    modo = orfi.configs.Modo.MOVER
+
+    pastaBase = (tmp_path / "Base")
+    pastaBase.mkdir()
+
+    ficheiros = set()
+    ficheiros.add("260131_notas.txt")
+    ficheiros.add("250131_doc.pdf")
+
+    for ficheiro in ficheiros:
+        (pastaBase / ficheiro).touch()
+
+    orfi.reverter.reverteDatar(pastaBase, modo)
+
+    for ficheiro in ficheiros:
+        assert not (pastaBase / ficheiro).exists()
+
+    cont = 0
+    for ficheiro in pastaBase.iterdir():
+        cont += 1
+    assert cont == 2
+
+def test_reverteDatarCopiar(tmp_path):
+    modo = orfi.configs.Modo.COPIAR
+
+    pastaBase = (tmp_path / "Base")
+    pastaBase.mkdir()
+
+    ficheiros = set()
+    ficheiros.add("260131_notas.txt")
+    ficheiros.add("250131_doc.pdf")
+
+    for ficheiro in ficheiros:
+        (pastaBase / ficheiro).touch()
+
+    orfi.reverter.reverteDatar(pastaBase, modo)
+
+    for ficheiro in ficheiros:
+        assert (pastaBase / ficheiro).exists()
+        ficheiroRevertido = pastaBase / ficheiro[7:]
+        assert ficheiroRevertido.exists()
