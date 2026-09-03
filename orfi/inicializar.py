@@ -1,5 +1,7 @@
 import argparse
+import logging
 
+logger = logging.getLogger(__name__)
 
 def trataArgumentos() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
@@ -35,4 +37,5 @@ def trataArgumentos() -> argparse.Namespace:
     )
 
     argumentos = parser.parse_args()
+    logger.info("Argumentos inseridos: %s", argumentos)
     return argumentos

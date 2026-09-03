@@ -1,7 +1,8 @@
-from . import alvo, configs, inicializar, organizar, reverter
+from . import alvo, configs, inicializar, logs, organizar, reverter
 
 
 def main():
+    logs.configuraLogs()
 
     argumentos = inicializar.trataArgumentos()
 
