@@ -30,7 +30,10 @@ def organiza(pastaSelecionada: Path, categorias: list[configs.CategoriaDePasta],
     for ficheiro in ficheirosLista:
         destino = ficheiros.defineDestino(ficheiro, categorias)
         if destino is not None:
-            total += trabalho(ficheiro, destino)
+            resultado = trabalho(ficheiro, destino)
+            if resultado:
+                total += resultado
+                print(f"{configs.CoresTexto.VERDE}{ficheiro.name} tratado.{configs.CoresTexto.RESET}")
         else:
             print(f"{configs.CoresTexto.AMARELO}Categoria ou caminho não encontrados para {ficheiro.name}{configs.CoresTexto.RESET}")
 
@@ -52,5 +55,8 @@ def datar(pastaSelecionada: Path, modo: configs.Modo):
             print(f"{configs.CoresTexto.AMARELO}Ficheiro já datado: {ficheiro.name}{configs.CoresTexto.RESET}")
         else:
             ficheiroFinal = ficheiros.datarFicheiro(ficheiro)
-            total += trabalho(ficheiro, pastaSelecionada, ficheiroFinal)
+            resultado = trabalho(ficheiro, pastaSelecionada, ficheiroFinal)
+            if resultado:
+                total += resultado
+                print(f"{configs.CoresTexto.VERDE}{ficheiro.name} tratado.{configs.CoresTexto.RESET}")
     print(f"{configs.CoresTexto.VERDE}Feito, {total} ficheiros {tratamento}{configs.CoresTexto.RESET}")

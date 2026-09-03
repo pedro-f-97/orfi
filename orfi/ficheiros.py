@@ -34,7 +34,6 @@ def copiaFicheiro(ficheiro: Path, pastaDestino: Path, ficheiroFinal: Path | None
     except OSError as erro:
         print(f"{configs.CoresTexto.VERMELHO}Erro '{erro}' no ficheiro {ficheiro.name}: {erro}{configs.CoresTexto.RESET}")
         return 0
-    print(f"{configs.CoresTexto.VERDE}{ficheiro.name} copiado{configs.CoresTexto.RESET}")
     return 1
 
 def moveFicheiro(ficheiro: Path, pastaDestino: Path, ficheiroFinal: Path | None = None) -> int:
@@ -49,7 +48,6 @@ def moveFicheiro(ficheiro: Path, pastaDestino: Path, ficheiroFinal: Path | None 
     except OSError as erro:
         print(f"{configs.CoresTexto.VERMELHO}Erro '{erro}' no ficheiro {ficheiro.name}: {erro}{configs.CoresTexto.RESET}")
         return 0
-    print(f"{configs.CoresTexto.VERDE}{ficheiro.name} movido{configs.CoresTexto.RESET}")
     return 1 
 
 def defineDestino(ficheiro:Path, categorias: list[configs.CategoriaDePasta]) -> Path | None:

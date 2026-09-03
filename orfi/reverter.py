@@ -25,7 +25,10 @@ def reverte(pastaSelecionada: Path, categorias: list[configs.CategoriaDePasta], 
     
     total = 0
     for ficheiro in ficheirosParaReverter:
-        total += trabalho(ficheiro, pastaSelecionada)
+        resultado = trabalho(ficheiro, pastaSelecionada)
+        if resultado:
+            total += resultado
+            print(f"{configs.CoresTexto.VERDE}{ficheiro.name} tratado.{configs.CoresTexto.RESET}")
 
     if modo == configs.Modo.MOVER:
         pastas.eliminaPastasVazias(pastasParaReverter)
@@ -45,7 +48,10 @@ def reverteDatar(pastaSelecionada: Path, modo: configs.Modo):
     for ficheiro in ficheirosLista:
         if ficheiros.verificaDatado(ficheiro):
             ficheiroFinal = ficheiros.reverteDatarFicheiro(ficheiro)
-            total += trabalho(ficheiro, pastaSelecionada, ficheiroFinal)
+            resultado = trabalho(ficheiro, pastaSelecionada, ficheiroFinal)
+            if resultado:
+                total += 1
+                print(f"{configs.CoresTexto.VERDE}{ficheiro.name} tratado.{configs.CoresTexto.RESET}")
         else:
             print(f"{configs.CoresTexto.AMARELO}Ficheiro ignorado: {ficheiro.name}{configs.CoresTexto.RESET}")
     print(f"{configs.CoresTexto.VERDE}Feito, {total} ficheiros {tratamento}{configs.CoresTexto.RESET}")
