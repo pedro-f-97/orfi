@@ -148,3 +148,31 @@ def test_datar(tmp_path):
         if ficheiro.name[7:] in ficheiros:
             cont += 1
     assert cont == 2
+
+def test_datarCopiar(tmp_path):
+    modo = orfi.configs.Modo.COPIAR
+
+    pastaBase = (tmp_path / "Base")
+    pastaBase.mkdir()
+
+    ficheiros = set()
+    ficheiros.add("notas.txt")
+    ficheiros.add("doc.pdf")
+
+    for ficheiro in ficheiros:
+        (pastaBase / ficheiro).touch()
+
+    orfi.organizar.datar(pastaBase, modo)
+
+    for ficheiro in ficheiros:
+        assert (pastaBase / ficheiro).exists()
+
+    cont = 0
+    contAlterado = 0
+    for ficheiro in pastaBase.iterdir():
+        if ficheiro.name in ficheiros:
+            cont += 1
+        else:
+            contAlterado += 1
+    assert cont == 2
+    assert contAlterado == 2
