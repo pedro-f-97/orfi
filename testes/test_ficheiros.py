@@ -148,19 +148,24 @@ def test_datarFicheiro(tmp_path):
     assert ficheiroAlterado.name.startswith(dataAgora)
     assert ficheiroAlterado.name.endswith("_img.jpg")
 
-def test_reverteDatarFicheiro(tmp_path):
+def test_verificaDatado(tmp_path):
     ficheiro = (tmp_path / "260903_img.jpg")
     ficheiro.touch()
-    assert orfi.ficheiros.reverteDatarFicheiro(ficheiro) is not None
+    assert orfi.ficheiros.verificaDatado(ficheiro)
 
     ficheiro = (tmp_path / "419945_img.jpg")
     ficheiro.touch()
-    assert orfi.ficheiros.reverteDatarFicheiro(ficheiro) is None
+    assert not orfi.ficheiros.verificaDatado(ficheiro)
 
     ficheiro = (tmp_path / "41219945_img.jpg")
     ficheiro.touch()
-    assert orfi.ficheiros.reverteDatarFicheiro(ficheiro) is None
+    assert not orfi.ficheiros.verificaDatado(ficheiro)
 
     ficheiro = (tmp_path / "img.jpg")
     ficheiro.touch()
-    assert orfi.ficheiros.reverteDatarFicheiro(ficheiro) is None
+    assert not orfi.ficheiros.verificaDatado(ficheiro)
+
+def test_reverteDatarFicheiro(tmp_path):
+    ficheiro = (tmp_path / "260903_img.jpg")
+    ficheiro.touch()
+    assert orfi.ficheiros.reverteDatarFicheiro(ficheiro) == (tmp_path / "img.jpg")
