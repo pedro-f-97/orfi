@@ -27,8 +27,14 @@ def main():
     print(f"{configs.CoresTexto.AZUL}Pasta selecionada: {pastaSelecionada} {configs.CoresTexto.RESET}")
 
     if argumentos.reverter:
-        reverter.reverte(pastaSelecionada, categorias, modo)
+        if not argumentos.datar:
+            reverter.reverte(pastaSelecionada, categorias, modo)
+        else:
+            reverter.reverteDatar(pastaSelecionada, modo)
 
+    elif argumentos.datar:
+        organizar.datar(pastaSelecionada, modo)
+        
     else:
         organizar.organiza(pastaSelecionada, categorias, modo)
         
