@@ -12,6 +12,9 @@ def organiza(pastaSelecionada: Path, categorias: list[configs.CategoriaDePasta],
     elif modo == configs.Modo.MOVER:
         trabalho = ficheiros.moveFicheiro
         tratamento = "movidos."
+    else:
+        print(f"{configs.CoresTexto.VERMELHO}Modo {modo} inesperado. Operação cancelada.{configs.CoresTexto.RESET}")
+        return
 
     pastasParaCriar = pastas.devolvePastas(ficheiros.devolveExt(pastaSelecionada), categorias)
 
@@ -51,6 +54,9 @@ def datar(pastaSelecionada: Path, modo: configs.Modo):
     elif modo == configs.Modo.MOVER:
         trabalho = ficheiros.moveFicheiro
         tratamento = "datados."
+    else:
+        print(f"{configs.CoresTexto.VERMELHO}Modo {modo} inesperado. Operação cancelada.{configs.CoresTexto.RESET}")
+        return
 
     ficheirosLista = ficheiros.devolveFicheiros(pastaSelecionada)
 

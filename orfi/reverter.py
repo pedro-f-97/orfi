@@ -12,6 +12,9 @@ def reverte(pastaSelecionada: Path, categorias: list[configs.CategoriaDePasta], 
     elif modo == configs.Modo.MOVER:
         trabalho = ficheiros.moveFicheiro
         tratamento = "movidos."
+    else:
+        print(f"{configs.CoresTexto.VERMELHO}Modo {modo} inesperado. Operação cancelada.{configs.CoresTexto.RESET}")
+        return
 
     pastasParaReverter = pastas.pastasExistentes(pastaSelecionada, categorias)
 
@@ -44,6 +47,9 @@ def reverteDatar(pastaSelecionada: Path, modo: configs.Modo):
     elif modo == configs.Modo.MOVER:
         trabalho = ficheiros.moveFicheiro
         tratamento = "revertidos."
+    else:
+        print(f"{configs.CoresTexto.VERMELHO}Modo {modo} inesperado. Operação cancelada.{configs.CoresTexto.RESET}")
+        return
 
     ficheirosLista = ficheiros.devolveFicheiros(pastaSelecionada)
 
