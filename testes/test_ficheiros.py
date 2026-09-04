@@ -34,7 +34,7 @@ def test_copiaFicheiro(tmp_path):
     paraCopiar.touch()
     pastaDestino = (tmp_path / "Destino")
     pastaDestino.mkdir()
-    assert orfi.ficheiros.copiaFicheiro(paraCopiar, pastaDestino) == 1
+    assert orfi.ficheiros.copiaFicheiro(paraCopiar, pastaDestino, False) == 1
 
     ficheiroCopia = Path(pastaDestino / "texto.txt")
     assert ficheiroCopia.exists()
@@ -46,7 +46,7 @@ def test_copiaFicheiroFicheiroFinal(tmp_path):
     pastaDestino = (tmp_path / "Destino")
     pastaDestino.mkdir()
     ficheiroFinal = (pastaDestino / "261201_texto.txt")
-    assert orfi.ficheiros.copiaFicheiro(paraCopiar, pastaDestino, ficheiroFinal) == 1
+    assert orfi.ficheiros.copiaFicheiro(paraCopiar, pastaDestino, False,ficheiroFinal) == 1
 
     assert ficheiroFinal.exists()
     assert ficheiroFinal.is_file()
@@ -58,14 +58,14 @@ def test_existente_copiaFicheiro(tmp_path, monkeypatch):
     pastaDestino.mkdir()
     (pastaDestino / "texto.txt").touch()
     monkeypatch.setattr("builtins.input", lambda _: "n")
-    assert orfi.ficheiros.copiaFicheiro(paraCopiar, pastaDestino) == 0
+    assert orfi.ficheiros.copiaFicheiro(paraCopiar, pastaDestino, False) == 0
 
     ficheiroCopia = Path(pastaDestino / "texto.txt")
     assert ficheiroCopia.exists()
     assert ficheiroCopia.is_file()
 
     monkeypatch.setattr("builtins.input", lambda _: "s")
-    assert orfi.ficheiros.copiaFicheiro(paraCopiar, pastaDestino) == 1
+    assert orfi.ficheiros.copiaFicheiro(paraCopiar, pastaDestino, False) == 1
 
     ficheiroCopia = Path(pastaDestino / "texto.txt")
     assert ficheiroCopia.exists()
@@ -101,7 +101,7 @@ def test_moveFicheiro(tmp_path):
     paraMover.touch()
     pastaDestino = (tmp_path / "Destino")
     pastaDestino.mkdir()
-    assert orfi.ficheiros.moveFicheiro(paraMover, pastaDestino) == 1
+    assert orfi.ficheiros.moveFicheiro(paraMover, pastaDestino, False) == 1
 
     ficheiroMovido = Path(pastaDestino / "texto.txt")
     assert paraMover.exists() == False
@@ -114,7 +114,7 @@ def test_moveFicheiroFicheiroFinal(tmp_path):
     pastaDestino = (tmp_path / "Destino")
     pastaDestino.mkdir()
     ficheiroFinal = (pastaDestino / "261201_texto.txt")
-    assert orfi.ficheiros.moveFicheiro(paraMover, pastaDestino, ficheiroFinal) == 1
+    assert orfi.ficheiros.moveFicheiro(paraMover, pastaDestino, False, ficheiroFinal) == 1
 
     assert paraMover.exists() == False
     assert ficheiroFinal.exists()
@@ -127,14 +127,14 @@ def test_existente_moveFicheiro(tmp_path, monkeypatch):
     pastaDestino.mkdir()
     (pastaDestino / "texto.txt").touch()
     monkeypatch.setattr("builtins.input", lambda _: "n")
-    assert orfi.ficheiros.moveFicheiro(paraMover, pastaDestino) == 0
+    assert orfi.ficheiros.moveFicheiro(paraMover, pastaDestino, False) == 0
     assert paraMover.exists()
     ficheiroMovido = Path(pastaDestino / "texto.txt")
     assert ficheiroMovido.exists()
     assert ficheiroMovido.is_file()
     
     monkeypatch.setattr("builtins.input", lambda _: "s")
-    assert orfi.ficheiros.moveFicheiro(paraMover, pastaDestino) == 1
+    assert orfi.ficheiros.moveFicheiro(paraMover, pastaDestino, False) == 1
     assert not paraMover.exists()
     ficheiroMovido = Path(pastaDestino / "texto.txt")
     assert ficheiroMovido.exists()

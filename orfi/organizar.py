@@ -5,7 +5,7 @@ from . import configs, ficheiros, pastas
 
 logger = logging.getLogger(__name__)
 
-def organiza(pastaSelecionada: Path, categorias: list[configs.CategoriaDePasta], modo: configs.Modo):
+def organiza(pastaSelecionada: Path, categorias: list[configs.CategoriaDePasta], modo: configs.Modo, force: bool):
     if modo == configs.Modo.COPIAR:
         trabalho = ficheiros.copiaFicheiro
         tratamento = "copiados."
@@ -22,14 +22,14 @@ def organiza(pastaSelecionada: Path, categorias: list[configs.CategoriaDePasta],
         print(f"{configs.CoresTexto.AMARELO}Nada para fazer.{configs.CoresTexto.RESET}")
         return
 
-    confirmacao = input(f"{configs.CoresTexto.AZUL}Criar as pastas {pastasParaCriar}? (s/n): {configs.CoresTexto.RESET}")
-    if confirmacao.lower() == "s":
-        cont = pastas.criaPastas(pastaSelecionada, pastasParaCriar, categorias)
-        logger.info("Terminou, %s pastas criadas.", cont)
-        print(f"{configs.CoresTexto.VERDE}{cont} pastas criadas.{configs.CoresTexto.RESET}")
-    else:
-        print(f"{configs.CoresTexto.AMARELO}Operação Cancelada{configs.CoresTexto.RESET}")
-        return
+    if not force:
+        confirmacao = input(f"{configs.CoresTexto.AZUL}Criar as pastas {pastasParaCriar}? (s/n): {configs.CoresTexto.RESET}")
+        if confirmacao.lower() != "s":
+            print(f"{configs.CoresTexto.AMARELO}Operação Cancelada{configs.CoresTexto.RESET}")
+            return
+    cont = pastas.criaPastas(pastaSelecionada, pastasParaCriar, categorias)
+    logger.info("Terminou, %s pastas criadas.", cont)
+    print(f"{configs.CoresTexto.VERDE}{cont} pastas criadas.{configs.CoresTexto.RESET}")
 
     ficheirosLista = ficheiros.devolveFicheiros(pastaSelecionada)
 
@@ -37,7 +37,7 @@ def organiza(pastaSelecionada: Path, categorias: list[configs.CategoriaDePasta],
     for ficheiro in ficheirosLista:
         destino = ficheiros.defineDestino(ficheiro, categorias)
         if destino is not None:
-            resultado = trabalho(ficheiro, destino)
+            resultado = trabalho(ficheiro, destino, force)
             if resultado:
                 total += resultado
                 print(f"{configs.CoresTexto.VERDE}{ficheiro.name} tratado.{configs.CoresTexto.RESET}")
@@ -47,7 +47,7 @@ def organiza(pastaSelecionada: Path, categorias: list[configs.CategoriaDePasta],
     logger.info("Terminou, %s ficheiros %s", total, tratamento)
     print(f"{configs.CoresTexto.VERDE}Feito, {total} ficheiros {tratamento}{configs.CoresTexto.RESET}")
 
-def datar(pastaSelecionada: Path, modo: configs.Modo):
+def datar(pastaSelecionada: Path, modo: configs.Modo, force: bool):
     if modo == configs.Modo.COPIAR:
         trabalho = ficheiros.copiaFicheiro
         tratamento = "copiados e datados."
@@ -66,7 +66,7 @@ def datar(pastaSelecionada: Path, modo: configs.Modo):
             print(f"{configs.CoresTexto.AMARELO}Ficheiro já datado: {ficheiro.name}{configs.CoresTexto.RESET}")
         else:
             ficheiroFinal = ficheiros.datarFicheiro(ficheiro)
-            resultado = trabalho(ficheiro, pastaSelecionada, ficheiroFinal)
+            resultado = trabalho(ficheiro, pastaSelecionada, force, ficheiroFinal)
             if resultado:
                 total += resultado
                 print(f"{configs.CoresTexto.VERDE}{ficheiro.name} tratado.{configs.CoresTexto.RESET}")

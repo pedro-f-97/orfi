@@ -32,9 +32,9 @@ def devolveFicheiros(pasta: Path) -> list[Path]:
         logger.info("Não detectou nenhum ficheiro.")
     return listaFicheiros
 
-def copiaFicheiro(ficheiro: Path, pastaDestino: Path, ficheiroFinal: Path | None = None) -> int:
+def copiaFicheiro(ficheiro: Path, pastaDestino: Path, force: bool, ficheiroFinal: Path | None = None) -> int:
     ficheiroFinal = pastaDestino / (ficheiroFinal.name if ficheiroFinal else ficheiro.name)
-    if ficheiroFinal.exists():
+    if ficheiroFinal.exists() and not force:
         resposta = input(f"{configs.CoresTexto.AMARELO}Já existe o ficheiro {ficheiro.name} na pasta {pastaDestino}, substituir? (s/n): {configs.CoresTexto.RESET}")
         if resposta.lower() != "s":
             print(f"{configs.CoresTexto.AMARELO}{ficheiro.name} cancelado.{configs.CoresTexto.RESET}")
@@ -48,9 +48,9 @@ def copiaFicheiro(ficheiro: Path, pastaDestino: Path, ficheiroFinal: Path | None
         return 0
     return 1
 
-def moveFicheiro(ficheiro: Path, pastaDestino: Path, ficheiroFinal: Path | None = None) -> int:
+def moveFicheiro(ficheiro: Path, pastaDestino: Path, force: bool, ficheiroFinal: Path | None = None) -> int:
     ficheiroFinal = pastaDestino / (ficheiroFinal.name if ficheiroFinal else ficheiro.name)
-    if ficheiroFinal.exists():
+    if ficheiroFinal.exists() and not force:
         resposta = input(f"{configs.CoresTexto.AMARELO}Já existe o ficheiro {ficheiro.name} na pasta {pastaDestino}, substituir? (s/n): {configs.CoresTexto.RESET}")
         if resposta.lower() != "s":
             print(f"{configs.CoresTexto.AMARELO}{ficheiro.name} cancelado.{configs.CoresTexto.RESET}")

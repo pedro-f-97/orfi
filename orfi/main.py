@@ -26,6 +26,8 @@ def main():
     else:
         modo = configs.Modo.MOVER
 
+    force = argumentos.force
+
     categorias = configs.carregarConfiguracao()
     if not configs.verificaConfiguracao(categorias):
         print(f"{configs.CoresTexto.AMARELO}Configuração inválida, corrigir o config.toml.{configs.CoresTexto.RESET}")
@@ -39,15 +41,15 @@ def main():
 
     if argumentos.reverter:
         if not argumentos.datar:
-            reverter.reverte(pastaSelecionada, categorias, modo)
+            reverter.reverte(pastaSelecionada, categorias, modo, force)
         else:
-            reverter.reverteDatar(pastaSelecionada, modo)
+            reverter.reverteDatar(pastaSelecionada, modo, force)
 
     elif argumentos.datar:
-        organizar.datar(pastaSelecionada, modo)
+        organizar.datar(pastaSelecionada, modo, force)
         
     else:
-        organizar.organiza(pastaSelecionada, categorias, modo)
+        organizar.organiza(pastaSelecionada, categorias, modo, force)
     duracao = time.perf_counter() - inicio
     logger.info("   --FIM DE EXECUÇÃO--  ")
     logger.info("   --%.2f SEGUNDOS--   ", duracao)

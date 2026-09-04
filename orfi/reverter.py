@@ -5,7 +5,7 @@ from . import configs, ficheiros, pastas
 
 logger = logging.getLogger(__name__)
 
-def reverte(pastaSelecionada: Path, categorias: list[configs.CategoriaDePasta], modo: configs.Modo):
+def reverte(pastaSelecionada: Path, categorias: list[configs.CategoriaDePasta], modo: configs.Modo, force: bool):
     if modo == configs.Modo.COPIAR:
         trabalho = ficheiros.copiaFicheiro
         tratamento = "copiados."
@@ -30,7 +30,7 @@ def reverte(pastaSelecionada: Path, categorias: list[configs.CategoriaDePasta], 
     
     total = 0
     for ficheiro in ficheirosParaReverter:
-        resultado = trabalho(ficheiro, pastaSelecionada)
+        resultado = trabalho(ficheiro, pastaSelecionada, force)
         if resultado:
             total += resultado
             print(f"{configs.CoresTexto.VERDE}{ficheiro.name} tratado.{configs.CoresTexto.RESET}")
@@ -40,7 +40,7 @@ def reverte(pastaSelecionada: Path, categorias: list[configs.CategoriaDePasta], 
     logger.info("Terminou, %s ficheiros %s", total, tratamento)
     print(f"{configs.CoresTexto.VERDE}Revertido, {total} ficheiros {tratamento}{configs.CoresTexto.RESET}")
 
-def reverteDatar(pastaSelecionada: Path, modo: configs.Modo):
+def reverteDatar(pastaSelecionada: Path, modo: configs.Modo, force: bool):
     if modo == configs.Modo.COPIAR:
         trabalho = ficheiros.copiaFicheiro
         tratamento = "copiados e revertidos."
@@ -57,9 +57,9 @@ def reverteDatar(pastaSelecionada: Path, modo: configs.Modo):
     for ficheiro in ficheirosLista:
         if ficheiros.verificaDatado(ficheiro):
             ficheiroFinal = ficheiros.reverteDatarFicheiro(ficheiro)
-            resultado = trabalho(ficheiro, pastaSelecionada, ficheiroFinal)
+            resultado = trabalho(ficheiro, pastaSelecionada, force, ficheiroFinal)
             if resultado:
-                total += 1
+                total += resultado
                 print(f"{configs.CoresTexto.VERDE}{ficheiro.name} tratado.{configs.CoresTexto.RESET}")
         else:
             print(f"{configs.CoresTexto.AMARELO}Ficheiro ignorado: {ficheiro.name}{configs.CoresTexto.RESET}")

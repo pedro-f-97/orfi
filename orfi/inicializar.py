@@ -36,6 +36,13 @@ def trataArgumentos() -> argparse.Namespace:
         help="adiciona a data de criação ao nome"
     )
 
+    parser.add_argument(
+        "-f",
+        "--force",
+        action="store_true",
+        help="aprova automaticamente todas as confirmações"
+    )
+
     argumentos = parser.parse_args()
 
     if argumentos.alvo:
@@ -46,5 +53,7 @@ def trataArgumentos() -> argparse.Namespace:
         logger.info("Argumento --reverter")
     if argumentos.datar:
         logger.info("Argumento --datar")
+    if argumentos.force:
+        logger.info("Argumento --force")
 
     return argumentos
