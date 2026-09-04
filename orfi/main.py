@@ -1,4 +1,5 @@
 import logging
+import sys
 import time
 
 from . import alvo, configs, inicializar, logs, organizar, reverter
@@ -8,6 +9,7 @@ logger = logging.getLogger(__name__)
 def main():
     logs.configuraLogs()
     logger.info("   --INÍCIO DE EXECUÇÃO--  ")
+    logger.info("OS: %s | %s",sys.platform, sys.version)
     inicio = time.perf_counter()
 
     argumentos = inicializar.trataArgumentos()

@@ -10,7 +10,6 @@ logger = logging.getLogger(__name__)
 
 
 def caminhoConfiguracao() -> Path:
-    logger.info("OS: %s | %s",sys.platform, sys.version)
     if sys.platform == "win32":
         return Path(os.environ["APPDATA"]) / "orfi" / "config.toml"
     else:
