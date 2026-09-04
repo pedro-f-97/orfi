@@ -57,6 +57,6 @@ def reverteDatar(pastaSelecionada: Path, modo: configs.Modo):
                 print(f"{configs.CoresTexto.VERDE}{ficheiro.name} tratado.{configs.CoresTexto.RESET}")
         else:
             print(f"{configs.CoresTexto.AMARELO}Ficheiro ignorado: {ficheiro.name}{configs.CoresTexto.RESET}")
-            logger.info("Ignorou o ficheiro %s", {ficheiro})
+            logger.info("Ignorou o ficheiro %s", ficheiro)
     logger.info("Terminou, %s ficheiros %s", total, tratamento)
     print(f"{configs.CoresTexto.VERDE}Feito, {total} ficheiros {tratamento}{configs.CoresTexto.RESET}")
