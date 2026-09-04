@@ -2,6 +2,8 @@
 
 **Orfi** organiza ficheiros soltos por pastas categorizadas através da linha de comandos.
 
+[![CI](https://github.com/pedro-f-97/orfi/actions/workflows/ci.yml/badge.svg)](https://github.com/pedro-f-97/orfi/actions/workflows/ci.yml)
+
 ## Funcionalidades
 
 - Organização automática de ficheiros por extensão
