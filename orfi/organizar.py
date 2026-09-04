@@ -5,7 +5,7 @@ from . import configs, ficheiros, pastas
 
 logger = logging.getLogger(__name__)
 
-def organiza(pastaSelecionada: Path, categorias: list[configs.CategoriaDePasta], modo: configs.Modo, force: bool):
+def organiza(pastaSelecionada: Path, categorias: list[configs.CategoriaDePasta], modo: configs.Modo, force: bool, simula: bool):
     if modo == configs.Modo.COPIAR:
         trabalho = ficheiros.copiaFicheiro
         tratamento = "copiados."
@@ -19,7 +19,10 @@ def organiza(pastaSelecionada: Path, categorias: list[configs.CategoriaDePasta],
     pastasParaCriar = pastas.devolvePastas(ficheiros.devolveExt(pastaSelecionada), categorias)
 
     if pastasParaCriar == set():
-        print(f"{configs.CoresTexto.AMARELO}Nada para fazer.{configs.CoresTexto.RESET}")
+        if not simula:
+            print(f"{configs.CoresTexto.AMARELO}Nada para fazer.{configs.CoresTexto.RESET}")
+        else:
+            print(f"{configs.CoresTexto.AMARELO}[SIMULAÇÃO]Não faria nada.{configs.CoresTexto.RESET}")
         return
 
     if not force:
@@ -27,9 +30,12 @@ def organiza(pastaSelecionada: Path, categorias: list[configs.CategoriaDePasta],
         if confirmacao.lower() != "s":
             print(f"{configs.CoresTexto.AMARELO}Operação Cancelada{configs.CoresTexto.RESET}")
             return
-    cont = pastas.criaPastas(pastaSelecionada, pastasParaCriar, categorias)
-    logger.info("Terminou, %s pastas criadas.", cont)
-    print(f"{configs.CoresTexto.VERDE}{cont} pastas criadas.{configs.CoresTexto.RESET}")
+    cont = pastas.criaPastas(pastaSelecionada, pastasParaCriar, categorias, simula)
+    if not simula:
+        logger.info("Terminou, %s pastas criadas.", cont)
+        print(f"{configs.CoresTexto.VERDE}{cont} pastas criadas.{configs.CoresTexto.RESET}")
+    else:
+        print(f"{configs.CoresTexto.AMARELO}[SIMULAÇÃO] {cont} pastas seriam criadas.{configs.CoresTexto.RESET}")
 
     ficheirosLista = ficheiros.devolveFicheiros(pastaSelecionada)
 
@@ -37,17 +43,22 @@ def organiza(pastaSelecionada: Path, categorias: list[configs.CategoriaDePasta],
     for ficheiro in ficheirosLista:
         destino = ficheiros.defineDestino(ficheiro, categorias)
         if destino is not None:
-            resultado = trabalho(ficheiro, destino, force)
+            resultado = trabalho(ficheiro, destino, force, simula)
             if resultado:
                 total += resultado
-                print(f"{configs.CoresTexto.VERDE}{ficheiro.name} tratado.{configs.CoresTexto.RESET}")
+                if not simula:
+                    print(f"{configs.CoresTexto.VERDE}{ficheiro.name} tratado.{configs.CoresTexto.RESET}")
+                else:
+                    print(f"{configs.CoresTexto.AMARELO}[SIMULAÇÃO] {ficheiro.name} seria tratado.{configs.CoresTexto.RESET}")
         else:
             print(f"{configs.CoresTexto.AMARELO}Categoria ou caminho não encontrados para {ficheiro.name}{configs.CoresTexto.RESET}")
+    if not simula:
+        logger.info("Terminou, %s ficheiros %s", total, tratamento)
+        print(f"{configs.CoresTexto.VERDE}Feito, {total} ficheiros {tratamento}{configs.CoresTexto.RESET}")
+    else:
+        print(f"{configs.CoresTexto.AMARELO}[SIMULAÇÃO] Feito, {total} ficheiros teriam sido {tratamento}{configs.CoresTexto.RESET}")
 
-    logger.info("Terminou, %s ficheiros %s", total, tratamento)
-    print(f"{configs.CoresTexto.VERDE}Feito, {total} ficheiros {tratamento}{configs.CoresTexto.RESET}")
-
-def datar(pastaSelecionada: Path, modo: configs.Modo, force: bool):
+def datar(pastaSelecionada: Path, modo: configs.Modo, force: bool, simula: bool):
     if modo == configs.Modo.COPIAR:
         trabalho = ficheiros.copiaFicheiro
         tratamento = "copiados e datados."
@@ -65,10 +76,16 @@ def datar(pastaSelecionada: Path, modo: configs.Modo, force: bool):
         if ficheiros.verificaDatado(ficheiro):
             print(f"{configs.CoresTexto.AMARELO}Ficheiro já datado: {ficheiro.name}{configs.CoresTexto.RESET}")
         else:
-            ficheiroFinal = ficheiros.datarFicheiro(ficheiro)
-            resultado = trabalho(ficheiro, pastaSelecionada, force, ficheiroFinal)
+            ficheiroFinal = ficheiros.datarFicheiro(ficheiro, simula)
+            resultado = trabalho(ficheiro, pastaSelecionada, force, simula, ficheiroFinal)
             if resultado:
                 total += resultado
-                print(f"{configs.CoresTexto.VERDE}{ficheiro.name} tratado.{configs.CoresTexto.RESET}")
-    logger.info("Terminou, %s ficheiros %s", total, tratamento)
-    print(f"{configs.CoresTexto.VERDE}Feito, {total} ficheiros {tratamento}{configs.CoresTexto.RESET}")
+                if not simula:
+                    print(f"{configs.CoresTexto.VERDE}{ficheiro.name} tratado.{configs.CoresTexto.RESET}")
+                else:
+                    print(f"{configs.CoresTexto.AMARELO}[SIMULAÇÃO] {ficheiro.name} seria tratado.{configs.CoresTexto.RESET}")
+    if not simula:
+        logger.info("Terminou, %s ficheiros %s", total, tratamento)
+        print(f"{configs.CoresTexto.VERDE}Feito, {total} ficheiros {tratamento}{configs.CoresTexto.RESET}")
+    else:
+        print(f"{configs.CoresTexto.AMARELO}[SIMULAÇÃO] Feito, {total} ficheiros teriam sido {tratamento}{configs.CoresTexto.RESET}")

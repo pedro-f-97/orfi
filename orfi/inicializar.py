@@ -43,6 +43,13 @@ def trataArgumentos() -> argparse.Namespace:
         help="aprova automaticamente todas as confirmações"
     )
 
+    parser.add_argument(
+        "-s",
+        "--simula",
+        action="store_true",
+        help="simula o processo sem fazer alterações"
+    )
+
     argumentos = parser.parse_args()
 
     if argumentos.alvo:
@@ -55,5 +62,7 @@ def trataArgumentos() -> argparse.Namespace:
         logger.info("Argumento --datar")
     if argumentos.force:
         logger.info("Argumento --force")
+    if argumentos.simula:
+        logger.info("Argumento --simula")
 
     return argumentos
