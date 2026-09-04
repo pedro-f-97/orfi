@@ -16,7 +16,7 @@ def devolveExt(pasta: Path) -> set[str]:
             ext.add(ficheiro.suffix.lower())
     if len(ext) > 0:
         for ex in ext:
-            logger.info("Extensão detectada: %s", ex)
+            logger.debug("Extensão detectada: %s", ex)
             print(f"{configs.CoresTexto.AZUL}Extensão detectada: {ex} {configs.CoresTexto.RESET}") 
     return ext
 
@@ -27,7 +27,7 @@ def devolveFicheiros(pasta: Path) -> list[Path]:
             listaFicheiros.append(ficheiro)
     if listaFicheiros:
         for ficheiro in listaFicheiros:
-            logger.info("Ficheiro detectado: %s", ficheiro)
+            logger.debug("Ficheiro detectado: %s", ficheiro)
     else:
         logger.info("Não detectou nenhum ficheiro.")
     return listaFicheiros
@@ -44,7 +44,7 @@ def copiaFicheiro(ficheiro: Path, pastaDestino: Path, ficheiroFinal: Path | None
         logger.info("Copiou o ficheiro '%s' para '%s'", ficheiro, ficheiroFinal)
     except OSError as erro:
         print(f"{configs.CoresTexto.VERMELHO}Erro '{erro}' no ficheiro {ficheiro.name}: {erro}{configs.CoresTexto.RESET}")
-        logger.error("Erro a copiar o ficheiro '%s' para '%s' : '%s'", ficheiro, ficheiroFinal, erro)
+        logger.exception("Erro a copiar o ficheiro '%s' para '%s'.", ficheiro, ficheiroFinal)
         return 0
     return 1
 
@@ -60,7 +60,7 @@ def moveFicheiro(ficheiro: Path, pastaDestino: Path, ficheiroFinal: Path | None 
         logger.info("Moveu o ficheiro '%s' para '%s'", ficheiro, ficheiroFinal)
     except OSError as erro:
         print(f"{configs.CoresTexto.VERMELHO}Erro '{erro}' no ficheiro {ficheiro.name}: {erro}{configs.CoresTexto.RESET}")
-        logger.error("Erro a mover o ficheiro '%s' para '%s' : '%s'", ficheiro, ficheiroFinal, erro)
+        logger.exception("Erro a mover o ficheiro '%s' para '%s'.", ficheiro, ficheiroFinal)
         return 0
     return 1 
 
@@ -69,7 +69,7 @@ def defineDestino(ficheiro:Path, categorias: list[configs.CategoriaDePasta]) -> 
     if categoria is not None and categoria.caminho is not None:
         return categoria.caminho
     else:
-        logger.error("Não detectou caminho para a categoria '%s' da extensão '%s'", categoria, ficheiro.suffix.lower())
+        logger.debug("Não detectou caminho para a categoria '%s' da extensão '%s'", categoria, ficheiro.suffix.lower())
         return None
 
 def encontraCategoria(extensao: str, categorias: list[configs.CategoriaDePasta]) -> configs.CategoriaDePasta | None:
@@ -127,6 +127,6 @@ def verificaDatado(ficheiro: Path) -> bool:
     try:
         datetime.datetime.strptime(prefixo, "%y%m%d")
     except ValueError:
-        logger.error("Erro a verificar datado ficheiro: '%s'", ficheiro)
+        logger.debug("Erro a verificar datado ficheiro: '%s'", ficheiro)
         return False
     return True
