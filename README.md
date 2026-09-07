@@ -35,17 +35,31 @@ orfi
 
 | Opção            | Descrição                          |
 |------------------|-------------------------------------|
-| `-a`, `--alvo`   | Permite definir a pasta alvo                 |
+| `-a`, `--alvo`   | Permite selecionar a pasta alvo     |
 | `-c`, `--copiar` | Copia os ficheiros em vez de os mover |
 | `-r`, `--reverter` | Reverte a organização              |
 | `-d`, `--datar`  | Adiciona a data de criação ao nome dos ficheiros  |
+| `-f`, `--force`  | Aceita automaticamente as confirmações necessárias  |
+| `-s`, `--simula`  | Simula o processo sem fazer nenhuma alteração real  |
 
 ## Utilização
+
+Para consultar todas as opções disponíveis:
+
+```bash
+orfi --help
+```
 
 Organizar a pasta atual:
 
 ```bash
 orfi
+```
+
+Organizar a pasta atual aceitando automaticamente todas as confirmações:
+
+```bash
+orfi -f
 ```
 
 Selecionar uma pasta específica:
@@ -72,6 +86,12 @@ Adicionar a data de criação ao nome dos ficheiros:
 orfi -d
 ```
 
+Simular a organização de uma pasta específica:
+
+```bash
+orfi -a -s
+```
+
 Por exemplo:
 
 ```text
@@ -90,7 +110,7 @@ Reverter a datação:
 orfi -d -r
 ```
 
-Copiar os ficheiros enquanto reverte a datação:
+Copiar os ficheiros revertendo a datação:
 
 ```bash
 orfi -d -r -c
@@ -106,7 +126,7 @@ orfi -a -c -d
 
 As categorias e respetivas extensões são definidas através do ficheiro `config.toml`.
 
-O Orfi inclui uma configuração standard que é copiada automaticamente para a localização de configuração do utilizador na primeira execução.
+O Orfi inclui uma configuração predefinida que é copiada automaticamente para a localização de configuração do utilizador na primeira execução.
 
 ### Localização
 
