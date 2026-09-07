@@ -247,3 +247,32 @@ def test_reverteDatarSimula(tmp_path):
     for ficheiro in pastaBase.iterdir():
         cont += 1
     assert cont == 2
+
+def test_reverteSimulacaDeveEliminarPasta(tmp_path, capsys):
+    simula = True
+    pasta = tmp_path / "teste"
+    pasta.mkdir()
+
+    pastaImagens = pasta / "Imagens"
+    pastaImagens.mkdir()
+
+    ficheiro = pastaImagens / "imagem.jpg"
+    ficheiro.touch()
+
+    categoria = orfi.configs.CategoriaDePasta(
+        nome="Imagens",
+        caminho=pastaImagens,
+        extensoes={".jpg"}
+    )
+
+    orfi.reverter.reverte(
+        pasta,
+        [categoria],
+        orfi.configs.Modo.MOVER,
+        True,
+        simula
+    )
+
+    resultado = capsys.readouterr().out
+
+    assert "seria eliminada" in resultado
