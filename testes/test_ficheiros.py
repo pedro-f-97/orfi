@@ -34,7 +34,7 @@ def test_copiaFicheiro(tmp_path):
     paraCopiar.touch()
     pastaDestino = (tmp_path / "Destino")
     pastaDestino.mkdir()
-    assert orfi.ficheiros.copiaFicheiro(paraCopiar, pastaDestino, False) == 1
+    assert orfi.ficheiros.copiaFicheiro(paraCopiar, pastaDestino, False, False) == 1
 
     ficheiroCopia = Path(pastaDestino / "texto.txt")
     assert ficheiroCopia.exists()
@@ -46,7 +46,7 @@ def test_copiaFicheiroFicheiroFinal(tmp_path):
     pastaDestino = (tmp_path / "Destino")
     pastaDestino.mkdir()
     ficheiroFinal = (pastaDestino / "261201_texto.txt")
-    assert orfi.ficheiros.copiaFicheiro(paraCopiar, pastaDestino, False,ficheiroFinal) == 1
+    assert orfi.ficheiros.copiaFicheiro(paraCopiar, pastaDestino, False, False, ficheiroFinal) == 1
 
     assert ficheiroFinal.exists()
     assert ficheiroFinal.is_file()
@@ -58,14 +58,14 @@ def test_existente_copiaFicheiro(tmp_path, monkeypatch):
     pastaDestino.mkdir()
     (pastaDestino / "texto.txt").touch()
     monkeypatch.setattr("builtins.input", lambda _: "n")
-    assert orfi.ficheiros.copiaFicheiro(paraCopiar, pastaDestino, False) == 0
+    assert orfi.ficheiros.copiaFicheiro(paraCopiar, pastaDestino, False, False) == 0
 
     ficheiroCopia = Path(pastaDestino / "texto.txt")
     assert ficheiroCopia.exists()
     assert ficheiroCopia.is_file()
 
     monkeypatch.setattr("builtins.input", lambda _: "s")
-    assert orfi.ficheiros.copiaFicheiro(paraCopiar, pastaDestino, False) == 1
+    assert orfi.ficheiros.copiaFicheiro(paraCopiar, pastaDestino, False, False) == 1
 
     ficheiroCopia = Path(pastaDestino / "texto.txt")
     assert ficheiroCopia.exists()
@@ -101,7 +101,7 @@ def test_moveFicheiro(tmp_path):
     paraMover.touch()
     pastaDestino = (tmp_path / "Destino")
     pastaDestino.mkdir()
-    assert orfi.ficheiros.moveFicheiro(paraMover, pastaDestino, False) == 1
+    assert orfi.ficheiros.moveFicheiro(paraMover, pastaDestino, False, False) == 1
 
     ficheiroMovido = Path(pastaDestino / "texto.txt")
     assert paraMover.exists() == False
@@ -114,7 +114,7 @@ def test_moveFicheiroFicheiroFinal(tmp_path):
     pastaDestino = (tmp_path / "Destino")
     pastaDestino.mkdir()
     ficheiroFinal = (pastaDestino / "261201_texto.txt")
-    assert orfi.ficheiros.moveFicheiro(paraMover, pastaDestino, False, ficheiroFinal) == 1
+    assert orfi.ficheiros.moveFicheiro(paraMover, pastaDestino, False, False, ficheiroFinal) == 1
 
     assert paraMover.exists() == False
     assert ficheiroFinal.exists()
@@ -127,14 +127,14 @@ def test_existente_moveFicheiro(tmp_path, monkeypatch):
     pastaDestino.mkdir()
     (pastaDestino / "texto.txt").touch()
     monkeypatch.setattr("builtins.input", lambda _: "n")
-    assert orfi.ficheiros.moveFicheiro(paraMover, pastaDestino, False) == 0
+    assert orfi.ficheiros.moveFicheiro(paraMover, pastaDestino, False, False) == 0
     assert paraMover.exists()
     ficheiroMovido = Path(pastaDestino / "texto.txt")
     assert ficheiroMovido.exists()
     assert ficheiroMovido.is_file()
     
     monkeypatch.setattr("builtins.input", lambda _: "s")
-    assert orfi.ficheiros.moveFicheiro(paraMover, pastaDestino, False) == 1
+    assert orfi.ficheiros.moveFicheiro(paraMover, pastaDestino, False, False) == 1
     assert not paraMover.exists()
     ficheiroMovido = Path(pastaDestino / "texto.txt")
     assert ficheiroMovido.exists()
@@ -144,13 +144,13 @@ def test_apagaFicheiro(tmp_path):
     paraApagar = (tmp_path / "texto.txt")
     paraApagar.touch()
     assert paraApagar.exists()
-    assert orfi.ficheiros.apagaFicheiro(paraApagar) == 1
+    assert orfi.ficheiros.apagaFicheiro(paraApagar, False) == 1
     assert paraApagar.exists() == False
 
 def test_apagaFicheiroVazio(tmp_path):
     paraApagar = (tmp_path / "texto.txt")
     assert not paraApagar.exists()
-    assert orfi.ficheiros.apagaFicheiro(paraApagar) == 0
+    assert orfi.ficheiros.apagaFicheiro(paraApagar, False) == 0
     assert paraApagar.exists() == False
 
 def test_ficheirosParaReverter(tmp_path):
@@ -187,7 +187,7 @@ def test_datarFicheiro(tmp_path):
     ficheiro = (tmp_path / "img.jpg")
     ficheiro.touch()
     dataAgora = datetime.datetime.now(tz = None).strftime("%y%m%d")
-    ficheiroAlterado = orfi.ficheiros.datarFicheiro(ficheiro)
+    ficheiroAlterado = orfi.ficheiros.datarFicheiro(ficheiro, False)
     assert ficheiroAlterado.name.startswith(dataAgora)
     assert ficheiroAlterado.name.endswith("_img.jpg")
 
@@ -211,9 +211,56 @@ def test_verificaDatado(tmp_path):
 def test_reverteDatarFicheiro(tmp_path):
     ficheiro = (tmp_path / "260903_img.jpg")
     ficheiro.touch()
-    assert orfi.ficheiros.reverteDatarFicheiro(ficheiro) == (tmp_path / "img.jpg")
+    assert orfi.ficheiros.reverteDatarFicheiro(ficheiro, False) == (tmp_path / "img.jpg")
 
 def test_reverteDatarFicheiroVazio(tmp_path):
     ficheiro = (tmp_path / "img.jpg")
     ficheiro.touch()
-    assert orfi.ficheiros.reverteDatarFicheiro(ficheiro) == None
+    assert orfi.ficheiros.reverteDatarFicheiro(ficheiro, False) == None
+
+def test_moveFicheiroSimula(tmp_path):
+    simula = True
+    paraMover = (tmp_path / "texto.txt")
+    paraMover.touch()
+    pastaDestino = (tmp_path / "Destino")
+    pastaDestino.mkdir()
+    assert orfi.ficheiros.moveFicheiro(paraMover, pastaDestino, False, simula) == 1
+
+    ficheiroMovido = Path(pastaDestino / "texto.txt")
+    assert paraMover.exists() == True
+    assert not ficheiroMovido.exists()
+
+def test_copiaFicheiroSimula(tmp_path):
+    simula = True
+    paraCopiar = (tmp_path / "texto.txt")
+    paraCopiar.touch()
+    pastaDestino = (tmp_path / "Destino")
+    pastaDestino.mkdir()
+    assert orfi.ficheiros.copiaFicheiro(paraCopiar, pastaDestino, False, simula) == 1
+
+    ficheiroCopia = Path(pastaDestino / "texto.txt")
+    assert not ficheiroCopia.exists()
+    assert paraCopiar.exists()
+
+def test_apagaFicheiroSimula(tmp_path):
+    simula = True
+    paraApagar = (tmp_path / "texto.txt")
+    paraApagar.touch()
+    assert paraApagar.exists()
+    assert orfi.ficheiros.apagaFicheiro(paraApagar, simula) == 1
+    assert paraApagar.exists()
+
+def test_datarFicheiroSimula(tmp_path):
+    simula = True
+    ficheiro = (tmp_path / "img.jpg")
+    ficheiro.touch()
+    dataAgora = datetime.datetime.now(tz = None).strftime("%y%m%d")
+    ficheiroAlterado = orfi.ficheiros.datarFicheiro(ficheiro, simula)
+    assert ficheiroAlterado.name.startswith(dataAgora)
+    assert ficheiroAlterado.name.endswith("_img.jpg")
+
+def test_reverteDatarFicheiroSimula(tmp_path):
+    simula = True
+    ficheiro = (tmp_path / "260903_img.jpg")
+    ficheiro.touch()
+    assert orfi.ficheiros.reverteDatarFicheiro(ficheiro, simula) == (tmp_path / "img.jpg")

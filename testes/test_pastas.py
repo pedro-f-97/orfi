@@ -28,7 +28,7 @@ def test_criaPastas(tmp_path):
         assert not pastaInexistente.is_dir()
         assert categoria.caminho is None
 
-    assert orfi.pastas.criaPastas(pastaDestino, pastasParaCriar, categorias) == 3
+    assert orfi.pastas.criaPastas(pastaDestino, pastasParaCriar, categorias, False) == 3
 
     for categoria in categorias:
         pastaExistente = tmp_path / "Destino" / categoria.nome
@@ -47,7 +47,7 @@ def test_criaPastasExistente(tmp_path):
     pastaCriada = (pastaDestino / "Fotos")
     pastaCriada.mkdir()
 
-    assert orfi.pastas.criaPastas(pastaDestino, pastasParaCriar, categorias) == 2
+    assert orfi.pastas.criaPastas(pastaDestino, pastasParaCriar, categorias, False) == 2
 
     for categoria in categorias:
         pastaExistente = tmp_path / "Destino" / categoria.nome
@@ -91,10 +91,59 @@ def test_eliminaPastasVazias(tmp_path):
 
     pastasConjunto = pastasVazias.union(pastasConteudo)
 
-    orfi.pastas.eliminaPastasVazias(pastasConjunto)
+    orfi.pastas.eliminaPastasVazias(pastasConjunto, False)
 
     for pasta in pastasVazias:
         assert not pasta.exists()
+    
+    for pasta in pastasConteudo:
+        assert pasta.exists()
+
+def test_criaPastasSimula(tmp_path):
+    simula = True
+    categorias = [
+        orfi.configs.CategoriaDePasta("Docs", {".txt"}),
+        orfi.configs.CategoriaDePasta("Fotos", {".jpg"}),
+        orfi.configs.CategoriaDePasta("Outros", {""}),
+    ]
+    pastaDestino = (tmp_path / "Destino")
+    pastaDestino.mkdir()
+    pastasParaCriar = {"Docs", "Fotos", "Outros"}
+
+    for categoria in categorias:
+        pastaInexistente = tmp_path / "Destino" / categoria.nome
+        assert not pastaInexistente.is_dir()
+        assert categoria.caminho is None
+
+    assert orfi.pastas.criaPastas(pastaDestino, pastasParaCriar, categorias, simula) == 3
+
+    for categoria in categorias:
+        pastaExistente = tmp_path / "Destino" / categoria.nome
+        assert not pastaExistente.is_dir()
+        assert categoria.caminho == pastaExistente
+
+def test_eliminaPastasVaziasSimula(tmp_path):
+    simula = True
+    pastasVazias = set()
+    pastasVazias.add(tmp_path / "Imagens")
+    pastasVazias.add(tmp_path / "Documentos")
+    for pasta in pastasVazias:
+        pasta.mkdir()
+    
+    pastasConteudo = set()
+    pastasConteudo.add(tmp_path / "Coisas")
+    pastasConteudo.add(tmp_path / "Projecto_A")
+    for pasta in pastasConteudo:
+        pasta.mkdir()
+        ficheiro = (pasta / "ficheiro.txt")
+        ficheiro.touch()
+
+    pastasConjunto = pastasVazias.union(pastasConteudo)
+
+    orfi.pastas.eliminaPastasVazias(pastasConjunto, simula)
+
+    for pasta in pastasVazias:
+        assert pasta.exists()
     
     for pasta in pastasConteudo:
         assert pasta.exists()
