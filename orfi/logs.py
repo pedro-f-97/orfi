@@ -5,6 +5,7 @@ from . import configs
 
 
 def configuraLogs():
+    """Define o caminho e configura o sistema dos logs."""
     caminho = configs.caminhoConfiguracao().with_name("orfi.log")
 
     caminho.parent.mkdir(parents=True, exist_ok=True)
