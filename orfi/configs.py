@@ -21,6 +21,12 @@ class CoresTexto:
     AZUL = "\033[94m"
     RESET = "\033[0m"
 
+def mensagem(mensagemNormal: str, mensagemSimulacao: str, simula: bool, cor: str):
+    if simula:
+        print(f"{CoresTexto.AMARELO}[SIMULAÇÃO] {mensagemSimulacao}{CoresTexto.RESET}")
+    else:
+        print(f"{cor}{mensagemNormal}{CoresTexto.RESET}")
+
 class Modo(Enum):
     COPIAR = "copiar"
     MOVER = "mover"

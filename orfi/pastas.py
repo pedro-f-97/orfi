@@ -32,9 +32,7 @@ def criaPastas(caminho: Path, pastas: set[str], categorias: list[configs.Categor
             if not simula:
                 caminhoFinal.mkdir(parents = False, exist_ok = True)
                 logger.info("Criou pasta: %s", caminhoFinal)
-                print(f"{configs.CoresTexto.AMARELO}Pasta criada - {pasta}{configs.CoresTexto.RESET}")
-            else:
-                print(f"{configs.CoresTexto.AMARELO}[SIMULAÇÃO] Pasta {pasta} seria criada.{configs.CoresTexto.RESET}")
+            configs.mensagem(f"Pasta criada - {pasta}.", f"Pasta {pasta} seria criada.", simula, configs.CoresTexto.VERDE)   
             cont += 1
         else:
             print(f"{configs.CoresTexto.AMARELO}Pasta {pasta} já existe. {configs.CoresTexto.RESET}")
@@ -53,8 +51,6 @@ def eliminaPastasVazias(pastasParaReverter: set[Path], simula: bool):
     for pasta in pastasParaReverter:
             if not any(pasta.iterdir()):
                 if not simula:
-                    print(f"{configs.CoresTexto.VERDE}Pasta vazia '{pasta}' foi eliminada.{configs.CoresTexto.RESET}")
-                    logger.info("Eliminou pasta: %s", pasta)
                     pasta.rmdir()
-                else:
-                    print(f"{configs.CoresTexto.AMARELO}[SIMULAÇÃO] Pasta {pasta} seria eliminada.{configs.CoresTexto.RESET}")
+                    logger.info("Eliminou pasta: %s", pasta)
+                configs.mensagem(f"Pasta vazia '{pasta}' foi eliminada.", f"Pasta {pasta} seria eliminada.", simula, configs.CoresTexto.VERMELHO)   

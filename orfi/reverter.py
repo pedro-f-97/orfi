@@ -19,19 +19,13 @@ def reverte(pastaSelecionada: Path, categorias: list[configs.CategoriaDePasta], 
     pastasParaReverter = pastas.pastasExistentes(pastaSelecionada, categorias)
 
     if pastasParaReverter == set():
-        if not simula:
-            print(f"{configs.CoresTexto.AMARELO}Nada para reverter.{configs.CoresTexto.RESET}")
-        else:
-            print(f"{configs.CoresTexto.AMARELO}[SIMULAÇÃO] Não revertia nada.{configs.CoresTexto.RESET}")
+        configs.mensagem("Nada para reverter.", "Não revertia nada.", simula, configs.CoresTexto.AMARELO)
         return
     
     ficheirosParaReverter = ficheiros.ficheirosParaReverter(pastasParaReverter)
 
     if ficheirosParaReverter == set():
-        if not simula:
-            print(f"{configs.CoresTexto.AMARELO}Nada para reverter.{configs.CoresTexto.RESET}")
-        else:
-            print(f"{configs.CoresTexto.AMARELO}[SIMULAÇÃO] Não revertia nada.{configs.CoresTexto.RESET}")
+        configs.mensagem("Nada para reverter.", "Não revertia nada.", simula, configs.CoresTexto.AMARELO)
         return
     
     total = 0
@@ -39,18 +33,13 @@ def reverte(pastaSelecionada: Path, categorias: list[configs.CategoriaDePasta], 
         resultado = trabalho(ficheiro, pastaSelecionada, force, simula)
         if resultado:
             total += resultado
-            if not simula:
-                print(f"{configs.CoresTexto.VERDE}{ficheiro.name} tratado.{configs.CoresTexto.RESET}")
-            else:
-                print(f"{configs.CoresTexto.AMARELO}[SIMULAÇÃO] {ficheiro.name} seria tratado.{configs.CoresTexto.RESET}")
+            configs.mensagem(f"{ficheiro.name} tratado.", f"{ficheiro.name} seria tratado.", simula, configs.CoresTexto.AMARELO)
 
     if modo == configs.Modo.MOVER:
         pastas.eliminaPastasVazias(pastasParaReverter, simula)
     if not simula:
         logger.info("Terminou, %s ficheiros %s", total, tratamento)
-        print(f"{configs.CoresTexto.VERDE}Revertido, {total} ficheiros {tratamento}{configs.CoresTexto.RESET}")
-    else:
-        print(f"{configs.CoresTexto.AMARELO}[SIMULAÇÃO] Revertido, {total} ficheiros teriam sido {tratamento}{configs.CoresTexto.RESET}")
+    configs.mensagem(f"Revertido, {total} ficheiros {tratamento}", f"Revertido, {total} ficheiros teriam sido {tratamento}", simula, configs.CoresTexto.AMARELO)
 
 def reverteDatar(pastaSelecionada: Path, modo: configs.Modo, force: bool, simula: bool):
     if modo == configs.Modo.COPIAR:
@@ -72,18 +61,11 @@ def reverteDatar(pastaSelecionada: Path, modo: configs.Modo, force: bool, simula
             resultado = trabalho(ficheiro, pastaSelecionada, force, simula, ficheiroFinal)
             if resultado:
                 total += resultado
-                if not simula:
-                    print(f"{configs.CoresTexto.VERDE}{ficheiro.name} tratado.{configs.CoresTexto.RESET}")
-                else:
-                    print(f"{configs.CoresTexto.AMARELO}[SIMULAÇÃO] {ficheiro.name} seria tratado.{configs.CoresTexto.RESET}")
+                configs.mensagem(f"{ficheiro.name} tratado.", f"{ficheiro.name} seria tratado.", simula, configs.CoresTexto.AMARELO)
         else:
             if not simula:
-                print(f"{configs.CoresTexto.AMARELO}Ficheiro ignorado: {ficheiro.name}{configs.CoresTexto.RESET}")
                 logger.info("Ignorou o ficheiro %s", ficheiro)
-            else:
-                print(f"{configs.CoresTexto.AMARELO}[SIMULAÇÃO] Ficheiro seria ignorado: {ficheiro.name}{configs.CoresTexto.RESET}")
+            configs.mensagem(f"Ficheiro ignorado: {ficheiro.name}", f"Ficheiro seria ignorado: {ficheiro.name}", simula, configs.CoresTexto.AMARELO)
     if not simula:
         logger.info("Terminou, %s ficheiros %s", total, tratamento)
-        print(f"{configs.CoresTexto.VERDE}Feito, {total} ficheiros {tratamento}{configs.CoresTexto.RESET}")
-    else:
-        print(f"{configs.CoresTexto.AMARELO}[SIMULAÇÃO] Feito, {total} ficheiros teriam sido {tratamento}{configs.CoresTexto.RESET}")
+    configs.mensagem(f"Revertido, {total} ficheiros {tratamento}", f"Revertido, {total} ficheiros teriam sido {tratamento}", simula, configs.CoresTexto.AMARELO)
