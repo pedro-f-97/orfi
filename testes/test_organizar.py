@@ -25,7 +25,7 @@ def test_organizaMover(tmp_path, monkeypatch):
         (pastaBase / ficheiro).touch()
 
     monkeypatch.setattr("builtins.input", lambda _: "s")
-    orfi.organizar.organiza(pastaBase, categorias, modo, False)
+    orfi.organizar.organiza(pastaBase, categorias, modo, False, False)
 
     for path in pastaBase.iterdir():
         assert path.is_dir()
@@ -69,7 +69,7 @@ def test_organizaForce(tmp_path):
         if ficheiro != "text.txt":
             (pastaBase / ficheiro).touch()
 
-    orfi.organizar.organiza(pastaBase, categorias, modo, force)
+    orfi.organizar.organiza(pastaBase, categorias, modo, force, False)
 
     for path in pastaBase.iterdir():
         assert path.is_dir()
@@ -105,7 +105,7 @@ def test_organizaCopiar(tmp_path, monkeypatch):
         (pastaBase / ficheiro).touch()
 
     monkeypatch.setattr("builtins.input", lambda _: "s")
-    orfi.organizar.organiza(pastaBase, categorias, modo, False)
+    orfi.organizar.organiza(pastaBase, categorias, modo, False, False)
 
     ficheirosBase = set()
     ficheirosCopiados = set()
@@ -141,7 +141,7 @@ def test_organizaOutros(tmp_path, monkeypatch):
         (pastaBase / ficheiro).touch()
 
     monkeypatch.setattr("builtins.input", lambda _: "s")
-    orfi.organizar.organiza(pastaBase, categorias, modo, False)
+    orfi.organizar.organiza(pastaBase, categorias, modo, False, False)
 
     for ficheiro in ficheiros:
         assert not (pastaBase / ficheiro).exists()
@@ -165,7 +165,7 @@ def test_organizaVazio(tmp_path):
     pastaBase = (tmp_path / "Base")
     pastaBase.mkdir()
 
-    orfi.organizar.organiza(pastaBase, categorias, modo, False)
+    orfi.organizar.organiza(pastaBase, categorias, modo, False, False)
 
     for categoria in categorias:
         assert not (pastaBase / categoria.nome).exists()
@@ -183,7 +183,7 @@ def test_datar(tmp_path):
     for ficheiro in ficheiros:
         (pastaBase / ficheiro).touch()
 
-    orfi.organizar.datar(pastaBase, modo, False)
+    orfi.organizar.datar(pastaBase, modo, False, False)
 
     for ficheiro in ficheiros:
         assert not (pastaBase / ficheiro).exists()
@@ -208,7 +208,7 @@ def test_datarCopiar(tmp_path):
     for ficheiro in ficheiros:
         (pastaBase / ficheiro).touch()
 
-    orfi.organizar.datar(pastaBase, modo, False)
+    orfi.organizar.datar(pastaBase, modo, False, False)
 
     for ficheiro in ficheiros:
         assert (pastaBase / ficheiro).exists()
@@ -222,3 +222,56 @@ def test_datarCopiar(tmp_path):
             contAlterado += 1
     assert cont == 2
     assert contAlterado == 2
+
+def test_organizaSimula(tmp_path, monkeypatch):
+    modo = orfi.configs.Modo.MOVER
+    simula = True
+
+    pastaBase = (tmp_path / "Base")
+    pastaBase.mkdir()
+
+    categorias = [
+        orfi.configs.CategoriaDePasta("Docs", {".txt", ".pdf"}, pastaBase / "Docs"),
+        orfi.configs.CategoriaDePasta("Fotos", {".jpg", ".png"}, pastaBase / "Fotos"),
+        orfi.configs.CategoriaDePasta("Emails", {".msg"}, pastaBase / "Emails"),
+    ]
+
+    ficheiros = set()
+    ficheiros.add("text.txt")
+    ficheiros.add("dec.pdf")
+    ficheiros.add("img.jpg")
+    ficheiros.add("foto.png")
+    ficheiros.add("mail.msg")
+
+    for ficheiro in ficheiros:
+        (pastaBase / ficheiro).touch()
+
+    monkeypatch.setattr("builtins.input", lambda _: "s")
+    orfi.organizar.organiza(pastaBase, categorias, modo, False, simula)
+
+    for path in pastaBase.iterdir():
+        assert not path.is_dir()
+        ficheiros.discard(path.name)
+    assert not ficheiros
+
+def test_datarSimula(tmp_path):
+    simula = True
+    modo = orfi.configs.Modo.MOVER
+
+    pastaBase = (tmp_path / "Base")
+    pastaBase.mkdir()
+
+    ficheiros = set()
+    ficheiros.add("notas.txt")
+    ficheiros.add("doc.pdf")
+
+    for ficheiro in ficheiros:
+        (pastaBase / ficheiro).touch()
+
+    orfi.organizar.datar(pastaBase, modo, False, simula)
+
+    for ficheiro in ficheiros:
+        assert (pastaBase / ficheiro).exists()
+
+    for ficheiro in pastaBase.iterdir():
+        assert not ficheiro.name[7:] in ficheiros

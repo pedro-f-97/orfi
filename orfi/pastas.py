@@ -21,7 +21,7 @@ def devolvePastas(setExt: set[str], categorias: list[configs.CategoriaDePasta]) 
     return pastas
         
 
-def criaPastas(caminho: Path, pastas: set[str], categorias: list[configs.CategoriaDePasta]) -> int:
+def criaPastas(caminho: Path, pastas: set[str], categorias: list[configs.CategoriaDePasta], simula: bool) -> int:
     cont = 0
     for pasta in pastas:
         caminhoFinal = caminho / pasta
@@ -29,9 +29,12 @@ def criaPastas(caminho: Path, pastas: set[str], categorias: list[configs.Categor
             if pasta == categoria.nome:
                 categoria.caminho = caminhoFinal
         if not caminhoFinal.exists():
-            caminhoFinal.mkdir(parents = False, exist_ok = True)
-            logger.info("Criou pasta: %s", caminhoFinal)
-            print(f"{configs.CoresTexto.VERDE}Pasta criada - {pasta}{configs.CoresTexto.RESET}")
+            if not simula:
+                caminhoFinal.mkdir(parents = False, exist_ok = True)
+                logger.info("Criou pasta: %s", caminhoFinal)
+                print(f"{configs.CoresTexto.AMARELO}Pasta criada - {pasta}{configs.CoresTexto.RESET}")
+            else:
+                print(f"{configs.CoresTexto.AMARELO}[SIMULAÇÃO] Pasta {pasta} seria criada.{configs.CoresTexto.RESET}")
             cont += 1
         else:
             print(f"{configs.CoresTexto.AMARELO}Pasta {pasta} já existe. {configs.CoresTexto.RESET}")
@@ -46,9 +49,12 @@ def pastasExistentes(caminho: Path, categorias: list[configs.CategoriaDePasta]) 
                     pastasParaReverter.add(pasta)
     return pastasParaReverter
 
-def eliminaPastasVazias(pastasParaReverter: set[Path]):
+def eliminaPastasVazias(pastasParaReverter: set[Path], simula: bool):
     for pasta in pastasParaReverter:
             if not any(pasta.iterdir()):
-                print(f"{configs.CoresTexto.VERDE}Pasta vazia '{pasta}' foi eliminada.{configs.CoresTexto.RESET}")
-                logger.info("Eliminou pasta: %s", pasta)
-                pasta.rmdir()
+                if not simula:
+                    print(f"{configs.CoresTexto.VERDE}Pasta vazia '{pasta}' foi eliminada.{configs.CoresTexto.RESET}")
+                    logger.info("Eliminou pasta: %s", pasta)
+                    pasta.rmdir()
+                else:
+                    print(f"{configs.CoresTexto.AMARELO}[SIMULAÇÃO] Pasta {pasta} seria eliminada.{configs.CoresTexto.RESET}")

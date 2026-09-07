@@ -32,7 +32,7 @@ def devolveFicheiros(pasta: Path) -> list[Path]:
         logger.info("Não detectou nenhum ficheiro.")
     return listaFicheiros
 
-def copiaFicheiro(ficheiro: Path, pastaDestino: Path, force: bool, ficheiroFinal: Path | None = None) -> int:
+def copiaFicheiro(ficheiro: Path, pastaDestino: Path, force: bool, simula: bool, ficheiroFinal: Path | None = None) -> int:
     ficheiroFinal = pastaDestino / (ficheiroFinal.name if ficheiroFinal else ficheiro.name)
     if ficheiroFinal.exists() and not force:
         resposta = input(f"{configs.CoresTexto.AMARELO}Já existe o ficheiro {ficheiro.name} na pasta {pastaDestino}, substituir? (s/n): {configs.CoresTexto.RESET}")
@@ -40,15 +40,18 @@ def copiaFicheiro(ficheiro: Path, pastaDestino: Path, force: bool, ficheiroFinal
             print(f"{configs.CoresTexto.AMARELO}{ficheiro.name} cancelado.{configs.CoresTexto.RESET}")
             return 0
     try:
-        copy2(ficheiro, ficheiroFinal)
-        logger.info("Copiou o ficheiro '%s' para '%s'", ficheiro, ficheiroFinal)
+        if simula:
+            print(f"{configs.CoresTexto.AMARELO}[SIMULAÇÃO] {ficheiro} seria copiado para {ficheiroFinal}.{configs.CoresTexto.RESET}")
+        else:
+            copy2(ficheiro, ficheiroFinal)
+            logger.info("Copiou o ficheiro '%s' para '%s'", ficheiro, ficheiroFinal)
     except OSError as erro:
         print(f"{configs.CoresTexto.VERMELHO}Erro '{erro}' no ficheiro {ficheiro.name}: {erro}{configs.CoresTexto.RESET}")
         logger.exception("Erro a copiar o ficheiro '%s' para '%s'.", ficheiro, ficheiroFinal)
         return 0
     return 1
 
-def moveFicheiro(ficheiro: Path, pastaDestino: Path, force: bool, ficheiroFinal: Path | None = None) -> int:
+def moveFicheiro(ficheiro: Path, pastaDestino: Path, force: bool, simula: bool, ficheiroFinal: Path | None = None) -> int:
     ficheiroFinal = pastaDestino / (ficheiroFinal.name if ficheiroFinal else ficheiro.name)
     if ficheiroFinal.exists() and not force:
         resposta = input(f"{configs.CoresTexto.AMARELO}Já existe o ficheiro {ficheiro.name} na pasta {pastaDestino}, substituir? (s/n): {configs.CoresTexto.RESET}")
@@ -56,8 +59,11 @@ def moveFicheiro(ficheiro: Path, pastaDestino: Path, force: bool, ficheiroFinal:
             print(f"{configs.CoresTexto.AMARELO}{ficheiro.name} cancelado.{configs.CoresTexto.RESET}")
             return 0
     try:
-        move(ficheiro, ficheiroFinal)
-        logger.info("Moveu o ficheiro '%s' para '%s'", ficheiro, ficheiroFinal)
+        if simula:
+            print(f"{configs.CoresTexto.AMARELO}[SIMULAÇÃO] {ficheiro} seria movido para {ficheiroFinal}.{configs.CoresTexto.RESET}")
+        else:
+            move(ficheiro, ficheiroFinal)
+            logger.info("Moveu o ficheiro '%s' para '%s'", ficheiro, ficheiroFinal)
     except OSError as erro:
         print(f"{configs.CoresTexto.VERMELHO}Erro '{erro}' no ficheiro {ficheiro.name}: {erro}{configs.CoresTexto.RESET}")
         logger.exception("Erro a mover o ficheiro '%s' para '%s'.", ficheiro, ficheiroFinal)
@@ -80,11 +86,14 @@ def encontraCategoria(extensao: str, categorias: list[configs.CategoriaDePasta])
         if categoria.defeito:
             return categoria
 
-def apagaFicheiro(ficheiro:Path) -> int:
+def apagaFicheiro(ficheiro:Path, simula: bool) -> int:
     if ficheiro.exists():
-        ficheiro.unlink()
-        logger.info("Eliminou o ficheiro '%s'", ficheiro)
-        print(f"{configs.CoresTexto.VERMELHO}{ficheiro} apagado.{configs.CoresTexto.RESET}")
+        if not simula:
+            ficheiro.unlink()
+            logger.info("Eliminou o ficheiro '%s'", ficheiro)
+            print(f"{configs.CoresTexto.VERMELHO}{ficheiro} apagado.{configs.CoresTexto.RESET}")
+        else:
+            print(f"{configs.CoresTexto.AMARELO}[SIMULAÇÃO] {ficheiro} seria apagado.{configs.CoresTexto.RESET}")
         return 1
     return 0
 
@@ -97,12 +106,15 @@ def ficheirosParaReverter(pastas: set[Path]) -> set[Path]:
     logger.info("Vai reverter %s ficheiros.", len(ficheirosParaReverter))
     return ficheirosParaReverter
 
-def datarFicheiro(ficheiro: Path) -> Path:
+def datarFicheiro(ficheiro: Path, simula: bool) -> Path:
     data = devolveDataCriacao(ficheiro)
     formato = data.strftime("%y%m%d")
     ficheiroDatado = ficheiro.with_name(formato + "_" + ficheiro.name)
 
-    logger.info("Datou o ficheiro '%s' para '%s'", ficheiro, ficheiroDatado)
+    if simula:
+        print(f"{configs.CoresTexto.AMARELO}[SIMULAÇÃO] {ficheiro} seria datado para {ficheiroDatado}{configs.CoresTexto.RESET}")
+    else:
+        logger.info("Datou o ficheiro '%s' para '%s'", ficheiro, ficheiroDatado)
     return ficheiroDatado
 
 def devolveDataCriacao(ficheiro: Path) -> datetime.datetime:
@@ -114,11 +126,15 @@ def devolveDataCriacao(ficheiro: Path) -> datetime.datetime:
     
     return datetime.datetime.fromtimestamp(data, tz = None)
 
-def reverteDatarFicheiro(ficheiro: Path) -> Path | None:
+def reverteDatarFicheiro(ficheiro: Path, simula: bool) -> Path | None:
     if not verificaDatado(ficheiro):
         return None
-    logger.info("Vai reverter o ficheiro '%s'", ficheiro)
-    return ficheiro.with_name(ficheiro.name[7:])
+    ficheiroRevertido = ficheiro.name[7:]
+    if simula:
+        print(f"{configs.CoresTexto.AMARELO}[SIMULAÇÃO] {ficheiro} seria revertido para {ficheiroRevertido}{configs.CoresTexto.RESET}")
+    else:
+        logger.info("Vai reverter o ficheiro '%s'", ficheiro)
+    return ficheiro.with_name(ficheiroRevertido)
 
 def verificaDatado(ficheiro: Path) -> bool:
     if len(ficheiro.name) < 8 or ficheiro.name[6] != "_":
