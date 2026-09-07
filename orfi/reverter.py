@@ -38,14 +38,17 @@ def reverte(pastaSelecionada: Path, categorias: list[configs.CategoriaDePasta], 
         return
     
     total = 0
+    ficheirosMovidos = set()
     for ficheiro in ficheirosParaReverter:
         resultado = trabalho(ficheiro, pastaSelecionada, force, simula)
         if resultado:
             total += resultado
             configs.mensagem(f"{ficheiro.name} tratado.", f"{ficheiro.name} seria tratado.", simula, configs.CoresTexto.AMARELO)
+            if modo == configs.Modo.MOVER:
+                ficheirosMovidos.add(ficheiro)
 
     if modo == configs.Modo.MOVER:
-        pastas.eliminaPastasVazias(pastasParaReverter, simula)
+        pastas.eliminaPastasVazias(pastasParaReverter, simula, ficheirosMovidos)
     if not simula:
         logger.info("Terminou, %s ficheiros %s", total, tratamento)
     configs.mensagem(f"Revertido, {total} ficheiros {tratamento}", f"Revertido, {total} ficheiros teriam sido {tratamento}", simula, configs.CoresTexto.AMARELO)
