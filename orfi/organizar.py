@@ -19,10 +19,7 @@ def organiza(pastaSelecionada: Path, categorias: list[configs.CategoriaDePasta],
     pastasParaCriar = pastas.devolvePastas(ficheiros.devolveExt(pastaSelecionada), categorias)
 
     if pastasParaCriar == set():
-        if not simula:
-            print(f"{configs.CoresTexto.AMARELO}Nada para fazer.{configs.CoresTexto.RESET}")
-        else:
-            print(f"{configs.CoresTexto.AMARELO}[SIMULAÇÃO]Não faria nada.{configs.CoresTexto.RESET}")
+        configs.mensagem("Nada para fazer.", "Não faria nada.", simula, configs.CoresTexto.AMARELO)
         return
 
     if not force:
@@ -33,9 +30,7 @@ def organiza(pastaSelecionada: Path, categorias: list[configs.CategoriaDePasta],
     cont = pastas.criaPastas(pastaSelecionada, pastasParaCriar, categorias, simula)
     if not simula:
         logger.info("Terminou, %s pastas criadas.", cont)
-        print(f"{configs.CoresTexto.VERDE}{cont} pastas criadas.{configs.CoresTexto.RESET}")
-    else:
-        print(f"{configs.CoresTexto.AMARELO}[SIMULAÇÃO] {cont} pastas seriam criadas.{configs.CoresTexto.RESET}")
+    configs.mensagem(f"{cont} pastas criadas.", f"{cont} pastas seriam criadas.", simula, configs.CoresTexto.VERDE)
 
     ficheirosLista = ficheiros.devolveFicheiros(pastaSelecionada)
 
@@ -46,17 +41,12 @@ def organiza(pastaSelecionada: Path, categorias: list[configs.CategoriaDePasta],
             resultado = trabalho(ficheiro, destino, force, simula)
             if resultado:
                 total += resultado
-                if not simula:
-                    print(f"{configs.CoresTexto.VERDE}{ficheiro.name} tratado.{configs.CoresTexto.RESET}")
-                else:
-                    print(f"{configs.CoresTexto.AMARELO}[SIMULAÇÃO] {ficheiro.name} seria tratado.{configs.CoresTexto.RESET}")
+                configs.mensagem(f"{ficheiro.name} tratado.", f"{ficheiro.name} seria tratado.", simula, configs.CoresTexto.AMARELO)
         else:
             print(f"{configs.CoresTexto.AMARELO}Categoria ou caminho não encontrados para {ficheiro.name}{configs.CoresTexto.RESET}")
     if not simula:
         logger.info("Terminou, %s ficheiros %s", total, tratamento)
-        print(f"{configs.CoresTexto.VERDE}Feito, {total} ficheiros {tratamento}{configs.CoresTexto.RESET}")
-    else:
-        print(f"{configs.CoresTexto.AMARELO}[SIMULAÇÃO] Feito, {total} ficheiros teriam sido {tratamento}{configs.CoresTexto.RESET}")
+    configs.mensagem(f"Feito, {total} ficheiros {tratamento}", f"Feito, {total} ficheiros teriam sido {tratamento}", simula, configs.CoresTexto.AMARELO)
 
 def datar(pastaSelecionada: Path, modo: configs.Modo, force: bool, simula: bool):
     if modo == configs.Modo.COPIAR:
@@ -80,12 +70,7 @@ def datar(pastaSelecionada: Path, modo: configs.Modo, force: bool, simula: bool)
             resultado = trabalho(ficheiro, pastaSelecionada, force, simula, ficheiroFinal)
             if resultado:
                 total += resultado
-                if not simula:
-                    print(f"{configs.CoresTexto.VERDE}{ficheiro.name} tratado.{configs.CoresTexto.RESET}")
-                else:
-                    print(f"{configs.CoresTexto.AMARELO}[SIMULAÇÃO] {ficheiro.name} seria tratado.{configs.CoresTexto.RESET}")
+                configs.mensagem(f"{ficheiro.name} tratado.", f"{ficheiro.name} seria tratado.", simula, configs.CoresTexto.AMARELO)
     if not simula:
         logger.info("Terminou, %s ficheiros %s", total, tratamento)
-        print(f"{configs.CoresTexto.VERDE}Feito, {total} ficheiros {tratamento}{configs.CoresTexto.RESET}")
-    else:
-        print(f"{configs.CoresTexto.AMARELO}[SIMULAÇÃO] Feito, {total} ficheiros teriam sido {tratamento}{configs.CoresTexto.RESET}")
+    configs.mensagem(f"Feito, {total} ficheiros {tratamento}", f"Feito, {total} ficheiros teriam sido {tratamento}", simula, configs.CoresTexto.AMARELO)
