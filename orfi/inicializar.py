@@ -4,6 +4,11 @@ import logging
 logger = logging.getLogger(__name__)
 
 def trataArgumentos() -> argparse.Namespace:
+    """Define e processa os argumentos da linha de comandos.
+
+    Returns:
+        Os argumentos adicionados na linha de comandos.
+    """
     parser = argparse.ArgumentParser(
         description="Organiza ficheiros por categorias."
     )
