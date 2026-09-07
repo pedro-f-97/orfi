@@ -6,6 +6,15 @@ from . import configs, ficheiros, pastas
 logger = logging.getLogger(__name__)
 
 def reverte(pastaSelecionada: Path, categorias: list[configs.CategoriaDePasta], modo: configs.Modo, force: bool, simula: bool):
+    """Reverte a organização dos ficheiros contidos nas pastas categorizadas dentro da pasta indicada.
+
+    Args:
+        pastaSelecionada: A pasta que contém as pastas categorizadas.
+        categorias: A lista de categorias utilizadas para organizar os ficheiros.
+        modo: Define se os ficheiros são movidos ou copiados.
+        force: Se aceita automaticamente todas as verificações ou não.
+        simula: Se é para apenas simular o processo ou não.
+    """
     if modo == configs.Modo.COPIAR:
         trabalho = ficheiros.copiaFicheiro
         tratamento = "copiados."
@@ -42,6 +51,14 @@ def reverte(pastaSelecionada: Path, categorias: list[configs.CategoriaDePasta], 
     configs.mensagem(f"Revertido, {total} ficheiros {tratamento}", f"Revertido, {total} ficheiros teriam sido {tratamento}", simula, configs.CoresTexto.AMARELO)
 
 def reverteDatar(pastaSelecionada: Path, modo: configs.Modo, force: bool, simula: bool):
+    """Remove o prefixo com data dos ficheiros contidos na pasta indicada.
+
+    Args:
+        pastaSelecionada: A pasta que contém os ficheiros.
+        modo: Define se os ficheiros são movidos ou copiados.
+        force: Se aceita automaticamente todas as verificações ou não.
+        simula: Se é para apenas simular o processo ou não.
+    """
     if modo == configs.Modo.COPIAR:
         trabalho = ficheiros.copiaFicheiro
         tratamento = "copiados e revertidos."
