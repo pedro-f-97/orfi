@@ -6,6 +6,15 @@ from . import configs, ficheiros
 logger = logging.getLogger(__name__)
 
 def devolvePastas(setExt: set[str], categorias: list[configs.CategoriaDePasta]) -> set[str]:
+    """Devolve um set com as pastas correspondentes às extensões de acordo com as categorias.
+
+    Args:
+        setExt: O set de extensões a avaliar.
+        categorias: A lista de categorias utilizadas para obter as pastas.
+
+    Returns:
+        Um set com os nomes das pastas identificadas.
+    """
     pastas = set()
     
     for ext in setExt:
@@ -22,6 +31,17 @@ def devolvePastas(setExt: set[str], categorias: list[configs.CategoriaDePasta]) 
         
 
 def criaPastas(caminho: Path, pastas: set[str], categorias: list[configs.CategoriaDePasta], simula: bool) -> int:
+    """Cria as pastas dadas no caminho indicado e preenche o caminho correspondente a cada categoria.
+
+    Args:
+        caminho: O caminho onde devem ser criadas as pastas.
+        pastas: O set com as pastas a serem criadas.
+        categorias: A lista de categorias utilizadas para preencher o caminho correspondente a cada categoria.
+        simula: Se é para apenas simular o processo ou não.
+
+    Returns:
+        O número de pastas criadas.
+    """
     cont = 0
     for pasta in pastas:
         caminhoFinal = caminho / pasta
@@ -39,6 +59,15 @@ def criaPastas(caminho: Path, pastas: set[str], categorias: list[configs.Categor
     return cont
 
 def pastasExistentes(caminho: Path, categorias: list[configs.CategoriaDePasta]) -> set[Path]:
+    """Devolve as pastas dentro do caminho indicado que correspondem a categorias.
+
+    Args:
+        caminho: O caminho onde procurar.
+        categorias: A lista de categorias utilizadas para procurar.
+
+    Returns:
+        Um set com as pastas identificadas.
+    """
     pastasParaReverter = set()
     for pasta in caminho.iterdir():
         if pasta.is_dir():
@@ -48,6 +77,12 @@ def pastasExistentes(caminho: Path, categorias: list[configs.CategoriaDePasta]) 
     return pastasParaReverter
 
 def eliminaPastasVazias(pastasParaReverter: set[Path], simula: bool):
+    """Elimina as pastas vazias do set de pastas indicado.
+
+    Args:
+        pastasParaReverter: As pastas a analisar.
+        simula: Se é para apenas simular o processo ou não.
+    """
     for pasta in pastasParaReverter:
             if not any(pasta.iterdir()):
                 if not simula:

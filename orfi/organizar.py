@@ -6,6 +6,15 @@ from . import configs, ficheiros, pastas
 logger = logging.getLogger(__name__)
 
 def organiza(pastaSelecionada: Path, categorias: list[configs.CategoriaDePasta], modo: configs.Modo, force: bool, simula: bool):
+    """Organiza os ficheiros contidos na pasta indicada.
+
+    Args:
+        pastaSelecionada: A pasta que contém os ficheiros a organizar.
+        categorias: A lista de categorias utilizadas para organizar os ficheiros.
+        modo: Define se os ficheiros são movidos ou copiados.
+        force: Se aceita automaticamente todas as verificações ou não.
+        simula: Se é para apenas simular o processo ou não.
+    """
     if modo == configs.Modo.COPIAR:
         trabalho = ficheiros.copiaFicheiro
         tratamento = "copiados."
@@ -49,6 +58,14 @@ def organiza(pastaSelecionada: Path, categorias: list[configs.CategoriaDePasta],
     configs.mensagem(f"Feito, {total} ficheiros {tratamento}", f"Feito, {total} ficheiros teriam sido {tratamento}", simula, configs.CoresTexto.AMARELO)
 
 def datar(pastaSelecionada: Path, modo: configs.Modo, force: bool, simula: bool):
+    """Adiciona um prefixo com data aos ficheiros contidos na pasta indicada.
+
+    Args:
+        pastaSelecionada: A pasta que contém os ficheiros a datar.
+        modo: Define se os ficheiros são movidos ou copiados.
+        force: Se aceita automaticamente todas as verificações ou não.
+        simula: Se é para apenas simular o processo ou não.
+    """
     if modo == configs.Modo.COPIAR:
         trabalho = ficheiros.copiaFicheiro
         tratamento = "copiados e datados."

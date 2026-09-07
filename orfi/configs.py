@@ -10,6 +10,11 @@ logger = logging.getLogger(__name__)
 
 
 def caminhoConfiguracao() -> Path:
+    """Devolve o caminho onde vão ser guardados os ficheiros de configuração, de acordo com o sistema operativo.
+
+    Returns:
+        O caminho onde vai guardar as configurações.
+    """
     if sys.platform == "win32":
         return Path(os.environ["APPDATA"]) / "orfi" / "config.toml"
     else:
@@ -22,6 +27,14 @@ class CoresTexto:
     RESET = "\033[0m"
 
 def mensagem(mensagemNormal: str, mensagemSimulacao: str, simula: bool, cor: str):
+    """Imprime a mensagem correspondente ao modo de execução.
+
+    Args:
+        mensagemNormal: Mensagem apresentada numa execução normal.
+        mensagemSimulacao: Mensagem apresentada numa simulação.
+        simula: Se é simulação ou não.
+        cor: A cor que deve ser aplicada à mensagem.
+    """
     if simula:
         print(f"{CoresTexto.AMARELO}[SIMULAÇÃO] {mensagemSimulacao}{CoresTexto.RESET}")
     else:
@@ -40,6 +53,7 @@ class CategoriaDePasta:
     defeito: bool = False
 
 def iniciarCategorias() -> list[CategoriaDePasta]:
+    """Cria e devolve as categorias de pasta."""
     categorias: list[CategoriaDePasta] = []
     categorias.append(CategoriaDePasta("Imagens", {".jpg", ".png", ".bmp"}))
     categorias.append(CategoriaDePasta("Documentos", {".txt", ".docx", ".pdf", ".md"}))
@@ -49,6 +63,11 @@ def iniciarCategorias() -> list[CategoriaDePasta]:
     return categorias
 
 def criarConfiguracaoStandard(caminho: Path):
+    """Cria um ficheiro .toml com as configurações predefinidas na pasta indicada.
+
+    Args:
+        caminho: Caminho onde vai ser criado o ficheiro de configuração.
+    """
     caminho.parent.mkdir(parents=True, exist_ok=True)
 
     configuracaoStandard = Path(__file__).parent / "config.toml"
@@ -57,6 +76,12 @@ def criarConfiguracaoStandard(caminho: Path):
     caminho.write_bytes(configuracao)
 
 def carregarConfiguracao(caminho: Path | None = None) -> list[CategoriaDePasta]:
+    """Carrega as configurações e devolve as categorias de pasta.
+    Se o ficheiro de configuração não existir, é criado com as configurações predefinidas.
+
+    Args:
+        caminho: Caminho do ficheiro de configuração, caso None utiliza o caminho predefinido.
+    """
     if caminho is None:
         caminho = caminhoConfiguracao()
 
@@ -81,6 +106,15 @@ def carregarConfiguracao(caminho: Path | None = None) -> list[CategoriaDePasta]:
     return categorias
 
 def verificaConfiguracao(categorias: list[CategoriaDePasta]) -> bool:
+    """Verifica se a lista de categorias de pasta indicada é válida.
+
+    Args:
+        categorias: Lista de categorias de pasta a analisar.
+
+    Returns:
+        True caso seja válida, False caso haja algum erro.
+    """
+
     ok = True
     verificacoes = [
         verificaExtFormato,
@@ -97,6 +131,14 @@ def verificaConfiguracao(categorias: list[CategoriaDePasta]) -> bool:
     return ok
 
 def verificaExtDuplicadas(categorias: list[CategoriaDePasta]) -> bool:
+    """Verifica se a lista de categorias de pasta indicada contém extensões duplicadas.
+
+    Args:
+        categorias: Lista de categorias de pasta a analisar.
+
+    Returns:
+        True caso seja válida, False caso haja algum erro.
+    """
     extensoesPorCategoria = dict()
 
     for categoria in categorias:
@@ -123,6 +165,14 @@ def verificaExtDuplicadas(categorias: list[CategoriaDePasta]) -> bool:
     return True
 
 def verificaCategoriasDuplicadas(categorias: list[CategoriaDePasta]) -> bool:
+    """Verifica se a lista de categorias de pasta indicada contém categorias duplicadas.
+
+    Args:
+        categorias: Lista de categorias de pasta a analisar.
+
+    Returns:
+        True caso seja válida, False caso haja algum erro.
+    """
     categoriasValidar = set()
     erros = set()
     for categoria in categorias:
@@ -137,6 +187,14 @@ def verificaCategoriasDuplicadas(categorias: list[CategoriaDePasta]) -> bool:
     return True
 
 def verificaCategoriasDefeito(categorias: list[CategoriaDePasta]) -> bool:
+    """Verifica se a lista de categorias de pasta indicada contém mais do que uma categoria por defeito.
+
+    Args:
+        categorias: Lista de categorias de pasta a analisar.
+
+    Returns:
+        True caso seja válida, False caso haja algum erro.
+    """
     categoriasDefeito = set()
     for categoria in categorias:
         if categoria.defeito:
@@ -147,6 +205,14 @@ def verificaCategoriasDefeito(categorias: list[CategoriaDePasta]) -> bool:
     return True
 
 def verificaExtFormato(categorias: list[CategoriaDePasta]) -> bool:
+    """Verifica se a lista de categorias de pasta indicada contém extensões mal formatadas.
+
+    Args:
+        categorias: Lista de categorias de pasta a analisar.
+
+    Returns:
+        True caso seja válida, False caso haja algum erro.
+    """
     extErros = set()
     for categoria in categorias:
         for ext in categoria.extensoes:
