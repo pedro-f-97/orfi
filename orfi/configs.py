@@ -82,6 +82,12 @@ def carregarConfiguracao(caminho: Path | None = None) -> list[CategoriaDePasta]:
     return categorias
 
 def carregarIdioma(caminho: Path | None = None) -> str:
+    """Carrega as configurações e devolve o idioma.
+    Se o ficheiro de configuração não existir, é criado com as configurações predefinidas.
+
+    Args:
+        caminho: Caminho do ficheiro de configuração, caso None utiliza o caminho predefinido.
+    """
     if caminho is None:
         caminho = caminhoConfiguracao()
 
