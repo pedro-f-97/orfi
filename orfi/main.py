@@ -15,6 +15,8 @@ def main():
     
     argumentos = inicializar.trataArgumentos()
 
+    idioma = configs.carregarIdioma()
+
     if argumentos.alvo:
         pastaSelecionada = alvo.defineAlvo()
     else:

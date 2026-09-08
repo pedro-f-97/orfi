@@ -4,7 +4,7 @@ import os
 from pathlib import Path
 from shutil import copy2, move
 
-from . import configs
+from . import configs, mensagens
 
 logger = logging.getLogger(__name__)
 
@@ -71,7 +71,7 @@ def copiaFicheiro(ficheiro: Path, pastaDestino: Path, force: bool, simula: bool,
         if not simula:
             copy2(ficheiro, ficheiroFinal)
             logger.info("File '%s' copied to '%s'", ficheiro, ficheiroFinal)
-        configs.mensagem(f"Ficheiro {ficheiro} copiado para {ficheiroFinal}.", f"Ficheiro {ficheiro} seria copiado para {ficheiroFinal}.", simula, configs.CoresTexto.AMARELO)    
+        mensagens.mensagem(f"Ficheiro {ficheiro} copiado para {ficheiroFinal}.", f"Ficheiro {ficheiro} seria copiado para {ficheiroFinal}.", simula, configs.CoresTexto.AMARELO)    
     except OSError as erro:
         print(f"{configs.CoresTexto.VERMELHO}Erro '{erro}' no ficheiro {ficheiro.name}: {erro}{configs.CoresTexto.RESET}")
         logger.exception("Error copying file '%s' to '%s'.", ficheiro, ficheiroFinal)
@@ -101,7 +101,7 @@ def moveFicheiro(ficheiro: Path, pastaDestino: Path, force: bool, simula: bool, 
         if not simula:
             move(ficheiro, ficheiroFinal)
             logger.info("File '%s' moved to '%s'", ficheiro, ficheiroFinal)
-        configs.mensagem(f"Ficheiro {ficheiro} movido para {ficheiroFinal}.", f"Ficheiro {ficheiro} seria movido para {ficheiroFinal}.", simula, configs.CoresTexto.AMARELO)
+        mensagens.mensagem(f"Ficheiro {ficheiro} movido para {ficheiroFinal}.", f"Ficheiro {ficheiro} seria movido para {ficheiroFinal}.", simula, configs.CoresTexto.AMARELO)
     except OSError as erro:
         print(f"{configs.CoresTexto.VERMELHO}Erro '{erro}' no ficheiro {ficheiro.name}: {erro}{configs.CoresTexto.RESET}")
         logger.exception("Error moving file '%s' to '%s'.", ficheiro, ficheiroFinal)
@@ -160,7 +160,7 @@ def apagaFicheiro(ficheiro:Path, simula: bool) -> int:
         if not simula:
             ficheiro.unlink()
             logger.info("Deleted file '%s'", ficheiro)
-        configs.mensagem(f"Ficheiro {ficheiro} apagado.", f"Ficheiro {ficheiro} seria apagado.", simula, configs.CoresTexto.VERMELHO)
+        mensagens.mensagem(f"Ficheiro {ficheiro} apagado.", f"Ficheiro {ficheiro} seria apagado.", simula, configs.CoresTexto.VERMELHO)
         return 1
     return 0
 
@@ -197,7 +197,7 @@ def datarFicheiro(ficheiro: Path, simula: bool) -> Path:
 
     if not simula:
         logger.info("File '%s' dated to '%s'", ficheiro, ficheiroDatado)
-    configs.mensagem(f"{ficheiro} datado para {ficheiroDatado}.", f"Ficheiro {ficheiro} seria datado para {ficheiroDatado}.", simula, configs.CoresTexto.AMARELO)   
+    mensagens.mensagem(f"{ficheiro} datado para {ficheiroDatado}.", f"Ficheiro {ficheiro} seria datado para {ficheiroDatado}.", simula, configs.CoresTexto.AMARELO)   
     return ficheiroDatado
 
 def devolveDataCriacao(ficheiro: Path) -> datetime.datetime:
@@ -232,7 +232,7 @@ def reverteDatarFicheiro(ficheiro: Path, simula: bool) -> Path | None:
     ficheiroRevertido = ficheiro.name[7:]
     if not simula:
         logger.info("Reverting file '%s'", ficheiro)
-    configs.mensagem(f"{ficheiro} revertido para {ficheiroRevertido}.", f"{ficheiro} seria revertido para {ficheiroRevertido}.", simula, configs.CoresTexto.AMARELO)
+    mensagens.mensagem(f"{ficheiro} revertido para {ficheiroRevertido}.", f"{ficheiro} seria revertido para {ficheiroRevertido}.", simula, configs.CoresTexto.AMARELO)
     return ficheiro.with_name(ficheiroRevertido)
 
 def verificaDatado(ficheiro: Path) -> bool:

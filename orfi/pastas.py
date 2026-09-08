@@ -1,7 +1,7 @@
 import logging
 from pathlib import Path
 
-from . import configs, ficheiros
+from . import configs, ficheiros, mensagens
 
 logger = logging.getLogger(__name__)
 
@@ -52,7 +52,7 @@ def criaPastas(caminho: Path, pastas: set[str], categorias: list[configs.Categor
             if not simula:
                 caminhoFinal.mkdir(parents = False, exist_ok = True)
                 logger.info("Created folder: %s", caminhoFinal)
-            configs.mensagem(f"Pasta criada - {pasta}.", f"Pasta {pasta} seria criada.", simula, configs.CoresTexto.VERDE)   
+            mensagens.mensagem(f"Pasta criada - {pasta}.", f"Pasta {pasta} seria criada.", simula, configs.CoresTexto.VERDE)   
             cont += 1
         else:
             print(f"{configs.CoresTexto.AMARELO}Pasta {pasta} já existe. {configs.CoresTexto.RESET}")
@@ -95,4 +95,4 @@ def eliminaPastasVazias(pastasParaReverter: set[Path], simula: bool, ficheirosMo
             if not simula:
                 pasta.rmdir()
                 logger.info("Deleted folder: %s", pasta)
-            configs.mensagem(f"Pasta vazia '{pasta}' foi eliminada.", f"Pasta {pasta} seria eliminada.", simula, configs.CoresTexto.VERMELHO)
+            mensagens.mensagem(f"Pasta vazia '{pasta}' foi eliminada.", f"Pasta {pasta} seria eliminada.", simula, configs.CoresTexto.VERMELHO)

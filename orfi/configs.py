@@ -26,20 +26,6 @@ class CoresTexto:
     AZUL = "\033[94m"
     RESET = "\033[0m"
 
-def mensagem(mensagemNormal: str, mensagemSimulacao: str, simula: bool, cor: str):
-    """Imprime a mensagem correspondente ao modo de execução.
-
-    Args:
-        mensagemNormal: Mensagem apresentada numa execução normal.
-        mensagemSimulacao: Mensagem apresentada numa simulação.
-        simula: Se é simulação ou não.
-        cor: A cor que deve ser aplicada à mensagem.
-    """
-    if simula:
-        print(f"{CoresTexto.AMARELO}[SIMULAÇÃO] {mensagemSimulacao}{CoresTexto.RESET}")
-    else:
-        print(f"{cor}{mensagemNormal}{CoresTexto.RESET}")
-
 class Modo(Enum):
     COPIAR = "copiar"
     MOVER = "mover"
@@ -94,6 +80,20 @@ def carregarConfiguracao(caminho: Path | None = None) -> list[CategoriaDePasta]:
         categorias.append(novaCategoria)
 
     return categorias
+
+def carregarIdioma(caminho: Path | None = None) -> str:
+    if caminho is None:
+        caminho = caminhoConfiguracao()
+
+    if not caminho.exists():
+        criarConfiguracaoStandard(caminho)
+
+    with caminho.open("rb") as ficheiro:
+        data = tomllib.load(ficheiro)
+
+    idioma = data.get("idioma", "en")
+
+    return idioma
 
 def verificaConfiguracao(categorias: list[CategoriaDePasta]) -> bool:
     """Verifica se a lista de categorias de pasta indicada é válida.
