@@ -213,3 +213,13 @@ def verificaExtFormato(categorias: list[CategoriaDePasta]) -> bool:
         mensagens.mensagem("extensoes_incorretas", "extensoes_incorretas", False, mensagens.CoresTexto.VERMELHO, extensoes=extErros)
         return False
     return True
+
+def alterarIdioma(idioma: str):
+    caminho = caminhoConfiguracao()
+    conteudo = caminho.read_text(encoding="utf-8")
+    linhas = conteudo.splitlines()
+    for i, linha in enumerate(linhas):
+        if linha.strip().startswith("idioma ="):
+            linhas[i] = f'idioma = "{idioma}"'
+            break
+    caminho.write_text("\n".join(linhas) + "\n", encoding="utf-8")

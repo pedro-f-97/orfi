@@ -21,6 +21,15 @@ def main():
     
     argumentos = inicializar.trataArgumentos()
 
+    if argumentos.idioma:
+        if argumentos.idioma not in configs.idiomasExistentes:
+            mensagens.mensagem("idioma_invalido", "idioma_invalido", False, mensagens.CoresTexto.AMARELO, idiomas=", ".join(configs.idiomasExistentes))
+            return
+        configs.alterarIdioma(argumentos.idioma)
+        mensagens.definirIdioma(argumentos.idioma)
+        mensagens.mensagem("idioma_alterado", "idioma_alterado", False, mensagens.CoresTexto.VERDE, idioma=argumentos.idioma)
+        return
+
     if argumentos.alvo:
         pastaSelecionada = alvo.defineAlvo()
     else:

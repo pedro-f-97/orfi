@@ -55,6 +55,7 @@ MENSAGENS = {
         "pasta_selecionada": "Pasta selecionada: {pasta}.",
         "fim_simulacao": "[SIMULAÇÃO] Fim de simulação.",
         "idioma_invalido": "Idioma inválido, selecionar um dos idiomas existentes: '{idiomas}'",
+        "idioma_alterado": "Idioma alterado para '{idioma}'.",
         #organizar
         "nada_para_fazer": "Nada para fazer.",
         "nada_para_fazer_simula": "Não faria nada.",
@@ -83,6 +84,7 @@ MENSAGENS = {
         "descricao_datar": "adiciona a data de criação ao nome de cada ficheiro",
         "descricao_force": "aprova automaticamente todas as alterações",
         "descricao_simula": "simula o processo sem fazer alterações",
+        "descricao_idioma": "altera o idioma para o introduzido",
     },
 
     "en": {
@@ -123,6 +125,7 @@ MENSAGENS = {
         "pasta_selecionada": "Selected folder: {pasta}.",
         "fim_simulacao": "[SIMULATION] Simulation ended.",
         "idioma_invalido": "Language unavailable, select one of the existing languages: '{idiomas}'",
+        "idioma_alterado": "Language changed to '{idioma}'.",
         #organizar
         "nada_para_fazer": "Nothing to do.",
         "nada_para_fazer_simula": "Wouldn't do anything.",
@@ -151,6 +154,7 @@ MENSAGENS = {
         "descricao_datar": "adds creation date to the name of each file",
         "descricao_force": "auto-approves all changes",
         "descricao_simula": "simulates the process without making changes",
+        "descricao_idioma": "changes the language to the specified one",
     },
 }
 

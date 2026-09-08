@@ -57,6 +57,12 @@ def trataArgumentos() -> argparse.Namespace:
         help=mensagens.mensagemTrataIdioma("descricao_simula")
     )
 
+    parser.add_argument(
+        "-i",
+        "--idioma",
+        help=mensagens.mensagemTrataIdioma("descricao_idioma")
+    )
+
     argumentos = parser.parse_args()
 
     if argumentos.alvo:
