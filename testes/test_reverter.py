@@ -275,7 +275,7 @@ def test_reverteSimulacaDeveEliminarPasta(tmp_path, capsys):
 
     resultado = capsys.readouterr().out
 
-    assert "seria eliminada" in resultado
+    assert "seria eliminada" in resultado or "would be deleted" in resultado
 
 def test_reverteSimulacaIgnoraPastaSemCategoria(tmp_path, capsys):
     simula = True

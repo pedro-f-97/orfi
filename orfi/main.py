@@ -2,7 +2,7 @@ import logging
 import sys
 import time
 
-from . import alvo, configs, inicializar, logs, organizar, reverter
+from . import alvo, configs, inicializar, logs, mensagens, organizar, reverter
 
 logger = logging.getLogger(__name__)
 
@@ -16,6 +16,7 @@ def main():
     argumentos = inicializar.trataArgumentos()
 
     idioma = configs.carregarIdioma()
+    mensagens.definirIdioma(idioma)
 
     if argumentos.alvo:
         pastaSelecionada = alvo.defineAlvo()
@@ -34,18 +35,18 @@ def main():
     simula = argumentos.simula
 
     if simula:
-        print(f"{configs.CoresTexto.AMARELO}[SIMULAÇÃO] Início de simulação.{configs.CoresTexto.RESET}")
+        mensagens.mensagem("inicio_simulacao", "inicio_simulacao", False, mensagens.CoresTexto.AMARELO)
 
     categorias = configs.carregarConfiguracao()
     if not configs.verificaConfiguracao(categorias):
-        print(f"{configs.CoresTexto.AMARELO}Configuração inválida, corrigir o config.toml.{configs.CoresTexto.RESET}")
+        mensagens.mensagem("configuracao_invalida", "configuracao_invalida", False, mensagens.CoresTexto.AMARELO)
         return
 
     if pastaSelecionada is None:
-        print(f"{configs.CoresTexto.AMARELO}Pasta inválida.{configs.CoresTexto.RESET}")
+        mensagens.mensagem("pasta_invalida", "pasta_invalida", False, mensagens.CoresTexto.AMARELO)
         return
 
-    print(f"{configs.CoresTexto.AZUL}Pasta selecionada: {pastaSelecionada} {configs.CoresTexto.RESET}")
+    mensagens.mensagem("pasta_selecionada", "pasta_selecionada", False, mensagens.CoresTexto.AZUL, pasta=pastaSelecionada)
 
     if argumentos.reverter:
         if not argumentos.datar:
@@ -60,7 +61,7 @@ def main():
         organizar.organiza(pastaSelecionada, categorias, modo, force, simula)
 
     if simula:
-        print(f"{configs.CoresTexto.AMARELO}[SIMULAÇÃO] Fim de simulação.{configs.CoresTexto.RESET}")
+        mensagens.mensagem("fim_simulacao", "fim_simulacao", False, mensagens.CoresTexto.AMARELO)
     duracao = time.perf_counter() - inicio
     logger.info("   --PROCESS ENDED--  ")
     logger.info("   --%.2f SECONDS--   ", duracao)

@@ -6,6 +6,8 @@ from dataclasses import dataclass
 from enum import Enum
 from pathlib import Path
 
+from . import mensagens
+
 logger = logging.getLogger(__name__)
 
 
@@ -19,12 +21,6 @@ def caminhoConfiguracao() -> Path:
         return Path(os.environ["APPDATA"]) / "orfi" / "config.toml"
     else:
         return Path.home() / ".config" / "orfi" / "config.toml"
-class CoresTexto:
-    VERDE = "\033[92m"
-    VERMELHO = "\033[91m"
-    AMARELO = "\033[93m"
-    AZUL = "\033[94m"
-    RESET = "\033[0m"
 
 class Modo(Enum):
     COPIAR = "copiar"
@@ -152,9 +148,7 @@ def verificaExtDuplicadas(categorias: list[CategoriaDePasta]) -> bool:
 
     if erros:
         for extensao, categoriasExt in erros.items():
-            print(
-                f"{CoresTexto.VERMELHO}Extensão duplicada '{extensao}' nas categorias {categoriasExt}.{CoresTexto.RESET}"
-            )
+            mensagens.mensagem("extensao_duplicada", "extensao_duplicada", False, mensagens.CoresTexto.VERMELHO, extensao=extensao, categorias=categoriasExt)
 
         return False
 
@@ -178,7 +172,7 @@ def verificaCategoriasDuplicadas(categorias: list[CategoriaDePasta]) -> bool:
             categoriasValidar.add(categoria.nome)
 
     if erros:
-        print(f"{CoresTexto.VERMELHO}Categoria(s) duplicada(s) '{erros}'.{CoresTexto.RESET}")
+        mensagens.mensagem("categoria_duplicada", "categoria_duplicada", False, mensagens.CoresTexto.VERMELHO, categorias=erros)
         return False
     return True
 
@@ -196,7 +190,7 @@ def verificaCategoriasDefeito(categorias: list[CategoriaDePasta]) -> bool:
         if categoria.defeito:
             categoriasDefeito.add(categoria.nome)
     if len(categoriasDefeito) > 1:
-        print(f"{CoresTexto.VERMELHO}Mais do que uma categoria por defeito: '{categoriasDefeito}'.{CoresTexto.RESET}")
+        mensagens.mensagem("multiplas_categorias_defeito", "multiplas_categorias_defeito", False, mensagens.CoresTexto.VERMELHO, categorias=categoriasDefeito)
         return False
     return True
 
@@ -215,6 +209,6 @@ def verificaExtFormato(categorias: list[CategoriaDePasta]) -> bool:
             if ext.count(".") != 1 or not ext.startswith("."):
                 extErros.add(ext)
     if extErros:
-        print(f"{CoresTexto.VERMELHO}Extensões incorretas: '{extErros}'.{CoresTexto.RESET}")
+        mensagens.mensagem("extensoes_incorretas", "extensoes_incorretas", False, mensagens.CoresTexto.VERMELHO, extensoes=extErros)
         return False
     return True
