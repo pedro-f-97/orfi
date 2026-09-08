@@ -51,7 +51,7 @@ def criaPastas(caminho: Path, pastas: set[str], categorias: list[configs.Categor
         if not caminhoFinal.exists():
             if not simula:
                 caminhoFinal.mkdir(parents = False, exist_ok = True)
-                logger.info("Criou pasta: %s", caminhoFinal)
+                logger.info("Created folder: %s", caminhoFinal)
             configs.mensagem(f"Pasta criada - {pasta}.", f"Pasta {pasta} seria criada.", simula, configs.CoresTexto.VERDE)   
             cont += 1
         else:
@@ -94,5 +94,5 @@ def eliminaPastasVazias(pastasParaReverter: set[Path], simula: bool, ficheirosMo
         if not ficheirosNaPasta:
             if not simula:
                 pasta.rmdir()
-                logger.info("Eliminou pasta: %s", pasta)
+                logger.info("Deleted folder: %s", pasta)
             configs.mensagem(f"Pasta vazia '{pasta}' foi eliminada.", f"Pasta {pasta} seria eliminada.", simula, configs.CoresTexto.VERMELHO)

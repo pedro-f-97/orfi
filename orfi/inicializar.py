@@ -58,16 +58,16 @@ def trataArgumentos() -> argparse.Namespace:
     argumentos = parser.parse_args()
 
     if argumentos.alvo:
-        logger.info("Argumento --alvo")
+        logger.info("Argument '--alvo' set")
     if argumentos.copiar:
-        logger.info("Argumento --copiar")
+        logger.info("Argument '--copiar' set")
     if argumentos.reverter:
-        logger.info("Argumento --reverter")
+        logger.info("Argument '--reverter' set")
     if argumentos.datar:
-        logger.info("Argumento --datar")
+        logger.info("Argument '--datar' set")
     if argumentos.force:
-        logger.info("Argumento --force")
+        logger.info("Argument '--force' set")
     if argumentos.simula:
-        logger.info("Argumento --simula")
+        logger.info("Argument '--simula' set")
 
     return argumentos

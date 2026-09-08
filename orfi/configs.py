@@ -78,7 +78,7 @@ def carregarConfiguracao(caminho: Path | None = None) -> list[CategoriaDePasta]:
     if not caminho.exists():
         criarConfiguracaoStandard(caminho)
     
-    logger.info("Caminho configs: %s", caminho)
+    logger.info("Config path: %s", caminho)
 
     with caminho.open("rb") as ficheiro:
         data = tomllib.load(ficheiro)
@@ -115,7 +115,7 @@ def verificaConfiguracao(categorias: list[CategoriaDePasta]) -> bool:
 
     for verifica in verificacoes:
         if not verifica(categorias):
-            logger.error("Erro config: %s", verifica.__name__)
+            logger.error("Config error: %s", verifica.__name__)
             ok = False
 
     return ok

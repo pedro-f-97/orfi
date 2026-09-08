@@ -7,9 +7,10 @@ from . import alvo, configs, inicializar, logs, organizar, reverter
 logger = logging.getLogger(__name__)
 
 def main():
+    """Ponto de entrada: lê os argumentos da linha de comandos e encaminha o processo."""
     inicio = time.perf_counter()
     logs.configuraLogs()
-    logger.info("   --INÍCIO DE EXECUÇÃO--  ")
+    logger.info("   --PROCESS STARTING--  ")
     logger.info("OS: %s | %s",sys.platform, sys.version)
     
     argumentos = inicializar.trataArgumentos()
@@ -19,7 +20,7 @@ def main():
     else:
         pastaSelecionada = alvo.defineAlvoAqui()
 
-    logger.info("Pasta selecionada: %s", pastaSelecionada)
+    logger.info("Selected folder: %s", pastaSelecionada)
 
     if argumentos.copiar:
         modo = configs.Modo.COPIAR
@@ -59,8 +60,8 @@ def main():
     if simula:
         print(f"{configs.CoresTexto.AMARELO}[SIMULAÇÃO] Fim de simulação.{configs.CoresTexto.RESET}")
     duracao = time.perf_counter() - inicio
-    logger.info("   --FIM DE EXECUÇÃO--  ")
-    logger.info("   --%.2f SEGUNDOS--   ", duracao)
+    logger.info("   --PROCESS ENDED--  ")
+    logger.info("   --%.2f SECONDS--   ", duracao)
         
 if __name__ == "__main__":
     main()    

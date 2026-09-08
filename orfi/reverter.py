@@ -50,7 +50,7 @@ def reverte(pastaSelecionada: Path, categorias: list[configs.CategoriaDePasta], 
     if modo == configs.Modo.MOVER:
         pastas.eliminaPastasVazias(pastasParaReverter, simula, ficheirosMovidos)
     if not simula:
-        logger.info("Terminou, %s ficheiros %s", total, tratamento)
+        logger.info("Finished, %s files handled", total)
     configs.mensagem(f"Revertido, {total} ficheiros {tratamento}", f"Revertido, {total} ficheiros teriam sido {tratamento}", simula, configs.CoresTexto.AMARELO)
 
 def reverteDatar(pastaSelecionada: Path, modo: configs.Modo, force: bool, simula: bool):
@@ -84,8 +84,8 @@ def reverteDatar(pastaSelecionada: Path, modo: configs.Modo, force: bool, simula
                 configs.mensagem(f"{ficheiro.name} tratado.", f"{ficheiro.name} seria tratado.", simula, configs.CoresTexto.AMARELO)
         else:
             if not simula:
-                logger.info("Ignorou o ficheiro %s", ficheiro)
+                logger.info("File ignored: '%s'", ficheiro)
             configs.mensagem(f"Ficheiro ignorado: {ficheiro.name}", f"Ficheiro seria ignorado: {ficheiro.name}", simula, configs.CoresTexto.AMARELO)
     if not simula:
-        logger.info("Terminou, %s ficheiros %s", total, tratamento)
+        logger.info("Finished, %s files handled.", total)
     configs.mensagem(f"Revertido, {total} ficheiros {tratamento}", f"Revertido, {total} ficheiros teriam sido {tratamento}", simula, configs.CoresTexto.AMARELO)

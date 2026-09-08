@@ -38,7 +38,7 @@ def organiza(pastaSelecionada: Path, categorias: list[configs.CategoriaDePasta],
             return
     cont = pastas.criaPastas(pastaSelecionada, pastasParaCriar, categorias, simula)
     if not simula:
-        logger.info("Terminou, %s pastas criadas.", cont)
+        logger.info("Finished, %s folders created.", cont)
     configs.mensagem(f"{cont} pastas criadas.", f"{cont} pastas seriam criadas.", simula, configs.CoresTexto.VERDE)
 
     ficheirosLista = ficheiros.devolveFicheiros(pastaSelecionada)
@@ -54,7 +54,7 @@ def organiza(pastaSelecionada: Path, categorias: list[configs.CategoriaDePasta],
         else:
             print(f"{configs.CoresTexto.AMARELO}Categoria ou caminho não encontrados para {ficheiro.name}{configs.CoresTexto.RESET}")
     if not simula:
-        logger.info("Terminou, %s ficheiros %s", total, tratamento)
+        logger.info("Finished, %s files handled.", total)
     configs.mensagem(f"Feito, {total} ficheiros {tratamento}", f"Feito, {total} ficheiros teriam sido {tratamento}", simula, configs.CoresTexto.AMARELO)
 
 def datar(pastaSelecionada: Path, modo: configs.Modo, force: bool, simula: bool):
@@ -89,5 +89,5 @@ def datar(pastaSelecionada: Path, modo: configs.Modo, force: bool, simula: bool)
                 total += resultado
                 configs.mensagem(f"{ficheiro.name} tratado.", f"{ficheiro.name} seria tratado.", simula, configs.CoresTexto.AMARELO)
     if not simula:
-        logger.info("Terminou, %s ficheiros %s", total, tratamento)
+        logger.info("Finished, %s files handled.", total)
     configs.mensagem(f"Feito, {total} ficheiros {tratamento}", f"Feito, {total} ficheiros teriam sido {tratamento}", simula, configs.CoresTexto.AMARELO)
