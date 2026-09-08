@@ -116,10 +116,10 @@ Copiar os ficheiros revertendo a datação:
 orfi -d -r -c
 ```
 
-As opções podem ser combinadas. Por exemplo, para selecionar uma pasta, copiar os ficheiros e datá-los:
+As opções podem ser combinadas. Por exemplo, para selecionar uma pasta e simular a reversão da data dos ficheiros, por cópia e aceitando automaticamente todas as confirmações necessárias:
 
 ```bash
-orfi -a -c -d
+orfi -a -r -c -d -f -s
 ```
 
 ## Configuração
