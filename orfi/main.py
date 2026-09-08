@@ -16,6 +16,9 @@ def main():
     argumentos = inicializar.trataArgumentos()
 
     idioma = configs.carregarIdioma()
+    if idioma not in configs.idiomasExistentes:
+        mensagens.mensagem("idioma_invalido", "idioma_invalido", False, mensagens.CoresTexto.AMARELO, idiomas = configs.idiomasExistentes)
+        return
     mensagens.definirIdioma(idioma)
 
     if argumentos.alvo:

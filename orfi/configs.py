@@ -26,6 +26,7 @@ class Modo(Enum):
     COPIAR = "copiar"
     MOVER = "mover"
 
+idiomasExistentes = {"pt", "en"}
 
 @dataclass
 class CategoriaDePasta:

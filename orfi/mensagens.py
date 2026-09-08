@@ -54,6 +54,7 @@ MENSAGENS = {
         "pasta_invalida": "Pasta inválida.",
         "pasta_selecionada": "Pasta selecionada: {pasta}.",
         "fim_simulacao": "[SIMULAÇÃO] Fim de simulação.",
+        "idioma_invalido": "Idioma inválido, selecionar um dos idiomas existentes: '{idiomas}'",
         #organizar
         "nada_para_fazer": "Nada para fazer.",
         "nada_para_fazer_simula": "Não faria nada.",
@@ -113,6 +114,7 @@ MENSAGENS = {
         "pasta_invalida": "Invalid folder.",
         "pasta_selecionada": "Selected folder: {pasta}.",
         "fim_simulacao": "[SIMULATION] Simulation ended.",
+        "idioma_invalido": "Language unavailable, select one of the existing languages: '{idiomas}'",
         #organizar
         "nada_para_fazer": "Nothing to do.",
         "nada_para_fazer_simula": "Wouldn't do anything.",
