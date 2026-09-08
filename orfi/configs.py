@@ -52,16 +52,6 @@ class CategoriaDePasta:
     caminho: Path | None = None
     defeito: bool = False
 
-def iniciarCategorias() -> list[CategoriaDePasta]:
-    """Cria e devolve as categorias de pasta."""
-    categorias: list[CategoriaDePasta] = []
-    categorias.append(CategoriaDePasta("Imagens", {".jpg", ".png", ".bmp"}))
-    categorias.append(CategoriaDePasta("Documentos", {".txt", ".docx", ".pdf", ".md"}))
-    categorias.append(CategoriaDePasta("Excel", {".xlsx", ".xltm", ".csv"}))
-    categorias.append(CategoriaDePasta("Emails", {".msg"}))
-    categorias.append(CategoriaDePasta("Outros", set(),None ,True))
-    return categorias
-
 def criarConfiguracaoStandard(caminho: Path):
     """Cria um ficheiro .toml com as configurações predefinidas na pasta indicada.
 
@@ -125,7 +115,7 @@ def verificaConfiguracao(categorias: list[CategoriaDePasta]) -> bool:
 
     for verifica in verificacoes:
         if not verifica(categorias):
-            logger.error("Erro config: %s", verifica)
+            logger.error("Erro config: %s", verifica.__name__)
             ok = False
 
     return ok
