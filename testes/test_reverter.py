@@ -276,3 +276,32 @@ def test_reverteSimulacaDeveEliminarPasta(tmp_path, capsys):
     resultado = capsys.readouterr().out
 
     assert "seria eliminada" in resultado
+
+def test_reverteSimulacaIgnoraPastaSemCategoria(tmp_path, capsys):
+    simula = True
+    pasta = tmp_path / "teste"
+    pasta.mkdir()
+
+    pastaTrabalho = pasta / "Trabalho"
+    pastaTrabalho.mkdir()
+
+    ficheiro = pastaTrabalho / "apontamentos.txt"
+    ficheiro.touch()
+
+    categoria = orfi.configs.CategoriaDePasta(
+        nome="Imagens",
+        caminho=pasta / "Imagens",
+        extensoes={".jpg"}
+    )
+
+    orfi.reverter.reverte(
+        pasta,
+        [categoria],
+        orfi.configs.Modo.MOVER,
+        True,
+        simula
+    )
+
+    resultado = capsys.readouterr().out
+
+    assert not "seria eliminada" in resultado
