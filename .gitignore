@@ -6,3 +6,4 @@ paraTestes
 .ruff_cache
 pastaTestes
 orfi.egg-info/
+dist
