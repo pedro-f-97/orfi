@@ -1,6 +1,8 @@
 import argparse
 import logging
 
+from . import mensagens
+
 logger = logging.getLogger(__name__)
 
 def trataArgumentos() -> argparse.Namespace:
@@ -10,49 +12,49 @@ def trataArgumentos() -> argparse.Namespace:
         Os argumentos adicionados na linha de comandos.
     """
     parser = argparse.ArgumentParser(
-        description="Organiza ficheiros por categorias."
+        description=mensagens.mensagemTrataIdioma("descricao_orfi")
     )
 
     parser.add_argument(
         "-a",
         "--alvo",
         action="store_true",
-        help="permite definir a pasta alvo"
+        help=mensagens.mensagemTrataIdioma("descricao_alvo")
     )
 
     parser.add_argument(
         "-c",
         "--copiar",
         action="store_true",
-        help="copia os ficheiros em vez de mover"
+        help=mensagens.mensagemTrataIdioma("descricao_copiar")
     )
 
     parser.add_argument(
         "-r",
         "--reverter",
         action="store_true",
-        help="reverte o processo de organização"
+        help=mensagens.mensagemTrataIdioma("descricao_reverter")
     )
 
     parser.add_argument(
         "-d",
         "--datar",
         action="store_true",
-        help="adiciona a data de criação ao nome"
+        help=mensagens.mensagemTrataIdioma("descricao_datar")
     )
 
     parser.add_argument(
         "-f",
         "--force",
         action="store_true",
-        help="aprova automaticamente todas as confirmações"
+        help=mensagens.mensagemTrataIdioma("descricao_force")
     )
 
     parser.add_argument(
         "-s",
         "--simula",
         action="store_true",
-        help="simula o processo sem fazer alterações"
+        help=mensagens.mensagemTrataIdioma("descricao_simula")
     )
 
     argumentos = parser.parse_args()

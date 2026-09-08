@@ -12,14 +12,14 @@ def main():
     logs.configuraLogs()
     logger.info("   --PROCESS STARTING--  ")
     logger.info("OS: %s | %s",sys.platform, sys.version)
-    
-    argumentos = inicializar.trataArgumentos()
 
     idioma = configs.carregarIdioma()
     if idioma not in configs.idiomasExistentes:
         mensagens.mensagem("idioma_invalido", "idioma_invalido", False, mensagens.CoresTexto.AMARELO, idiomas = configs.idiomasExistentes)
         return
     mensagens.definirIdioma(idioma)
+    
+    argumentos = inicializar.trataArgumentos()
 
     if argumentos.alvo:
         pastaSelecionada = alvo.defineAlvo()

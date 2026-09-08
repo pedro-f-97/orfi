@@ -75,6 +75,14 @@ MENSAGENS = {
         "ficheiros_seriam_revertidos": "Revertido, {total} ficheiros teriam sido {tratamento}",
         "ficheiro_ignorado": "Ficheiro ignorado: {ficheiro}",
         "ficheiro_seria_ignorado": "Ficheiro seria ignorado: {ficheiro}",
+        #argumentos
+        "descricao_orfi": "Organiza ficheiros por categorias.",
+        "descricao_alvo": "permite definir a pasta alvo",
+        "descricao_copiar": "copia os ficheiros em vez de mover",
+        "descricao_reverter": "reverte o processo escolhido",
+        "descricao_datar": "adiciona a data de criação ao nome de cada ficheiro",
+        "descricao_force": "aprova automaticamente todas as alterações",
+        "descricao_simula": "simula o processo sem fazer alterações",
     },
 
     "en": {
@@ -135,6 +143,14 @@ MENSAGENS = {
         "ficheiros_seriam_revertidos": "Reverted, {total} files would have been handled",
         "ficheiro_ignorado": "File ignored: {ficheiro}",
         "ficheiro_seria_ignorado": "File would be ignored: {ficheiro}",
+        #argumentos
+        "descricao_orfi": "Organizes files by category",
+        "descricao_alvo": "allows selection of the target folder",
+        "descricao_copiar": "copies the files instead of moving",
+        "descricao_reverter": "reverts the selected process",
+        "descricao_datar": "adds creation date to the name of each file",
+        "descricao_force": "auto-approves all changes",
+        "descricao_simula": "simulates the process without making changes",
     },
 }
 
