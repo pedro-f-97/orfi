@@ -1,7 +1,7 @@
 import logging
 from pathlib import Path
 
-from . import configs, ficheiros, pastas
+from . import configs, ficheiros, mensagens, pastas
 
 logger = logging.getLogger(__name__)
 
@@ -28,13 +28,13 @@ def reverte(pastaSelecionada: Path, categorias: list[configs.CategoriaDePasta], 
     pastasParaReverter = pastas.pastasExistentes(pastaSelecionada, categorias)
 
     if pastasParaReverter == set():
-        configs.mensagem("Nada para reverter.", "Não revertia nada.", simula, configs.CoresTexto.AMARELO)
+        mensagens.mensagem("nada_para_reverter", "nada_para_reverter_simula", simula, mensagens.CoresTexto.AMARELO)
         return
     
     ficheirosParaReverter = ficheiros.ficheirosParaReverter(pastasParaReverter)
 
     if ficheirosParaReverter == set():
-        configs.mensagem("Nada para reverter.", "Não revertia nada.", simula, configs.CoresTexto.AMARELO)
+        mensagens.mensagem("nada_para_reverter", "nada_para_reverter_simula", simula, mensagens.CoresTexto.AMARELO)
         return
     
     total = 0
@@ -43,15 +43,15 @@ def reverte(pastaSelecionada: Path, categorias: list[configs.CategoriaDePasta], 
         resultado = trabalho(ficheiro, pastaSelecionada, force, simula)
         if resultado:
             total += resultado
-            configs.mensagem(f"{ficheiro.name} tratado.", f"{ficheiro.name} seria tratado.", simula, configs.CoresTexto.AMARELO)
+            mensagens.mensagem("ficheiro_tratado", "ficheiro_seria_tratado", simula, mensagens.CoresTexto.AMARELO, ficheiro=ficheiro.name)
             if modo == configs.Modo.MOVER:
                 ficheirosMovidos.add(ficheiro)
 
     if modo == configs.Modo.MOVER:
         pastas.eliminaPastasVazias(pastasParaReverter, simula, ficheirosMovidos)
     if not simula:
-        logger.info("Terminou, %s ficheiros %s", total, tratamento)
-    configs.mensagem(f"Revertido, {total} ficheiros {tratamento}", f"Revertido, {total} ficheiros teriam sido {tratamento}", simula, configs.CoresTexto.AMARELO)
+        logger.info("Finished, %s files handled", total)
+    mensagens.mensagem("ficheiros_revertidos", "ficheiros_seriam_revertidos", simula, mensagens.CoresTexto.AMARELO, total=total, tratamento=tratamento)
 
 def reverteDatar(pastaSelecionada: Path, modo: configs.Modo, force: bool, simula: bool):
     """Remove o prefixo com data dos ficheiros contidos na pasta indicada.
@@ -81,11 +81,11 @@ def reverteDatar(pastaSelecionada: Path, modo: configs.Modo, force: bool, simula
             resultado = trabalho(ficheiro, pastaSelecionada, force, simula, ficheiroFinal)
             if resultado:
                 total += resultado
-                configs.mensagem(f"{ficheiro.name} tratado.", f"{ficheiro.name} seria tratado.", simula, configs.CoresTexto.AMARELO)
+                mensagens.mensagem("ficheiro_tratado", "ficheiro_seria_tratado", simula, mensagens.CoresTexto.AMARELO, ficheiro=ficheiro.name)
         else:
             if not simula:
-                logger.info("Ignorou o ficheiro %s", ficheiro)
-            configs.mensagem(f"Ficheiro ignorado: {ficheiro.name}", f"Ficheiro seria ignorado: {ficheiro.name}", simula, configs.CoresTexto.AMARELO)
+                logger.info("File ignored: '%s'", ficheiro)
+            mensagens.mensagem("ficheiro_ignorado", "ficheiro_seria_ignorado", simula, mensagens.CoresTexto.AMARELO, ficheiro=ficheiro.name)
     if not simula:
-        logger.info("Terminou, %s ficheiros %s", total, tratamento)
-    configs.mensagem(f"Revertido, {total} ficheiros {tratamento}", f"Revertido, {total} ficheiros teriam sido {tratamento}", simula, configs.CoresTexto.AMARELO)
+        logger.info("Finished, %s files handled.", total)
+    mensagens.mensagem("ficheiros_revertidos", "ficheiros_seriam_revertidos", simula, mensagens.CoresTexto.AMARELO, total=total, tratamento=tratamento)

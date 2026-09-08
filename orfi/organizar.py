@@ -1,7 +1,7 @@
 import logging
 from pathlib import Path
 
-from . import configs, ficheiros, pastas
+from . import configs, ficheiros, mensagens, pastas
 
 logger = logging.getLogger(__name__)
 
@@ -28,18 +28,18 @@ def organiza(pastaSelecionada: Path, categorias: list[configs.CategoriaDePasta],
     pastasParaCriar = pastas.devolvePastas(ficheiros.devolveExt(pastaSelecionada), categorias)
 
     if pastasParaCriar == set():
-        configs.mensagem("Nada para fazer.", "Não faria nada.", simula, configs.CoresTexto.AMARELO)
+        mensagens.mensagem("nada_para_fazer", "nada_para_fazer_simula", simula, mensagens.CoresTexto.AMARELO)
         return
 
     if not force:
-        confirmacao = input(f"{configs.CoresTexto.AZUL}Criar as pastas {pastasParaCriar}? (s/n): {configs.CoresTexto.RESET}")
-        if confirmacao.lower() != "s":
-            print(f"{configs.CoresTexto.AMARELO}Operação Cancelada{configs.CoresTexto.RESET}")
+        confirmacao = input(f"{mensagens.CoresTexto.AZUL}{mensagens.mensagemTrataIdioma('criar_pastas', pastas=pastasParaCriar)}{mensagens.CoresTexto.RESET}")
+        if confirmacao.lower() not in ("s", "y"):
+            mensagens.mensagem("operacao_cancelada", "operacao_cancelada", False, mensagens.CoresTexto.AMARELO)
             return
     cont = pastas.criaPastas(pastaSelecionada, pastasParaCriar, categorias, simula)
     if not simula:
-        logger.info("Terminou, %s pastas criadas.", cont)
-    configs.mensagem(f"{cont} pastas criadas.", f"{cont} pastas seriam criadas.", simula, configs.CoresTexto.VERDE)
+        logger.info("Finished, %s folders created.", cont)
+    mensagens.mensagem("pastas_criadas", "pastas_seriam_criadas", simula, mensagens.CoresTexto.VERDE, cont=cont)
 
     ficheirosLista = ficheiros.devolveFicheiros(pastaSelecionada)
 
@@ -50,12 +50,12 @@ def organiza(pastaSelecionada: Path, categorias: list[configs.CategoriaDePasta],
             resultado = trabalho(ficheiro, destino, force, simula)
             if resultado:
                 total += resultado
-                configs.mensagem(f"{ficheiro.name} tratado.", f"{ficheiro.name} seria tratado.", simula, configs.CoresTexto.AMARELO)
+                mensagens.mensagem("ficheiro_tratado", "ficheiro_seria_tratado", simula, mensagens.CoresTexto.AMARELO, ficheiro=ficheiro.name)
         else:
-            print(f"{configs.CoresTexto.AMARELO}Categoria ou caminho não encontrados para {ficheiro.name}{configs.CoresTexto.RESET}")
+            mensagens.mensagem("categoria_caminho_nao_encontrados", "categoria_caminho_nao_encontrados", False, mensagens.CoresTexto.AMARELO, ficheiro=ficheiro.name)
     if not simula:
-        logger.info("Terminou, %s ficheiros %s", total, tratamento)
-    configs.mensagem(f"Feito, {total} ficheiros {tratamento}", f"Feito, {total} ficheiros teriam sido {tratamento}", simula, configs.CoresTexto.AMARELO)
+        logger.info("Finished, %s files handled.", total)
+    mensagens.mensagem("ficheiros_tratados", "ficheiros_seriam_tratados", simula, mensagens.CoresTexto.AMARELO, total=total, tratamento=tratamento)
 
 def datar(pastaSelecionada: Path, modo: configs.Modo, force: bool, simula: bool):
     """Adiciona um prefixo com data aos ficheiros contidos na pasta indicada.
@@ -81,13 +81,13 @@ def datar(pastaSelecionada: Path, modo: configs.Modo, force: bool, simula: bool)
     total = 0
     for ficheiro in ficheirosLista:
         if ficheiros.verificaDatado(ficheiro):
-            print(f"{configs.CoresTexto.AMARELO}Ficheiro já datado: {ficheiro.name}{configs.CoresTexto.RESET}")
+            mensagens.mensagem("ficheiro_ja_datado", "ficheiro_ja_datado", False, mensagens.CoresTexto.AMARELO, ficheiro=ficheiro.name)
         else:
             ficheiroFinal = ficheiros.datarFicheiro(ficheiro, simula)
             resultado = trabalho(ficheiro, pastaSelecionada, force, simula, ficheiroFinal)
             if resultado:
                 total += resultado
-                configs.mensagem(f"{ficheiro.name} tratado.", f"{ficheiro.name} seria tratado.", simula, configs.CoresTexto.AMARELO)
+                mensagens.mensagem("ficheiro_tratado", "ficheiro_seria_tratado", simula, mensagens.CoresTexto.AMARELO, ficheiro=ficheiro.name)
     if not simula:
-        logger.info("Terminou, %s ficheiros %s", total, tratamento)
-    configs.mensagem(f"Feito, {total} ficheiros {tratamento}", f"Feito, {total} ficheiros teriam sido {tratamento}", simula, configs.CoresTexto.AMARELO)
+        logger.info("Finished, %s files handled.", total)
+    mensagens.mensagem("ficheiros_tratados", "ficheiros_seriam_tratados", simula, mensagens.CoresTexto.AMARELO, total=total, tratamento=tratamento)

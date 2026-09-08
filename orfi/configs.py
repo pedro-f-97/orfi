@@ -6,6 +6,8 @@ from dataclasses import dataclass
 from enum import Enum
 from pathlib import Path
 
+from . import mensagens
+
 logger = logging.getLogger(__name__)
 
 
@@ -19,31 +21,12 @@ def caminhoConfiguracao() -> Path:
         return Path(os.environ["APPDATA"]) / "orfi" / "config.toml"
     else:
         return Path.home() / ".config" / "orfi" / "config.toml"
-class CoresTexto:
-    VERDE = "\033[92m"
-    VERMELHO = "\033[91m"
-    AMARELO = "\033[93m"
-    AZUL = "\033[94m"
-    RESET = "\033[0m"
-
-def mensagem(mensagemNormal: str, mensagemSimulacao: str, simula: bool, cor: str):
-    """Imprime a mensagem correspondente ao modo de execução.
-
-    Args:
-        mensagemNormal: Mensagem apresentada numa execução normal.
-        mensagemSimulacao: Mensagem apresentada numa simulação.
-        simula: Se é simulação ou não.
-        cor: A cor que deve ser aplicada à mensagem.
-    """
-    if simula:
-        print(f"{CoresTexto.AMARELO}[SIMULAÇÃO] {mensagemSimulacao}{CoresTexto.RESET}")
-    else:
-        print(f"{cor}{mensagemNormal}{CoresTexto.RESET}")
 
 class Modo(Enum):
     COPIAR = "copiar"
     MOVER = "mover"
 
+idiomasExistentes = {"pt", "en"}
 
 @dataclass
 class CategoriaDePasta:
@@ -78,7 +61,7 @@ def carregarConfiguracao(caminho: Path | None = None) -> list[CategoriaDePasta]:
     if not caminho.exists():
         criarConfiguracaoStandard(caminho)
     
-    logger.info("Caminho configs: %s", caminho)
+    logger.info("Config path: %s", caminho)
 
     with caminho.open("rb") as ficheiro:
         data = tomllib.load(ficheiro)
@@ -94,6 +77,26 @@ def carregarConfiguracao(caminho: Path | None = None) -> list[CategoriaDePasta]:
         categorias.append(novaCategoria)
 
     return categorias
+
+def carregarIdioma(caminho: Path | None = None) -> str:
+    """Carrega as configurações e devolve o idioma.
+    Se o ficheiro de configuração não existir, é criado com as configurações predefinidas.
+
+    Args:
+        caminho: Caminho do ficheiro de configuração, caso None utiliza o caminho predefinido.
+    """
+    if caminho is None:
+        caminho = caminhoConfiguracao()
+
+    if not caminho.exists():
+        criarConfiguracaoStandard(caminho)
+
+    with caminho.open("rb") as ficheiro:
+        data = tomllib.load(ficheiro)
+
+    idioma = data.get("idioma", "en")
+
+    return idioma
 
 def verificaConfiguracao(categorias: list[CategoriaDePasta]) -> bool:
     """Verifica se a lista de categorias de pasta indicada é válida.
@@ -115,7 +118,7 @@ def verificaConfiguracao(categorias: list[CategoriaDePasta]) -> bool:
 
     for verifica in verificacoes:
         if not verifica(categorias):
-            logger.error("Erro config: %s", verifica.__name__)
+            logger.error("Config error: %s", verifica.__name__)
             ok = False
 
     return ok
@@ -146,9 +149,7 @@ def verificaExtDuplicadas(categorias: list[CategoriaDePasta]) -> bool:
 
     if erros:
         for extensao, categoriasExt in erros.items():
-            print(
-                f"{CoresTexto.VERMELHO}Extensão duplicada '{extensao}' nas categorias {categoriasExt}.{CoresTexto.RESET}"
-            )
+            mensagens.mensagem("extensao_duplicada", "extensao_duplicada", False, mensagens.CoresTexto.VERMELHO, extensao=extensao, categorias=categoriasExt)
 
         return False
 
@@ -172,7 +173,7 @@ def verificaCategoriasDuplicadas(categorias: list[CategoriaDePasta]) -> bool:
             categoriasValidar.add(categoria.nome)
 
     if erros:
-        print(f"{CoresTexto.VERMELHO}Categoria(s) duplicada(s) '{erros}'.{CoresTexto.RESET}")
+        mensagens.mensagem("categoria_duplicada", "categoria_duplicada", False, mensagens.CoresTexto.VERMELHO, categorias=erros)
         return False
     return True
 
@@ -190,7 +191,7 @@ def verificaCategoriasDefeito(categorias: list[CategoriaDePasta]) -> bool:
         if categoria.defeito:
             categoriasDefeito.add(categoria.nome)
     if len(categoriasDefeito) > 1:
-        print(f"{CoresTexto.VERMELHO}Mais do que uma categoria por defeito: '{categoriasDefeito}'.{CoresTexto.RESET}")
+        mensagens.mensagem("multiplas_categorias_defeito", "multiplas_categorias_defeito", False, mensagens.CoresTexto.VERMELHO, categorias=categoriasDefeito)
         return False
     return True
 
@@ -209,6 +210,16 @@ def verificaExtFormato(categorias: list[CategoriaDePasta]) -> bool:
             if ext.count(".") != 1 or not ext.startswith("."):
                 extErros.add(ext)
     if extErros:
-        print(f"{CoresTexto.VERMELHO}Extensões incorretas: '{extErros}'.{CoresTexto.RESET}")
+        mensagens.mensagem("extensoes_incorretas", "extensoes_incorretas", False, mensagens.CoresTexto.VERMELHO, extensoes=extErros)
         return False
     return True
+
+def alterarIdioma(idioma: str):
+    caminho = caminhoConfiguracao()
+    conteudo = caminho.read_text(encoding="utf-8")
+    linhas = conteudo.splitlines()
+    for i, linha in enumerate(linhas):
+        if linha.strip().startswith("idioma ="):
+            linhas[i] = f'idioma = "{idioma}"'
+            break
+    caminho.write_text("\n".join(linhas) + "\n", encoding="utf-8")

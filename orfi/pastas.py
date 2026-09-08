@@ -1,7 +1,7 @@
 import logging
 from pathlib import Path
 
-from . import configs, ficheiros
+from . import configs, ficheiros, mensagens
 
 logger = logging.getLogger(__name__)
 
@@ -22,11 +22,11 @@ def devolvePastas(setExt: set[str], categorias: list[configs.CategoriaDePasta]) 
         if categoria is not None:
             pastas.add(categoria.nome)
         else:
-            print(f"{configs.CoresTexto.AMARELO}Categoria não encontrada para {ext}{configs.CoresTexto.RESET}")
+            mensagens.mensagem("categoria_nao_encontrada", "categoria_nao_encontrada", False, mensagens.CoresTexto.AMARELO, ext=ext)
     if len(pastas) > 0:
-        print(f"{configs.CoresTexto.AMARELO}Pastas para criar: {pastas}{configs.CoresTexto.RESET}")
+        mensagens.mensagem("pastas_para_criar", "pastas_para_criar", False, mensagens.CoresTexto.AMARELO, pastas=pastas)
     else:
-        print(f"{configs.CoresTexto.AMARELO}Não vai criar pastas.{configs.CoresTexto.RESET}")
+        mensagens.mensagem("nao_vai_criar_pastas", "nao_vai_criar_pastas", False, mensagens.CoresTexto.AMARELO)
     return pastas
         
 
@@ -51,11 +51,11 @@ def criaPastas(caminho: Path, pastas: set[str], categorias: list[configs.Categor
         if not caminhoFinal.exists():
             if not simula:
                 caminhoFinal.mkdir(parents = False, exist_ok = True)
-                logger.info("Criou pasta: %s", caminhoFinal)
-            configs.mensagem(f"Pasta criada - {pasta}.", f"Pasta {pasta} seria criada.", simula, configs.CoresTexto.VERDE)   
+                logger.info("Created folder: %s", caminhoFinal)
+            mensagens.mensagem("pasta_criada", "pasta_seria_criada", simula, mensagens.CoresTexto.VERDE, pasta=pasta)   
             cont += 1
         else:
-            print(f"{configs.CoresTexto.AMARELO}Pasta {pasta} já existe. {configs.CoresTexto.RESET}")
+            mensagens.mensagem("pasta_existente", "pasta_existente", False, mensagens.CoresTexto.AMARELO, pasta=pasta)
     return cont
 
 def pastasExistentes(caminho: Path, categorias: list[configs.CategoriaDePasta]) -> set[Path]:
@@ -94,5 +94,5 @@ def eliminaPastasVazias(pastasParaReverter: set[Path], simula: bool, ficheirosMo
         if not ficheirosNaPasta:
             if not simula:
                 pasta.rmdir()
-                logger.info("Eliminou pasta: %s", pasta)
-            configs.mensagem(f"Pasta vazia '{pasta}' foi eliminada.", f"Pasta {pasta} seria eliminada.", simula, configs.CoresTexto.VERMELHO)
+                logger.info("Deleted folder: %s", pasta)
+            mensagens.mensagem("pasta_eliminada", "pasta_seria_eliminada", simula, mensagens.CoresTexto.VERMELHO, pasta=pasta)

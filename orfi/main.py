@@ -2,24 +2,40 @@ import logging
 import sys
 import time
 
-from . import alvo, configs, inicializar, logs, organizar, reverter
+from . import alvo, configs, inicializar, logs, mensagens, organizar, reverter
 
 logger = logging.getLogger(__name__)
 
 def main():
+    """Ponto de entrada: lê os argumentos da linha de comandos e encaminha o processo."""
     inicio = time.perf_counter()
     logs.configuraLogs()
-    logger.info("   --INÍCIO DE EXECUÇÃO--  ")
+    logger.info("   --PROCESS STARTING--  ")
     logger.info("OS: %s | %s",sys.platform, sys.version)
+
+    idioma = configs.carregarIdioma()
+    if idioma not in configs.idiomasExistentes:
+        mensagens.mensagem("idioma_invalido", "idioma_invalido", False, mensagens.CoresTexto.AMARELO, idiomas = configs.idiomasExistentes)
+        return
+    mensagens.definirIdioma(idioma)
     
     argumentos = inicializar.trataArgumentos()
+
+    if argumentos.idioma:
+        if argumentos.idioma not in configs.idiomasExistentes:
+            mensagens.mensagem("idioma_invalido", "idioma_invalido", False, mensagens.CoresTexto.AMARELO, idiomas=", ".join(configs.idiomasExistentes))
+            return
+        configs.alterarIdioma(argumentos.idioma)
+        mensagens.definirIdioma(argumentos.idioma)
+        mensagens.mensagem("idioma_alterado", "idioma_alterado", False, mensagens.CoresTexto.VERDE, idioma=argumentos.idioma)
+        return
 
     if argumentos.alvo:
         pastaSelecionada = alvo.defineAlvo()
     else:
         pastaSelecionada = alvo.defineAlvoAqui()
 
-    logger.info("Pasta selecionada: %s", pastaSelecionada)
+    logger.info("Selected folder: %s", pastaSelecionada)
 
     if argumentos.copiar:
         modo = configs.Modo.COPIAR
@@ -31,18 +47,18 @@ def main():
     simula = argumentos.simula
 
     if simula:
-        print(f"{configs.CoresTexto.AMARELO}[SIMULAÇÃO] Início de simulação.{configs.CoresTexto.RESET}")
+        mensagens.mensagem("inicio_simulacao", "inicio_simulacao", False, mensagens.CoresTexto.AMARELO)
 
     categorias = configs.carregarConfiguracao()
     if not configs.verificaConfiguracao(categorias):
-        print(f"{configs.CoresTexto.AMARELO}Configuração inválida, corrigir o config.toml.{configs.CoresTexto.RESET}")
+        mensagens.mensagem("configuracao_invalida", "configuracao_invalida", False, mensagens.CoresTexto.AMARELO)
         return
 
     if pastaSelecionada is None:
-        print(f"{configs.CoresTexto.AMARELO}Pasta inválida.{configs.CoresTexto.RESET}")
+        mensagens.mensagem("pasta_invalida", "pasta_invalida", False, mensagens.CoresTexto.AMARELO)
         return
 
-    print(f"{configs.CoresTexto.AZUL}Pasta selecionada: {pastaSelecionada} {configs.CoresTexto.RESET}")
+    mensagens.mensagem("pasta_selecionada", "pasta_selecionada", False, mensagens.CoresTexto.AZUL, pasta=pastaSelecionada)
 
     if argumentos.reverter:
         if not argumentos.datar:
@@ -57,10 +73,10 @@ def main():
         organizar.organiza(pastaSelecionada, categorias, modo, force, simula)
 
     if simula:
-        print(f"{configs.CoresTexto.AMARELO}[SIMULAÇÃO] Fim de simulação.{configs.CoresTexto.RESET}")
+        mensagens.mensagem("fim_simulacao", "fim_simulacao", False, mensagens.CoresTexto.AMARELO)
     duracao = time.perf_counter() - inicio
-    logger.info("   --FIM DE EXECUÇÃO--  ")
-    logger.info("   --%.2f SEGUNDOS--   ", duracao)
+    logger.info("   --PROCESS ENDED--  ")
+    logger.info("   --%.2f SECONDS--   ", duracao)
         
 if __name__ == "__main__":
     main()    
