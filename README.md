@@ -1,156 +1,166 @@
+🇵🇹 [Ler em português](README.pt.md)
+
 # Orfi
 
-**Or**ganiza **fi**cheiros soltos por pastas categorizadas através da linha de comandos.
+**Or**ganize **fi**les into categorized folders, straight from the command line.
 
 [![CI](https://github.com/pedro-f-97/orfi/actions/workflows/ci.yml/badge.svg)](https://github.com/pedro-f-97/orfi/actions/workflows/ci.yml)
 
-## Funcionalidades
+## Features
 
-- Organização automática de ficheiros por extensão
-- Pasta por defeito para ficheiros não reconhecidos
-- Suporte para mover ou copiar ficheiros
-- Reversão da organização
-- Categorias de ficheiros configuráveis
-- Configuração específica por utilizador
-- Datação dos ficheiros com a data de criação
-- Reversão da datação
-- Registo de logs
+- Automatic file organization by extension
+- Default folder for unrecognized files
+- Support for moving or copying files
+- Reversal of the organization
+- Configurable file categories
+- Per-user configuration
+- File dating with creation date
+- Reversal of dating
+- Logging
+- Configurable language
 
-## Instalação
+## Installation
 
-Requer Python 3.11 ou superior.
-Na pasta do projeto:
+Requires Python 3.11 or higher.
+From the project folder:
 
 ```bash
 python -m pip install .
 ```
 
-Depois da instalação, o programa pode ser executado através do comando:
+After installation, the program can be run with the command:
 
 ```bash
 orfi
 ```
 
-## Opções
+## Options
 
-| Opção            | Descrição                          |
-|------------------|-------------------------------------|
-| `-a`, `--alvo`   | Permite selecionar a pasta alvo     |
-| `-c`, `--copiar` | Copia os ficheiros em vez de os mover |
-| `-r`, `--reverter` | Reverte a organização              |
-| `-d`, `--datar`  | Adiciona a data de criação ao nome dos ficheiros  |
-| `-f`, `--force`  | Aceita automaticamente as confirmações necessárias  |
-| `-s`, `--simula`  | Simula o processo sem fazer nenhuma alteração real  |
+| Option             | Description                              |
+|--------------------|-------------------------------------------|
+| `-a`, `--alvo`     | Allows selecting the target folder        |
+| `-c`, `--copiar`   | Copies files instead of moving them       |
+| `-r`, `--reverter` | Reverts the organization                  |
+| `-d`, `--datar`    | Adds the creation date to file names      |
+| `-f`, `--force`    | Automatically accepts required confirmations |
+| `-s`, `--simula`   | Simulates the process without making any real changes |
+| `-i`, `--idioma`   | Changes the language to the one specified |
 
-## Utilização
+## Usage
 
-Para consultar todas as opções disponíveis:
+To see all available options:
 
 ```bash
 orfi --help
 ```
 
-Organizar a pasta atual:
+Organize the current folder:
 
 ```bash
 orfi
 ```
 
-Organizar a pasta atual aceitando automaticamente todas as confirmações:
+Organize the current folder, automatically accepting all confirmations:
 
 ```bash
 orfi -f
 ```
 
-Selecionar uma pasta específica:
+Change the language to Portuguese:
+
+```bash
+orfi -i pt
+```
+
+Select a specific folder:
 
 ```bash
 orfi -a
 ```
 
-Copiar os ficheiros em vez de os mover:
+Copy files instead of moving them:
 
 ```bash
 orfi -c
 ```
 
-Reverter a organização por categorias:
+Revert the organization by categories:
 
 ```bash
 orfi -r
 ```
 
-Adicionar a data de criação ao nome dos ficheiros:
+Add the creation date to file names:
 
 ```bash
 orfi -d
 ```
 
-Simular a organização de uma pasta específica:
+Simulate organizing a specific folder:
 
 ```bash
 orfi -a -s
 ```
 
-Por exemplo:
+For example:
 
 ```text
 relatorio.pdf → 260903_relatorio.pdf
 ```
 
-Copiar e datar os ficheiros:
+Copy and date the files:
 
 ```bash
 orfi -d -c
 ```
 
-Reverter a datação:
+Revert the dating:
 
 ```bash
 orfi -d -r
 ```
 
-Copiar os ficheiros revertendo a datação:
+Copy files while reverting the dating:
 
 ```bash
 orfi -d -r -c
 ```
 
-As opções podem ser combinadas. Por exemplo, para selecionar uma pasta e simular a reversão da data dos ficheiros, por cópia e aceitando automaticamente todas as confirmações necessárias:
+Options can be combined. For example, to select a folder and simulate reverting the file dating, by copying, while automatically accepting all required confirmations:
 
 ```bash
 orfi -a -r -c -d -f -s
 ```
 
-## Configuração
+## Configuration
 
-As categorias e respetivas extensões são definidas através do ficheiro `config.toml`.
+Categories and their respective extensions are defined through the `config.toml` file.
 
-O Orfi inclui uma configuração predefinida que é copiada automaticamente para a localização de configuração do utilizador na primeira execução.
+Orfi ships with a default configuration that is automatically copied to the user's configuration location on first run.
 
-### Localização
+### Location
 
-No Windows:
+On Windows:
 
 ```text
 %APPDATA%\orfi\config.toml
 ```
 
-No Linux:
+On Linux:
 
 ```text
 ~/.config/orfi/config.toml
 ```
 
-O ficheiro de configuração do utilizador não é substituído quando o Orfi é atualizado ou reinstalado.
+The user's configuration file is not overwritten when Orfi is updated or reinstalled.
 
 ### Logs
 
-O Orfi regista as operações executadas num ficheiro `orfi.log`, localizado junto do ficheiro de configuração.
+Orfi logs the operations it performs to an `orfi.log` file, located next to the configuration file.
 
-### Categorias
+### Categories
 
-Cada categoria pode definir um conjunto de extensões:
+Each category can define a set of extensions:
 
 ```toml
 [[categorias]]
@@ -158,7 +168,7 @@ nome = "Imagens"
 extensoes = [".jpg", ".png", ".gif"]
 ```
 
-Uma categoria pode ser definida como categoria por defeito:
+A category can be set as the default category:
 
 ```toml
 [[categorias]]
@@ -167,16 +177,16 @@ extensoes = []
 defeito = true
 ```
 
-Os ficheiros cuja extensão não corresponda a nenhuma categoria são encaminhados para a categoria por defeito.
+Files whose extension doesn't match any category are routed to the default category.
 
-A configuração permite criar, alterar ou remover categorias e extensões de acordo com as necessidades do utilizador.
+The configuration allows creating, changing, or removing categories and extensions according to the user's needs.
 
-## Testes
+## Tests
 
-Os testes podem ser executados com:
+Tests can be run with:
 
 ```bash
 pytest
 ```
 
-O projeto utiliza `pytest` para testar as diferentes funcionalidades do Orfi.
+The project uses `pytest` to test Orfi's different features.
