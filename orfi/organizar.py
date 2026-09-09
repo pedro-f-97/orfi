@@ -22,7 +22,7 @@ def organiza(pastaSelecionada: Path, categorias: list[configs.CategoriaDePasta],
         trabalho = ficheiros.moveFicheiro
         tratamento = "movidos."
     else:
-        print(f"{configs.CoresTexto.VERMELHO}Modo {modo} inesperado. Operação cancelada.{configs.CoresTexto.RESET}")
+        mensagens.mensagem("modo_inesperado", "modo_inesperado", False, mensagens.CoresTexto.VERMELHO, modo=modo)
         return
 
     pastasParaCriar = pastas.devolvePastas(ficheiros.devolveExt(pastaSelecionada), categorias)
@@ -73,7 +73,7 @@ def datar(pastaSelecionada: Path, modo: configs.Modo, force: bool, simula: bool)
         trabalho = ficheiros.moveFicheiro
         tratamento = "datados."
     else:
-        print(f"{configs.CoresTexto.VERMELHO}Modo {modo} inesperado. Operação cancelada.{configs.CoresTexto.RESET}")
+        mensagens.mensagem("modo_inesperado", "modo_inesperado", False, mensagens.CoresTexto.VERMELHO, modo=modo)
         return
 
     ficheirosLista = ficheiros.devolveFicheiros(pastaSelecionada)

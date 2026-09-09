@@ -215,6 +215,11 @@ def verificaExtFormato(categorias: list[CategoriaDePasta]) -> bool:
     return True
 
 def alterarIdioma(idioma: str):
+    """Altera o idioma da configuração para o indicado.
+
+    Args:
+        idioma: o idioma selecionado.
+    """
     caminho = caminhoConfiguracao()
     conteudo = caminho.read_text(encoding="utf-8")
     linhas = conteudo.splitlines()

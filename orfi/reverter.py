@@ -22,7 +22,7 @@ def reverte(pastaSelecionada: Path, categorias: list[configs.CategoriaDePasta], 
         trabalho = ficheiros.moveFicheiro
         tratamento = "movidos."
     else:
-        print(f"{configs.CoresTexto.VERMELHO}Modo {modo} inesperado. Operação cancelada.{configs.CoresTexto.RESET}")
+        mensagens.mensagem("modo_inesperado", "modo_inesperado", False, mensagens.CoresTexto.VERMELHO, modo=modo)
         return
 
     pastasParaReverter = pastas.pastasExistentes(pastaSelecionada, categorias)
@@ -69,7 +69,7 @@ def reverteDatar(pastaSelecionada: Path, modo: configs.Modo, force: bool, simula
         trabalho = ficheiros.moveFicheiro
         tratamento = "revertidos."
     else:
-        print(f"{configs.CoresTexto.VERMELHO}Modo {modo} inesperado. Operação cancelada.{configs.CoresTexto.RESET}")
+        mensagens.mensagem("modo_inesperado", "modo_inesperado", False, mensagens.CoresTexto.VERMELHO, modo=modo)
         return
 
     ficheirosLista = ficheiros.devolveFicheiros(pastaSelecionada)
