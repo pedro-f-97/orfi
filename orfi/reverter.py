@@ -17,10 +17,10 @@ def reverte(pastaSelecionada: Path, categorias: list[configs.CategoriaDePasta], 
     """
     if modo == configs.Modo.COPIAR:
         trabalho = ficheiros.copiaFicheiro
-        tratamento = "copiados."
+        tratamento = mensagens.mensagemTrataIdioma("tratamento_reverter_copia")
     elif modo == configs.Modo.MOVER:
         trabalho = ficheiros.moveFicheiro
-        tratamento = "movidos."
+        tratamento = mensagens.mensagemTrataIdioma("tratamento_reverter_movimento")
     else:
         mensagens.mensagem("modo_inesperado", "modo_inesperado", False, mensagens.CoresTexto.VERMELHO, modo=modo)
         return
@@ -64,10 +64,10 @@ def reverteDatar(pastaSelecionada: Path, modo: configs.Modo, force: bool, simula
     """
     if modo == configs.Modo.COPIAR:
         trabalho = ficheiros.copiaFicheiro
-        tratamento = "copiados e revertidos."
+        tratamento = mensagens.mensagemTrataIdioma("tratamento_reverter_datar_copia")
     elif modo == configs.Modo.MOVER:
         trabalho = ficheiros.moveFicheiro
-        tratamento = "revertidos."
+        tratamento = mensagens.mensagemTrataIdioma("tratamento_reverter_datar_movimento")
     else:
         mensagens.mensagem("modo_inesperado", "modo_inesperado", False, mensagens.CoresTexto.VERMELHO, modo=modo)
         return
