@@ -2,7 +2,7 @@
 
 # Orfi
 
-**Or**ganiza **fi** pela da linha de comandos.
+**Or**ganiza **fi**cheiros pela da linha de comandos.
 
 [![CI](https://github.com/pedro-f-97/orfi/actions/workflows/ci.yml/badge.svg)](https://github.com/pedro-f-97/orfi/actions/workflows/ci.yml)
 
