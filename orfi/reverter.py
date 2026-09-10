@@ -58,7 +58,7 @@ def reverte(pastaSelecionada: Path, categorias: list[configs.CategoriaDePasta], 
 
     return resultados
 
-def reverteDatar(pastaSelecionada: Path, modo: configs.Modo, force: bool, simula: bool):
+def reverteDatar(pastaSelecionada: Path, modo: configs.Modo, force: bool, simula: bool) -> configs.ResultadosOperacao:
     """Remove o prefixo com data dos ficheiros contidos na pasta indicada.
 
     Args:
@@ -66,7 +66,12 @@ def reverteDatar(pastaSelecionada: Path, modo: configs.Modo, force: bool, simula
         modo: Define se os ficheiros são movidos ou copiados.
         force: Se aceita automaticamente todas as verificações ou não.
         simula: Se é para apenas simular o processo ou não.
+
+    Returns:
+        O resultado da operação com o número de ficheiros tratados.
     """
+    resultados = configs.ResultadosOperacao()
+
     if modo == configs.Modo.COPIAR:
         trabalho = ficheiros.copiaFicheiro
         tratamento = mensagens.mensagemTrataIdioma("tratamento_reverter_datar_copia")
@@ -75,22 +80,22 @@ def reverteDatar(pastaSelecionada: Path, modo: configs.Modo, force: bool, simula
         tratamento = mensagens.mensagemTrataIdioma("tratamento_reverter_datar_movimento")
     else:
         mensagens.mensagem("modo_inesperado", "modo_inesperado", False, mensagens.CoresTexto.VERMELHO, modo=modo)
-        return
+        return resultados
 
     ficheirosLista = ficheiros.devolveFicheiros(pastaSelecionada)
 
-    total = 0
     for ficheiro in ficheirosLista:
         if ficheiros.verificaDatado(ficheiro):
             ficheiroFinal = ficheiros.reverteDatarFicheiro(ficheiro, simula)
             resultado = trabalho(ficheiro, pastaSelecionada, force, simula, ficheiroFinal)
             if resultado:
-                total += resultado
+                resultados.ficheirosTratados += resultado
                 mensagens.mensagem("ficheiro_tratado", "ficheiro_seria_tratado", simula, mensagens.CoresTexto.AMARELO, ficheiro=ficheiro.name)
         else:
             if not simula:
                 logger.info("File ignored: '%s'", ficheiro)
             mensagens.mensagem("ficheiro_ignorado", "ficheiro_seria_ignorado", simula, mensagens.CoresTexto.AMARELO, ficheiro=ficheiro.name)
     if not simula:
-        logger.info("Finished, %s files handled.", total)
-    mensagens.mensagem("ficheiros_revertidos", "ficheiros_seriam_revertidos", simula, mensagens.CoresTexto.AMARELO, total=total, tratamento=tratamento)
+        logger.info("Finished, %s files handled.", resultados.ficheirosTratados)
+    mensagens.mensagem("ficheiros_revertidos", "ficheiros_seriam_revertidos", simula, mensagens.CoresTexto.AMARELO, total=resultados.ficheirosTratados, tratamento=tratamento)
+    return resultados
