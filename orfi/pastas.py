@@ -83,6 +83,9 @@ def eliminaPastasVazias(pastasParaReverter: set[Path], simula: bool, ficheirosMo
         pastasParaReverter: As pastas a analisar.
         simula: Se é para apenas simular o processo ou não.
         ficheirosMovidos: Lista de ficheiros que seriam movidos pelo processo anterior em modo simular.
+
+    Returns:
+        O número de pastas que foram ou seriam eliminadas.
     """
     pastasEliminadas = 0
     for pasta in pastasParaReverter:
