@@ -8,18 +8,13 @@ def test_definirIdioma():
     else:
         novoIdioma = 'pt'
     
-    orfi.mensagens.definirIdioma(novoIdioma)
+    assert orfi.mensagens.definirIdioma(novoIdioma)
     assert novoIdioma == orfi.mensagens.idioma
 
 def test_definirIdiomaErro():
-    idiomaActual = orfi.mensagens.idioma
-    if idiomaActual == 'pt':
-        novoIdioma = 'en'
-    else:
-        novoIdioma = 'pt'
-    
-    assert orfi.mensagens.definirIdioma(novoIdioma)
-    assert novoIdioma == orfi.mensagens.idioma
+    idioma = orfi.mensagens.idioma
+    assert not orfi.mensagens.definirIdioma("xx")
+    assert orfi.mensagens.idioma == idioma
 
 def test_mensagemTrataIdioma():
     orfi.mensagens.definirIdioma('pt')
