@@ -63,7 +63,7 @@ def organiza(pastaSelecionada: Path, categorias: list[configs.CategoriaDePasta],
     mensagens.mensagem("ficheiros_tratados", "ficheiros_seriam_tratados", simula, mensagens.CoresTexto.AMARELO, total=resultados.ficheirosTratados, tratamento=tratamento)
     return resultados
 
-def datar(pastaSelecionada: Path, modo: configs.Modo, force: bool, simula: bool):
+def datar(pastaSelecionada: Path, modo: configs.Modo, force: bool, simula: bool) -> configs.ResultadosOperacao:
     """Adiciona um prefixo com data aos ficheiros contidos na pasta indicada.
 
     Args:
@@ -71,7 +71,12 @@ def datar(pastaSelecionada: Path, modo: configs.Modo, force: bool, simula: bool)
         modo: Define se os ficheiros são movidos ou copiados.
         force: Se aceita automaticamente todas as verificações ou não.
         simula: Se é para apenas simular o processo ou não.
+
+    Returns:
+        O resultado da operação com o número de ficheiros tratados.
     """
+    resultados = configs.ResultadosOperacao()
+
     if modo == configs.Modo.COPIAR:
         trabalho = ficheiros.copiaFicheiro
         tratamento = mensagens.mensagemTrataIdioma("tratamento_datar_copia")
@@ -80,11 +85,10 @@ def datar(pastaSelecionada: Path, modo: configs.Modo, force: bool, simula: bool)
         tratamento = mensagens.mensagemTrataIdioma("tratamento_datar_movimento")
     else:
         mensagens.mensagem("modo_inesperado", "modo_inesperado", False, mensagens.CoresTexto.VERMELHO, modo=modo)
-        return
+        return resultados
 
     ficheirosLista = ficheiros.devolveFicheiros(pastaSelecionada)
 
-    total = 0
     for ficheiro in ficheirosLista:
         if ficheiros.verificaDatado(ficheiro):
             mensagens.mensagem("ficheiro_ja_datado", "ficheiro_ja_datado", False, mensagens.CoresTexto.AMARELO, ficheiro=ficheiro.name)
@@ -92,8 +96,9 @@ def datar(pastaSelecionada: Path, modo: configs.Modo, force: bool, simula: bool)
             ficheiroFinal = ficheiros.datarFicheiro(ficheiro, simula)
             resultado = trabalho(ficheiro, pastaSelecionada, force, simula, ficheiroFinal)
             if resultado:
-                total += resultado
+                resultados.ficheirosTratados += resultado
                 mensagens.mensagem("ficheiro_tratado", "ficheiro_seria_tratado", simula, mensagens.CoresTexto.AMARELO, ficheiro=ficheiro.name)
     if not simula:
-        logger.info("Finished, %s files handled.", total)
-    mensagens.mensagem("ficheiros_tratados", "ficheiros_seriam_tratados", simula, mensagens.CoresTexto.AMARELO, total=total, tratamento=tratamento)
+        logger.info("Finished, %s files handled.", resultados.ficheirosTratados)
+    mensagens.mensagem("ficheiros_tratados", "ficheiros_seriam_tratados", simula, mensagens.CoresTexto.AMARELO, total=resultados.ficheirosTratados, tratamento=tratamento)
+    return resultados
