@@ -159,49 +159,6 @@ def test_reverteConflitoFicheiroExistente(tmp_path, monkeypatch):
         tipos.add(path.is_dir())
     assert True in tipos and False in tipos
 
-def test_reverteDatar(tmp_path):
-    modo = orfi.configs.Modo.MOVER
-
-    pastaBase = (tmp_path / "Base")
-    pastaBase.mkdir()
-
-    ficheiros = set()
-    ficheiros.add("260131_notas.txt")
-    ficheiros.add("250131_doc.pdf")
-
-    for ficheiro in ficheiros:
-        (pastaBase / ficheiro).touch()
-
-    orfi.reverter.reverteDatar(pastaBase, modo, False, False)
-
-    for ficheiro in ficheiros:
-        assert not (pastaBase / ficheiro).exists()
-
-    cont = 0
-    for ficheiro in pastaBase.iterdir():
-        cont += 1
-    assert cont == 2
-
-def test_reverteDatarCopiar(tmp_path):
-    modo = orfi.configs.Modo.COPIAR
-
-    pastaBase = (tmp_path / "Base")
-    pastaBase.mkdir()
-
-    ficheiros = set()
-    ficheiros.add("260131_notas.txt")
-    ficheiros.add("250131_doc.pdf")
-
-    for ficheiro in ficheiros:
-        (pastaBase / ficheiro).touch()
-
-    orfi.reverter.reverteDatar(pastaBase, modo, False, False)
-
-    for ficheiro in ficheiros:
-        assert (pastaBase / ficheiro).exists()
-        ficheiroRevertido = pastaBase / ficheiro[7:]
-        assert ficheiroRevertido.exists()
-
 def test_reverteSimula(tmp_path):
     simula = True
     modo = orfi.configs.Modo.MOVER
@@ -229,7 +186,10 @@ def test_reverteSimula(tmp_path):
             ficheirosCriados.add(ficheiro)
             assert ficheiro.exists()
 
-    orfi.reverter.reverte(pastaBase, categorias, modo, False, simula)
+    resultados = orfi.reverter.reverte(pastaBase, categorias, modo, False, simula)
+
+    assert resultados.ficheirosTratados == len(ficheirosCriados)
+    assert resultados.pastasEliminadas == len(pastasCriadas)
 
     for pasta in pastasCriadas:
         assert pasta.exists()
@@ -238,32 +198,9 @@ def test_reverteSimula(tmp_path):
         assert ficheiro.exists()
         assert not (pastaBase / ficheiro.name).exists()
 
-def test_reverteDatarSimula(tmp_path):
-    simula = True
-    modo = orfi.configs.Modo.MOVER
-
-    pastaBase = (tmp_path / "Base")
-    pastaBase.mkdir()
-
-    ficheiros = set()
-    ficheiros.add("260131_notas.txt")
-    ficheiros.add("250131_doc.pdf")
-
-    for ficheiro in ficheiros:
-        (pastaBase / ficheiro).touch()
-
-    orfi.reverter.reverteDatar(pastaBase, modo, False, simula)
-
-    for ficheiro in ficheiros:
-        assert (pastaBase / ficheiro).exists()
-
-    cont = 0
-    for ficheiro in pastaBase.iterdir():
-        cont += 1
-    assert cont == 2
-
 def test_reverteSimulacaDeveEliminarPasta(tmp_path, capsys):
     simula = True
+    modo = orfi.configs.Modo.MOVER
     pasta = tmp_path / "teste"
     pasta.mkdir()
 
@@ -279,20 +216,13 @@ def test_reverteSimulacaDeveEliminarPasta(tmp_path, capsys):
         extensoes={".jpg"}
     )
 
-    orfi.reverter.reverte(
-        pasta,
-        [categoria],
-        orfi.configs.Modo.MOVER,
-        True,
-        simula
-    )
+    resultados = orfi.reverter.reverte(pasta, [categoria], modo, True, simula)
 
-    resultado = capsys.readouterr().out
-
-    assert "seria eliminada" in resultado or "would be deleted" in resultado
+    assert resultados.pastasEliminadas == 1
 
 def test_reverteSimulacaIgnoraPastaSemCategoria(tmp_path, capsys):
     simula = True
+    modo = orfi.configs.Modo.MOVER
     pasta = tmp_path / "teste"
     pasta.mkdir()
 
@@ -308,14 +238,78 @@ def test_reverteSimulacaIgnoraPastaSemCategoria(tmp_path, capsys):
         extensoes={".jpg"}
     )
 
-    orfi.reverter.reverte(
-        pasta,
-        [categoria],
-        orfi.configs.Modo.MOVER,
-        True,
-        simula
-    )
+    resultados = orfi.reverter.reverte(pasta, [categoria], modo, True, simula)
 
-    resultado = capsys.readouterr().out
+    assert resultados.pastasEliminadas == 0
 
-    assert not "seria eliminada" in resultado
+def test_reverteDatar(tmp_path):
+    modo = orfi.configs.Modo.MOVER
+
+    pastaBase = (tmp_path / "Base")
+    pastaBase.mkdir()
+
+    ficheiros = set()
+    ficheiros.add("260131_notas.txt")
+    ficheiros.add("250131_doc.pdf")
+
+    for ficheiro in ficheiros:
+        (pastaBase / ficheiro).touch()
+
+    resultados = orfi.reverter.reverteDatar(pastaBase, modo, False, False)
+
+    assert resultados.ficheirosTratados == len(ficheiros)
+
+    for ficheiro in ficheiros:
+        assert not (pastaBase / ficheiro).exists()
+
+    cont = 0
+    for ficheiro in pastaBase.iterdir():
+        cont += 1
+    assert cont == 2
+
+def test_reverteDatarCopiar(tmp_path):
+    modo = orfi.configs.Modo.COPIAR
+
+    pastaBase = (tmp_path / "Base")
+    pastaBase.mkdir()
+
+    ficheiros = set()
+    ficheiros.add("260131_notas.txt")
+    ficheiros.add("250131_doc.pdf")
+
+    for ficheiro in ficheiros:
+        (pastaBase / ficheiro).touch()
+
+    resultados = orfi.reverter.reverteDatar(pastaBase, modo, False, False)
+
+    assert resultados.ficheirosTratados == len(ficheiros)
+
+    for ficheiro in ficheiros:
+        assert (pastaBase / ficheiro).exists()
+        ficheiroRevertido = pastaBase / ficheiro[7:]
+        assert ficheiroRevertido.exists()
+
+def test_reverteDatarSimula(tmp_path):
+    simula = True
+    modo = orfi.configs.Modo.MOVER
+
+    pastaBase = (tmp_path / "Base")
+    pastaBase.mkdir()
+
+    ficheiros = set()
+    ficheiros.add("260131_notas.txt")
+    ficheiros.add("250131_doc.pdf")
+
+    for ficheiro in ficheiros:
+        (pastaBase / ficheiro).touch()
+
+    resultados = orfi.reverter.reverteDatar(pastaBase, modo, False, simula)
+
+    assert resultados.ficheirosTratados == len(ficheiros)
+    for ficheiro in ficheiros:
+        assert (pastaBase / ficheiro).exists()
+
+    cont = 0
+    for ficheiro in pastaBase.iterdir():
+        cont += 1
+    assert cont == 2
