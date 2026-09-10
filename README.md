@@ -2,7 +2,7 @@
 
 # Orfi
 
-**Or**ganize **fi**les into categorized folders, straight from the command line.
+**Or**ganize **fi**les, straight from the command line.
 
 [![CI](https://github.com/pedro-f-97/orfi/actions/workflows/ci.yml/badge.svg)](https://github.com/pedro-f-97/orfi/actions/workflows/ci.yml)
 
