@@ -180,3 +180,19 @@ def test_verificaExtFormatoPontoErrado(tmp_path):
 
     categorias = simulaConfiguracao(configuracao, tmp_path)
     assert not orfi.configs.verificaExtFormato(categorias)
+
+def test_carregarIdioma(tmp_path):
+    configurar = tmp_path / "config.toml"
+    carregar = orfi.configs.carregarIdioma(configurar)
+    assert carregar == "en"
+
+def test_alterarIdioma(tmp_path):
+    configurar = tmp_path / "config.toml"
+    idiomaActual = orfi.configs.carregarIdioma(configurar)
+    if idiomaActual == "en":
+        idiomaAlterar = "pt"
+    else:
+        idiomaAlterar = "en"
+    
+    assert orfi.configs.alterarIdioma(idiomaAlterar, configurar)
+    assert orfi.configs.carregarIdioma(configurar) == idiomaAlterar
