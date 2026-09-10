@@ -48,7 +48,9 @@ def reverte(pastaSelecionada: Path, categorias: list[configs.CategoriaDePasta], 
                 ficheirosMovidos.add(ficheiro)
 
     if modo == configs.Modo.MOVER:
-        pastas.eliminaPastasVazias(pastasParaReverter, simula, ficheirosMovidos)
+        pastasEliminadas = pastas.eliminaPastasVazias(pastasParaReverter, simula, ficheirosMovidos)
+        if pastasEliminadas > 0:
+            mensagens.mensagem("pastas_eliminadas", "pastas_eliminadas_simula", simula, mensagens.CoresTexto.VERMELHO, numero=pastasEliminadas)
     if not simula:
         logger.info("Finished, %s files handled", total)
     mensagens.mensagem("ficheiros_revertidos", "ficheiros_seriam_revertidos", simula, mensagens.CoresTexto.AMARELO, total=total, tratamento=tratamento)
