@@ -205,6 +205,9 @@ def carregarIdioma(caminho: Path | None = None) -> str:
 
     Args:
         caminho: Caminho do ficheiro de configuração, caso None utiliza o caminho predefinido.
+
+    Returns:
+        O idioma carregado.
     """
     if caminho is None:
         caminho = caminhoConfiguracao()
@@ -219,11 +222,14 @@ def carregarIdioma(caminho: Path | None = None) -> str:
 
     return idioma
 
-def alterarIdioma(idioma: str, caminho: Path | None = None):
+def alterarIdioma(idioma: str, caminho: Path | None = None) -> bool:
     """Altera o idioma da configuração para o indicado.
 
     Args:
         idioma: o idioma selecionado.
+
+    Returns:
+        True se válido, False se inválido.
     """
     if idioma not in idiomasExistentes:
         return False
