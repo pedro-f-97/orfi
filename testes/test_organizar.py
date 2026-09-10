@@ -230,8 +230,9 @@ def test_datar(tmp_path):
     for ficheiro in ficheiros:
         (pastaBase / ficheiro).touch()
 
-    orfi.organizar.datar(pastaBase, modo, False, False)
+    resultados = orfi.organizar.datar(pastaBase, modo, False, False)
 
+    assert resultados.ficheirosTratados == len(ficheiros)
     for ficheiro in ficheiros:
         assert not (pastaBase / ficheiro).exists()
 
@@ -255,8 +256,9 @@ def test_datarCopiar(tmp_path):
     for ficheiro in ficheiros:
         (pastaBase / ficheiro).touch()
 
-    orfi.organizar.datar(pastaBase, modo, False, False)
+    resultados = orfi.organizar.datar(pastaBase, modo, False, False)
 
+    assert resultados.ficheirosTratados == len(ficheiros)
     for ficheiro in ficheiros:
         assert (pastaBase / ficheiro).exists()
 
@@ -284,10 +286,30 @@ def test_datarSimula(tmp_path):
     for ficheiro in ficheiros:
         (pastaBase / ficheiro).touch()
 
-    orfi.organizar.datar(pastaBase, modo, False, simula)
+    resultados = orfi.organizar.datar(pastaBase, modo, False, simula)
 
+    assert resultados.ficheirosTratados == len(ficheiros)
     for ficheiro in ficheiros:
         assert (pastaBase / ficheiro).exists()
 
     for ficheiro in pastaBase.iterdir():
         assert not ficheiro.name[7:] in ficheiros
+
+def test_datarDatado(tmp_path):
+    modo = orfi.configs.Modo.MOVER
+
+    pastaBase = (tmp_path / "Base")
+    pastaBase.mkdir()
+
+    ficheiros = set()
+    ficheiros.add("260911_notas.txt")
+    ficheiros.add("260910_doc.pdf")
+
+    for ficheiro in ficheiros:
+        (pastaBase / ficheiro).touch()
+
+    resultados = orfi.organizar.datar(pastaBase, modo, False, False)
+
+    assert resultados.ficheirosTratados == 0
+    for ficheiro in ficheiros:
+        assert (pastaBase / ficheiro).exists()
