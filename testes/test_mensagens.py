@@ -8,7 +8,7 @@ def test_definirIdioma():
     else:
         novoIdioma = 'pt'
     
-    assert orfi.mensagens.definirIdioma(novoIdioma)
+    orfi.mensagens.definirIdioma(novoIdioma)
     assert novoIdioma == orfi.mensagens.idioma
 
 def test_mensagemTrataIdioma():
@@ -16,3 +16,9 @@ def test_mensagemTrataIdioma():
     teste = orfi.mensagens.mensagemTrataIdioma('ficheiro_existente_substituir', ficheiro="teste", destino="teste")
 
     assert teste == "Já existe o ficheiro teste na pasta teste, substituir? (s/n): "
+
+def test_mensagem(capsys):
+    orfi.mensagens.definirIdioma('pt')
+    orfi.mensagens.mensagem("ficheiro_cancelado", "ficheiro_cancelado", False, orfi.mensagens.CoresTexto.AMARELO, ficheiro="teste")
+    teste = capsys.readouterr()
+    assert "Ficheiro teste cancelado." in teste.out
