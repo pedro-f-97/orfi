@@ -38,10 +38,6 @@ def reverte(pastaSelecionada: Path, categorias: list[configs.CategoriaDePasta], 
         return resultados
     
     ficheirosParaReverter = ficheiros.ficheirosParaReverter(pastasParaReverter)
-
-    if ficheirosParaReverter == set():
-        mensagens.mensagem("nada_para_reverter", "nada_para_reverter_simula", simula, mensagens.CoresTexto.AMARELO)
-        return resultados
     
     ficheirosMovidos = set()
     for ficheiro in ficheirosParaReverter:
