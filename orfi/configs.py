@@ -83,26 +83,6 @@ def carregarConfiguracao(caminho: Path | None = None) -> list[CategoriaDePasta]:
 
     return categorias
 
-def carregarIdioma(caminho: Path | None = None) -> str:
-    """Carrega as configurações e devolve o idioma.
-    Se o ficheiro de configuração não existir, é criado com as configurações predefinidas.
-
-    Args:
-        caminho: Caminho do ficheiro de configuração, caso None utiliza o caminho predefinido.
-    """
-    if caminho is None:
-        caminho = caminhoConfiguracao()
-
-    if not caminho.exists():
-        criarConfiguracaoStandard(caminho)
-
-    with caminho.open("rb") as ficheiro:
-        data = tomllib.load(ficheiro)
-
-    idioma = data.get("idioma", "en")
-
-    return idioma
-
 def verificaConfiguracao(categorias: list[CategoriaDePasta]) -> bool:
     """Verifica se a lista de categorias de pasta indicada é válida.
 
@@ -219,13 +199,37 @@ def verificaExtFormato(categorias: list[CategoriaDePasta]) -> bool:
         return False
     return True
 
-def alterarIdioma(idioma: str):
+def carregarIdioma(caminho: Path | None = None) -> str:
+    """Carrega as configurações e devolve o idioma.
+    Se o ficheiro de configuração não existir, é criado com as configurações predefinidas.
+
+    Args:
+        caminho: Caminho do ficheiro de configuração, caso None utiliza o caminho predefinido.
+    """
+    if caminho is None:
+        caminho = caminhoConfiguracao()
+
+    if not caminho.exists():
+        criarConfiguracaoStandard(caminho)
+
+    with caminho.open("rb") as ficheiro:
+        data = tomllib.load(ficheiro)
+
+    idioma = data.get("idioma", "en")
+
+    return idioma
+
+def alterarIdioma(idioma: str, caminho: Path | None = None):
     """Altera o idioma da configuração para o indicado.
 
     Args:
         idioma: o idioma selecionado.
     """
-    caminho = caminhoConfiguracao()
+    if idioma not in idiomasExistentes:
+        return False
+    
+    if not caminho:
+        caminho = caminhoConfiguracao()
     conteudo = caminho.read_text(encoding="utf-8")
     linhas = conteudo.splitlines()
     for i, linha in enumerate(linhas):
@@ -233,3 +237,4 @@ def alterarIdioma(idioma: str):
             linhas[i] = f'idioma = "{idioma}"'
             break
     caminho.write_text("\n".join(linhas) + "\n", encoding="utf-8")
+    return True
