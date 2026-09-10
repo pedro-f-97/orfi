@@ -86,6 +86,8 @@ MENSAGENS = {
         "tratamento_reverter_movimento": "movidos.",
         "tratamento_reverter_datar_copia": "copiados e revertidos.",
         "tratamento_reverter_datar_movimento": "revertidos.",
+        "pastas_eliminadas": "{numero} pastas vazias eliminadas.",
+        "pastas_eliminadas_simula": "{numero} pastas vazias teriam sido eliminadas.",
         #argumentos
         "descricao_orfi": "Organiza ficheiros por categorias.",
         "descricao_alvo": "permite definir a pasta alvo",
@@ -165,6 +167,8 @@ MENSAGENS = {
         "tratamento_reverter_movimento": "moved.",
         "tratamento_reverter_datar_copia": "copied and reverted.",
         "tratamento_reverter_datar_movimento": "reverted.",
+        "pastas_eliminadas": "{numero} empty folders deleted.",
+        "pastas_eliminadas_simula": "{numero} empty folders would be deleted.",
         #argumentos
         "descricao_orfi": "Organizes files by category",
         "descricao_alvo": "allows selection of the target folder",

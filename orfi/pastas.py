@@ -76,14 +76,18 @@ def pastasExistentes(caminho: Path, categorias: list[configs.CategoriaDePasta]) 
                     pastasParaReverter.add(pasta)
     return pastasParaReverter
 
-def eliminaPastasVazias(pastasParaReverter: set[Path], simula: bool, ficheirosMovidos: set[Path] | None = None):
+def eliminaPastasVazias(pastasParaReverter: set[Path], simula: bool, ficheirosMovidos: set[Path] | None = None) -> int:
     """Elimina as pastas vazias do set de pastas indicado.
 
     Args:
         pastasParaReverter: As pastas a analisar.
         simula: Se é para apenas simular o processo ou não.
         ficheirosMovidos: Lista de ficheiros que seriam movidos pelo processo anterior em modo simular.
+
+    Returns:
+        O número de pastas que foram ou seriam eliminadas.
     """
+    pastasEliminadas = 0
     for pasta in pastasParaReverter:
         ficheirosNaPasta = set(pasta.iterdir())
 
@@ -95,4 +99,6 @@ def eliminaPastasVazias(pastasParaReverter: set[Path], simula: bool, ficheirosMo
             if not simula:
                 pasta.rmdir()
                 logger.info("Deleted folder: %s", pasta)
+            pastasEliminadas += 1
             mensagens.mensagem("pasta_eliminada", "pasta_seria_eliminada", simula, mensagens.CoresTexto.VERMELHO, pasta=pasta)
+    return pastasEliminadas

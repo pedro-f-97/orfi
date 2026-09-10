@@ -10,6 +10,7 @@ from . import mensagens
 
 logger = logging.getLogger(__name__)
 
+idiomasExistentes = {"pt", "en"}
 
 def caminhoConfiguracao() -> Path:
     """Devolve o caminho onde vão ser guardados os ficheiros de configuração, de acordo com o sistema operativo.
@@ -26,7 +27,11 @@ class Modo(Enum):
     COPIAR = "copiar"
     MOVER = "mover"
 
-idiomasExistentes = {"pt", "en"}
+@dataclass
+class ResultadosOperacao:
+    ficheirosTratados: int = 0
+    pastasCriadas: int = 0
+    pastasEliminadas: int = 0
 
 @dataclass
 class CategoriaDePasta:
