@@ -91,7 +91,7 @@ def test_eliminaPastasVazias(tmp_path):
 
     pastasConjunto = pastasVazias.union(pastasConteudo)
 
-    orfi.pastas.eliminaPastasVazias(pastasConjunto, False)
+    assert orfi.pastas.eliminaPastasVazias(pastasConjunto, False) == len(pastasVazias)
 
     for pasta in pastasVazias:
         assert not pasta.exists()
@@ -140,7 +140,7 @@ def test_eliminaPastasVaziasSimula(tmp_path):
 
     pastasConjunto = pastasVazias.union(pastasConteudo)
 
-    orfi.pastas.eliminaPastasVazias(pastasConjunto, simula)
+    assert orfi.pastas.eliminaPastasVazias(pastasConjunto, simula) == len(pastasVazias)
 
     for pasta in pastasVazias:
         assert pasta.exists()
