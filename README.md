@@ -38,13 +38,14 @@ orfi
 
 | Option             | Description                              |
 |--------------------|-------------------------------------------|
-| `-a`, `--alvo`     | Allows selecting the target folder        |
+| `-a`, `--alvo`     | Allows selecting the target folder (requires 'tkinter') |
 | `-c`, `--copiar`   | Copies files instead of moving them       |
 | `-r`, `--reverter` | Reverts the organization                  |
 | `-d`, `--datar`    | Adds the creation date to file names      |
 | `-f`, `--force`    | Automatically accepts required confirmations |
 | `-s`, `--simula`   | Simulates the process without making any real changes |
 | `-i`, `--idioma`   | Changes the language to the one specified |
+| `-v`, `--version`  | Displays the installed version |
 
 ## Usage
 

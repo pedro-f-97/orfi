@@ -75,7 +75,6 @@ MENSAGENS = {
         "tratamento_datar_movimento": "datados.",
         "ficheiros_tratados": "Feito, {total} ficheiros {tratamento}",
         "ficheiros_seriam_tratados": "Feito, {total} ficheiros teriam sido {tratamento}",
-
         #reverter
         "nada_para_reverter": "Nada para reverter.",
         "nada_para_reverter_simula": "Não revertia nada.",
@@ -98,6 +97,8 @@ MENSAGENS = {
         "descricao_force": "aprova automaticamente todas as alterações",
         "descricao_simula": "simula o processo sem fazer alterações",
         "descricao_idioma": "altera o idioma para o introduzido",
+        #alvo
+        "tkinter_nao_disponivel": "-a indisponível: tkinter não instalado.",
     },
 
     "en": {
@@ -180,6 +181,8 @@ MENSAGENS = {
         "descricao_force": "auto-approves all changes",
         "descricao_simula": "simulates the process without making changes",
         "descricao_idioma": "changes the language to the specified one",
+        #alvo
+        "tkinter_nao_disponivel": "-a unavailable: tkinter not installed.",
     },
 }
 
