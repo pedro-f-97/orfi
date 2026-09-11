@@ -198,7 +198,7 @@ def test_reverteSimula(tmp_path):
         assert ficheiro.exists()
         assert not (pastaBase / ficheiro.name).exists()
 
-def test_reverteSimulacaDeveEliminarPasta(tmp_path, capsys):
+def test_reverteSimulacaDeveEliminarPasta(tmp_path):
     simula = True
     modo = orfi.configs.Modo.MOVER
     pasta = tmp_path / "teste"
@@ -220,7 +220,7 @@ def test_reverteSimulacaDeveEliminarPasta(tmp_path, capsys):
 
     assert resultados.pastasEliminadas == 1
 
-def test_reverteSimulacaIgnoraPastaSemCategoria(tmp_path, capsys):
+def test_reverteSimulacaIgnoraPastaSemCategoria(tmp_path):
     simula = True
     modo = orfi.configs.Modo.MOVER
     pasta = tmp_path / "teste"
