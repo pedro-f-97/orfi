@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [1.3.0] - 2026-09-11
+
 ### Added
 - `ResultadosOperacao` dataclass: `organiza`, `datar`, `reverte` and `reverteDatar` now return counts of files handled and folders created/deleted.
 - `-v`/`--version` flag.
