@@ -1,6 +1,7 @@
 import logging
 import sys
 import time
+import tomllib
 
 from . import alvo, configs, inicializar, logs, mensagens, organizar, reverter
 
@@ -13,7 +14,11 @@ def main():
     logger.info("   --PROCESS STARTING--  ")
     logger.info("OS: %s | %s",sys.platform, sys.version)
 
-    idioma = configs.carregarIdioma()
+    try:
+        idioma = configs.carregarIdioma()
+    except tomllib.TOMLDecodeError as erro:
+        mensagens.mensagem("configuracao_invalida_sintaxe", "configuracao_invalida_sintaxe", False, mensagens.CoresTexto.VERMELHO, erro=erro)
+        return
     if idioma not in configs.idiomasExistentes:
         mensagens.mensagem("idioma_invalido", "idioma_invalido", False, mensagens.CoresTexto.AMARELO, idiomas = configs.idiomasExistentes)
         return
@@ -48,7 +53,12 @@ def main():
     if simula:
         mensagens.mensagem("inicio_simulacao", "inicio_simulacao", False, mensagens.CoresTexto.AMARELO)
 
-    categorias = configs.carregarConfiguracao()
+    try:
+        categorias = configs.carregarConfiguracao()
+    except tomllib.TOMLDecodeError as erro:
+        mensagens.mensagem("configuracao_invalida_sintaxe", "configuracao_invalida_sintaxe", False, mensagens.CoresTexto.VERMELHO, erro=erro)
+        return
+    
     if not configs.verificaConfiguracao(categorias):
         mensagens.mensagem("configuracao_invalida", "configuracao_invalida", False, mensagens.CoresTexto.AMARELO)
         return
