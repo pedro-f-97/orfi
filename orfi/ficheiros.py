@@ -210,8 +210,8 @@ def devolveDataCriacao(ficheiro: Path) -> datetime.datetime:
         A data de criação ou última modificação do ficheiro.
     """
     try:
-        data = os.stat(ficheiro).st_birthtime
-    except AttributeError:
+        data = os.stat(ficheiro).st_birthtime # pyright: ignore[reportAttributeAccessIssue]  # Não existe em Linux
+    except AttributeError:                    
         logger.error("Creation date unavailable for '%s', using last modification date.", ficheiro)
         data = os.stat(ficheiro).st_mtime
     

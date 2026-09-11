@@ -26,5 +26,8 @@ jobs:
       - name: Ruff
         run: ruff check .
 
+      - name: Pyright
+        run: pyright orfi/
+
       - name: Pytest
         run: pytest
