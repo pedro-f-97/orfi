@@ -1,5 +1,6 @@
 import argparse
 import logging
+from importlib.metadata import version
 
 from . import mensagens
 
@@ -61,6 +62,12 @@ def trataArgumentos() -> argparse.Namespace:
         "-i",
         "--idioma",
         help=mensagens.mensagemTrataIdioma("descricao_idioma")
+    )
+
+    parser.add_argument(
+        "-v", "--version",
+        action="version",
+        version=f"orfi {version('orfi')}"
     )
 
     argumentos = parser.parse_args()
