@@ -84,5 +84,7 @@ def trataArgumentos() -> argparse.Namespace:
         logger.info("Argument '--force' set")
     if argumentos.simula:
         logger.info("Argument '--simula' set")
+    if argumentos.idioma:
+        logger.info("Argument '--idioma' set")
 
     return argumentos

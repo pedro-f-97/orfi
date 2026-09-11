@@ -52,6 +52,7 @@ def criarConfiguracaoStandard(caminho: Path):
 
     configuracao = configuracaoStandard.read_bytes()
     caminho.write_bytes(configuracao)
+    logger.info("Standard config created: %s", configuracaoStandard)
 
 def carregarConfiguracao(caminho: Path | None = None) -> list[CategoriaDePasta]:
     """Carrega as configurações e devolve as categorias de pasta.
@@ -243,4 +244,5 @@ def alterarIdioma(idioma: str, caminho: Path | None = None) -> bool:
             linhas[i] = f'idioma = "{idioma}"'
             break
     caminho.write_text("\n".join(linhas) + "\n", encoding="utf-8")
+    logger.info("Changed language to %s in: %s", idioma, caminho)
     return True
