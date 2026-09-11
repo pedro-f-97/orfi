@@ -1,13 +1,21 @@
 from pathlib import Path
-from tkinter import Tk, filedialog
+
+from . import mensagens
 
 
 def defineAlvo() -> Path | None:
     """Abre uma janela para selecionar uma pasta e devolve a pasta selecionada.
 
     Returns:
-        A pasta selecionada ou None caso tenha sido cancelado.
+        A pasta selecionada ou None caso tenha sido cancelado ou o
+        tkinter não esteja disponível no sistema.
     """
+    try:
+        from tkinter import Tk, filedialog
+    except ImportError:
+        mensagens.mensagem("tkinter_nao_disponivel", "tkinter_nao_disponivel", False, mensagens.CoresTexto.VERMELHO)
+        return None
+
     janela = Tk()
     janela.withdraw()
 
