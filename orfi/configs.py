@@ -46,7 +46,11 @@ def criarConfiguracaoStandard(caminho: Path):
     Args:
         caminho: Caminho onde vai ser criado o ficheiro de configuração.
     """
-    caminho.parent.mkdir(parents=True, exist_ok=True)
+    try:
+        caminho.parent.mkdir(parents=True, exist_ok=True)
+    except OSError:
+        mensagens.mensagem("erro_criar_pasta", "erro_criar_pasta", False, mensagens.CoresTexto.VERMELHO, pasta=caminho)
+        logger.exception("Error creating folder '%s'", caminho)
 
     configuracaoStandard = Path(__file__).parent / "config.toml"
 

@@ -158,8 +158,12 @@ def apagaFicheiro(ficheiro:Path, simula: bool) -> int:
     """
     if ficheiro.exists():
         if not simula:
-            ficheiro.unlink()
-            logger.info("Deleted file '%s'", ficheiro)
+            try:
+                ficheiro.unlink()
+                logger.info("Deleted file '%s'", ficheiro)
+            except OSError:
+                mensagens.mensagem("erro_mover_ficheiro", "erro_mover_ficheiro", False, mensagens.CoresTexto.VERMELHO, erro=OSError,ficheiro=ficheiro)
+                logger.exception("Error deleting file '%s'", ficheiro)
         mensagens.mensagem("ficheiro_apagado", "ficheiro_seria_apagado", simula, mensagens.CoresTexto.VERMELHO, ficheiro=ficheiro)
         return 1
     return 0
