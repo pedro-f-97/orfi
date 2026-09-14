@@ -43,6 +43,8 @@ MENSAGENS = {
         "pastas_para_criar": "Pastas para criar: {pastas}",
         "nao_vai_criar_pastas": "Não vai criar pastas.",
         "pasta_existente": "Pasta {pasta} já existe.",
+        "erro_criar_pasta": "Erro a criar a pasta '{pasta}'",
+        "erro_eliminar_pasta": "Erro a eliminar a pasta '{pasta}'",
         #configs
         "extensao_duplicada": "Extensão duplicada '{extensao}' nas categorias {categorias}.",
         "categoria_duplicada": "Categoria(s) duplicada(s) '{categorias}'.",
@@ -127,6 +129,8 @@ MENSAGENS = {
         "pastas_para_criar": "Folders to create: {pastas}",
         "nao_vai_criar_pastas": "No folders will be created.",
         "pasta_existente": "Folder {pasta} already exists.",
+        "erro_criar_pasta": "Error creating folder '{pasta}'",
+        "erro_eliminar_pasta": "Error deleting folder '{pasta}'",
         #configs
         "extensao_duplicada": "Duplicate extension '{extensao}' in categories {categorias}.",
         "categoria_duplicada": "Duplicate category/categories '{categorias}'.",

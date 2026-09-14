@@ -1,14 +1,18 @@
 import logging
 from logging.handlers import RotatingFileHandler
 
-from . import configs
+from . import configs, mensagens
 
+logger = logging.getLogger(__name__)
 
 def configuraLogs():
     """Define o caminho e configura o sistema dos logs."""
     caminho = configs.caminhoConfiguracao().with_name("orfi.log")
-
-    caminho.parent.mkdir(parents=True, exist_ok=True)
+    try:
+        caminho.parent.mkdir(parents=True, exist_ok=True)
+    except OSError:
+        mensagens.mensagem("erro_criar_pasta", "erro_criar_pasta", False, mensagens.CoresTexto.VERMELHO, pasta=caminho)
+        logger.exception("Error creating folder '%s'", caminho)
 
     handler = RotatingFileHandler(
         caminho,
