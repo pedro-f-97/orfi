@@ -43,23 +43,37 @@ def criaPastas(caminho: Path, pastas: set[str], categorias: list[configs.Categor
         O número de pastas criadas.
     """
     cont = 0
-    for pasta in pastas:
+    for pasta in sorted(pastas):
         caminhoFinal = caminho / pasta
+        jaExistia = caminhoFinal.exists()
+
+        if not simula and not jaExistia:
+            try:
+                caminhoFinal.mkdir(parents=True, exist_ok=True)
+                logger.info("Created folder: %s", caminhoFinal)
+            except OSError as erro:
+                mensagens.mensagem("erro_criar_pasta", "erro_criar_pasta",
+                                   False, mensagens.CoresTexto.VERMELHO,
+                                   pasta=caminhoFinal, erro=erro)
+                logger.exception("Error creating folder '%s'", caminhoFinal)
+                continue
+
         for categoria in categorias:
             if pasta == categoria.nome:
                 categoria.caminho = caminhoFinal
-        if not caminhoFinal.exists():
-            if not simula:
-                try:
-                    caminhoFinal.mkdir(parents = False, exist_ok = True)
-                    logger.info("Created folder: %s", caminhoFinal)
-                except OSError:
-                    mensagens.mensagem("erro_criar_pasta", "erro_criar_pasta", False, mensagens.CoresTexto.VERMELHO, pasta=caminhoFinal)
-                    logger.exception("Error creating folder '%s'", caminhoFinal)
-            mensagens.mensagem("pasta_criada", "pasta_seria_criada", simula, mensagens.CoresTexto.VERDE, pasta=pasta)   
+                break
+
+        if simula:
+            mensagens.mensagem("pasta_criada", "pasta_seria_criada",
+                               True, mensagens.CoresTexto.VERDE, pasta=pasta)
             cont += 1
+        elif jaExistia:
+            mensagens.mensagem("pasta_existente", "pasta_existente",
+                               False, mensagens.CoresTexto.AMARELO, pasta=pasta)
         else:
-            mensagens.mensagem("pasta_existente", "pasta_existente", False, mensagens.CoresTexto.AMARELO, pasta=pasta)
+            mensagens.mensagem("pasta_criada", "pasta_criada",
+                               False, mensagens.CoresTexto.VERDE, pasta=pasta)
+            cont += 1
     return cont
 
 def pastasExistentes(caminho: Path, categorias: list[configs.CategoriaDePasta]) -> set[Path]:

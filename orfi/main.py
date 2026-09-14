@@ -7,7 +7,7 @@ from . import alvo, configs, inicializar, logs, mensagens, organizar, reverter
 
 logger = logging.getLogger(__name__)
 
-def main():
+def main() -> int:
     """Ponto de entrada: lê os argumentos da linha de comandos e encaminha o processo."""
     inicio = time.perf_counter()
     logs.configuraLogs()
@@ -15,24 +15,33 @@ def main():
     logger.info("OS: %s | %s",sys.platform, sys.version)
 
     try:
-        idioma = configs.carregarIdioma()
+        config = configs.carregarConfiguracao()
     except tomllib.TOMLDecodeError as erro:
-        mensagens.mensagem("configuracao_invalida_sintaxe", "configuracao_invalida_sintaxe", False, mensagens.CoresTexto.VERMELHO, erro=erro)
-        return
-    if idioma not in configs.idiomasExistentes:
-        mensagens.mensagem("idioma_invalido", "idioma_invalido", False, mensagens.CoresTexto.AMARELO, idiomas = configs.idiomasExistentes)
-        return
-    mensagens.definirIdioma(idioma)
+        mensagens.mensagem("configuracao_invalida_sintaxe", "configuracao_invalida_sintaxe",
+                        False, mensagens.CoresTexto.VERMELHO, erro=erro)
+        return 1
+
+    if config.idioma not in configs.idiomasExistentes:
+        mensagens.mensagem("idioma_invalido", "idioma_invalido",
+                        False, mensagens.CoresTexto.AMARELO,
+                        idiomas=configs.idiomasExistentes)
+        return 1
+    mensagens.definirIdioma(config.idioma)
+
+    if not configs.verificaConfiguracao(config.categorias):
+        mensagens.mensagem("configuracao_invalida", "configuracao_invalida",
+                        False, mensagens.CoresTexto.AMARELO)
+        return 1
     
     argumentos = inicializar.trataArgumentos()
 
     if argumentos.idioma:
         if not configs.alterarIdioma(argumentos.idioma):
             mensagens.mensagem("idioma_invalido", "idioma_invalido", False, mensagens.CoresTexto.AMARELO, idiomas=", ".join(configs.idiomasExistentes))
-            return
+            return 1
         mensagens.definirIdioma(argumentos.idioma)
         mensagens.mensagem("idioma_alterado", "idioma_alterado", False, mensagens.CoresTexto.VERDE, idioma=argumentos.idioma)
-        return
+        return 0
 
     if argumentos.alvo:
         pastaSelecionada = alvo.defineAlvo()
@@ -53,25 +62,15 @@ def main():
     if simula:
         mensagens.mensagem("inicio_simulacao", "inicio_simulacao", False, mensagens.CoresTexto.AMARELO)
 
-    try:
-        categorias = configs.carregarConfiguracao()
-    except tomllib.TOMLDecodeError as erro:
-        mensagens.mensagem("configuracao_invalida_sintaxe", "configuracao_invalida_sintaxe", False, mensagens.CoresTexto.VERMELHO, erro=erro)
-        return
-    
-    if not configs.verificaConfiguracao(categorias):
-        mensagens.mensagem("configuracao_invalida", "configuracao_invalida", False, mensagens.CoresTexto.AMARELO)
-        return
-
     if pastaSelecionada is None:
         mensagens.mensagem("pasta_invalida", "pasta_invalida", False, mensagens.CoresTexto.AMARELO)
-        return
+        return 1
 
     mensagens.mensagem("pasta_selecionada", "pasta_selecionada", False, mensagens.CoresTexto.AZUL, pasta=pastaSelecionada)
 
     if argumentos.reverter:
         if not argumentos.datar:
-            reverter.reverte(pastaSelecionada, categorias, modo, force, simula)
+            reverter.reverte(pastaSelecionada, config.categorias, modo, force, simula)
         else:
             reverter.reverteDatar(pastaSelecionada, modo, force, simula)
 
@@ -79,13 +78,14 @@ def main():
         organizar.datar(pastaSelecionada, modo, force, simula)
         
     else:
-        organizar.organiza(pastaSelecionada, categorias, modo, force, simula)
+        organizar.organiza(pastaSelecionada, config.categorias, modo, force, simula)
 
     if simula:
         mensagens.mensagem("fim_simulacao", "fim_simulacao", False, mensagens.CoresTexto.AMARELO)
     duracao = time.perf_counter() - inicio
     logger.info("   --PROCESS ENDED--  ")
     logger.info("   --%.2f SECONDS--   ", duracao)
+    return 0
         
 if __name__ == "__main__":
-    main()    
+    sys.exit(main())    

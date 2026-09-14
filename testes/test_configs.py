@@ -4,12 +4,11 @@ from pathlib import Path
 import orfi.configs
 
 
-def simulaConfiguracao(configuracao: str, tmp_path) -> list[orfi.configs.CategoriaDePasta]:
+def simulaConfiguracao(configuracao: str, tmp_path) -> orfi.configs.Configuracao:
     caminho = tmp_path / "config.toml"
     caminho.write_text(configuracao, encoding="utf-8")
 
-    categorias = orfi.configs.carregarConfiguracao(caminho)
-    return categorias
+    return orfi.configs.carregarConfiguracao(caminho)
 
 def test_caminhoConfiguracaoWindows(monkeypatch):
     monkeypatch.setattr("sys.platform", "win32")
@@ -41,7 +40,7 @@ def test_criarConfiguracaoStandard(tmp_path):
 def test_carregarConfiguracaoStandard(tmp_path):
     caminho = tmp_path / "config.toml"
 
-    categorias = orfi.configs.carregarConfiguracao(caminho)
+    categorias = orfi.configs.carregarConfiguracao(caminho).categorias
 
     assert caminho.exists()
     assert len(categorias) > 0
@@ -68,7 +67,7 @@ def test_carregarConfiguracaoPersonalizada(tmp_path):
     defeito = true
     """
 
-    categorias = simulaConfiguracao(configuracao, tmp_path)
+    categorias = simulaConfiguracao(configuracao, tmp_path).categorias
 
     assert len(categorias) == 3
     assert categorias[0].nome == "Imagens"
@@ -92,7 +91,7 @@ def test_verificaExtDuplicadas(tmp_path):
     defeito = true
     """
 
-    categorias = simulaConfiguracao(configuracao, tmp_path)
+    categorias = simulaConfiguracao(configuracao, tmp_path).categorias
 
     assert not orfi.configs.verificaExtDuplicadas(categorias)
 
@@ -112,7 +111,7 @@ def test_verificaCategoriasDuplicadas(tmp_path):
     defeito = true
     """
 
-    categorias = simulaConfiguracao(configuracao, tmp_path)
+    categorias = simulaConfiguracao(configuracao, tmp_path).categorias
     
     assert not orfi.configs.verificaCategoriasDuplicadas(categorias)
 
@@ -133,7 +132,7 @@ def test_verificaCategoriasDefeito(tmp_path):
     defeito = true
     """
 
-    categorias = simulaConfiguracao(configuracao, tmp_path)
+    categorias = simulaConfiguracao(configuracao, tmp_path).categorias
     assert not orfi.configs.verificaCategoriasDefeito(categorias)
 
 def test_verificaExtFormatoSemPonto(tmp_path):
@@ -148,7 +147,7 @@ def test_verificaExtFormatoSemPonto(tmp_path):
     defeito = true
     """   
 
-    categorias = simulaConfiguracao(configuracao, tmp_path)
+    categorias = simulaConfiguracao(configuracao, tmp_path).categorias
     assert not orfi.configs.verificaExtFormato(categorias)
 
 def test_verificaExtFormatoMultiplosPontos(tmp_path):
@@ -163,7 +162,7 @@ def test_verificaExtFormatoMultiplosPontos(tmp_path):
     defeito = true
     """   
 
-    categorias = simulaConfiguracao(configuracao, tmp_path)
+    categorias = simulaConfiguracao(configuracao, tmp_path).categorias
     assert not orfi.configs.verificaExtFormato(categorias)
 
 def test_verificaExtFormatoPontoErrado(tmp_path):
@@ -178,21 +177,21 @@ def test_verificaExtFormatoPontoErrado(tmp_path):
     defeito = true
     """   
 
-    categorias = simulaConfiguracao(configuracao, tmp_path)
+    categorias = simulaConfiguracao(configuracao, tmp_path).categorias
     assert not orfi.configs.verificaExtFormato(categorias)
 
 def test_carregarIdioma(tmp_path):
     configurar = tmp_path / "config.toml"
-    carregar = orfi.configs.carregarIdioma(configurar)
+    carregar = orfi.configs.carregarConfiguracao(configurar).idioma
     assert carregar == "en"
 
 def test_alterarIdioma(tmp_path):
     configurar = tmp_path / "config.toml"
-    idiomaActual = orfi.configs.carregarIdioma(configurar)
+    idiomaActual = orfi.configs.carregarConfiguracao(configurar).idioma
     if idiomaActual == "en":
         idiomaAlterar = "pt"
     else:
         idiomaAlterar = "en"
     
     assert orfi.configs.alterarIdioma(idiomaAlterar, configurar)
-    assert orfi.configs.carregarIdioma(configurar) == idiomaAlterar
+    assert orfi.configs.carregarConfiguracao(configurar).idioma == idiomaAlterar
