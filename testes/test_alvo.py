@@ -1,4 +1,6 @@
-import tkinter
+import pytest
+
+tkinter = pytest.importorskip("tkinter")
 from tkinter import filedialog
 
 import orfi.alvo
