@@ -7,7 +7,7 @@ from . import alvo, configs, inicializar, logs, mensagens, organizar, reverter
 
 logger = logging.getLogger(__name__)
 
-def main():
+def main() -> int:
     """Ponto de entrada: lê os argumentos da linha de comandos e encaminha o processo."""
     inicio = time.perf_counter()
     logs.configuraLogs()
@@ -19,29 +19,29 @@ def main():
     except tomllib.TOMLDecodeError as erro:
         mensagens.mensagem("configuracao_invalida_sintaxe", "configuracao_invalida_sintaxe",
                         False, mensagens.CoresTexto.VERMELHO, erro=erro)
-        return
+        return 1
 
     if config.idioma not in configs.idiomasExistentes:
         mensagens.mensagem("idioma_invalido", "idioma_invalido",
                         False, mensagens.CoresTexto.AMARELO,
                         idiomas=configs.idiomasExistentes)
-        return
+        return 1
     mensagens.definirIdioma(config.idioma)
 
     if not configs.verificaConfiguracao(config.categorias):
         mensagens.mensagem("configuracao_invalida", "configuracao_invalida",
                         False, mensagens.CoresTexto.AMARELO)
-        return
+        return 1
     
     argumentos = inicializar.trataArgumentos()
 
     if argumentos.idioma:
         if not configs.alterarIdioma(argumentos.idioma):
             mensagens.mensagem("idioma_invalido", "idioma_invalido", False, mensagens.CoresTexto.AMARELO, idiomas=", ".join(configs.idiomasExistentes))
-            return
+            return 1
         mensagens.definirIdioma(argumentos.idioma)
         mensagens.mensagem("idioma_alterado", "idioma_alterado", False, mensagens.CoresTexto.VERDE, idioma=argumentos.idioma)
-        return
+        return 0
 
     if argumentos.alvo:
         pastaSelecionada = alvo.defineAlvo()
@@ -64,7 +64,7 @@ def main():
 
     if pastaSelecionada is None:
         mensagens.mensagem("pasta_invalida", "pasta_invalida", False, mensagens.CoresTexto.AMARELO)
-        return
+        return 1
 
     mensagens.mensagem("pasta_selecionada", "pasta_selecionada", False, mensagens.CoresTexto.AZUL, pasta=pastaSelecionada)
 
@@ -85,6 +85,7 @@ def main():
     duracao = time.perf_counter() - inicio
     logger.info("   --PROCESS ENDED--  ")
     logger.info("   --%.2f SECONDS--   ", duracao)
+    return 0
         
 if __name__ == "__main__":
-    main()    
+    sys.exit(main())    
