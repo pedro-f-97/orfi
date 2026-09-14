@@ -15,14 +15,23 @@ def main():
     logger.info("OS: %s | %s",sys.platform, sys.version)
 
     try:
-        idioma = configs.carregarIdioma()
+        config = configs.carregarConfiguracao()
     except tomllib.TOMLDecodeError as erro:
-        mensagens.mensagem("configuracao_invalida_sintaxe", "configuracao_invalida_sintaxe", False, mensagens.CoresTexto.VERMELHO, erro=erro)
+        mensagens.mensagem("configuracao_invalida_sintaxe", "configuracao_invalida_sintaxe",
+                        False, mensagens.CoresTexto.VERMELHO, erro=erro)
         return
-    if idioma not in configs.idiomasExistentes:
-        mensagens.mensagem("idioma_invalido", "idioma_invalido", False, mensagens.CoresTexto.AMARELO, idiomas = configs.idiomasExistentes)
+
+    if config.idioma not in configs.idiomasExistentes:
+        mensagens.mensagem("idioma_invalido", "idioma_invalido",
+                        False, mensagens.CoresTexto.AMARELO,
+                        idiomas=configs.idiomasExistentes)
         return
-    mensagens.definirIdioma(idioma)
+    mensagens.definirIdioma(config.idioma)
+
+    if not configs.verificaConfiguracao(config.categorias):
+        mensagens.mensagem("configuracao_invalida", "configuracao_invalida",
+                        False, mensagens.CoresTexto.AMARELO)
+        return
     
     argumentos = inicializar.trataArgumentos()
 
@@ -53,16 +62,6 @@ def main():
     if simula:
         mensagens.mensagem("inicio_simulacao", "inicio_simulacao", False, mensagens.CoresTexto.AMARELO)
 
-    try:
-        categorias = configs.carregarConfiguracao()
-    except tomllib.TOMLDecodeError as erro:
-        mensagens.mensagem("configuracao_invalida_sintaxe", "configuracao_invalida_sintaxe", False, mensagens.CoresTexto.VERMELHO, erro=erro)
-        return
-    
-    if not configs.verificaConfiguracao(categorias):
-        mensagens.mensagem("configuracao_invalida", "configuracao_invalida", False, mensagens.CoresTexto.AMARELO)
-        return
-
     if pastaSelecionada is None:
         mensagens.mensagem("pasta_invalida", "pasta_invalida", False, mensagens.CoresTexto.AMARELO)
         return
@@ -71,7 +70,7 @@ def main():
 
     if argumentos.reverter:
         if not argumentos.datar:
-            reverter.reverte(pastaSelecionada, categorias, modo, force, simula)
+            reverter.reverte(pastaSelecionada, config.categorias, modo, force, simula)
         else:
             reverter.reverteDatar(pastaSelecionada, modo, force, simula)
 
@@ -79,7 +78,7 @@ def main():
         organizar.datar(pastaSelecionada, modo, force, simula)
         
     else:
-        organizar.organiza(pastaSelecionada, categorias, modo, force, simula)
+        organizar.organiza(pastaSelecionada, config.categorias, modo, force, simula)
 
     if simula:
         mensagens.mensagem("fim_simulacao", "fim_simulacao", False, mensagens.CoresTexto.AMARELO)
