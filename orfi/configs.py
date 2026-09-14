@@ -1,6 +1,7 @@
 import logging
 import os
 import sys
+import tempfile
 import tomllib
 from dataclasses import dataclass
 from enum import Enum
@@ -11,6 +12,32 @@ from . import mensagens
 logger = logging.getLogger(__name__)
 
 idiomasExistentes = {"pt", "en"}
+
+def escreverAtomico(caminho: Path, dados: bytes) -> None:
+    """Escreve dados num ficheiro de forma atómica.
+
+    Escreve primeiro para um ficheiro temporário no mesmo diretório,
+    força a sincronização para o disco e só depois substitui o destino.
+
+    Args:
+        caminho: Caminho do ficheiro de destino.
+        dados: Conteúdo a escrever, em bytes.
+    """
+    caminho.parent.mkdir(parents=True, exist_ok=True)
+
+    fd, tmp = tempfile.mkstemp(dir=caminho.parent, prefix=".tmp-", suffix=caminho.suffix)
+    try:
+        with os.fdopen(fd, "wb") as ficheiro:
+            ficheiro.write(dados)
+            ficheiro.flush()
+            os.fsync(ficheiro.fileno())
+        os.replace(tmp, caminho)
+    except BaseException:
+        try:
+            os.unlink(tmp)
+        except FileNotFoundError:
+            pass
+        raise
 
 def caminhoConfiguracao() -> Path:
     """Devolve o caminho onde vão ser guardados os ficheiros de configuração, de acordo com o sistema operativo.
@@ -51,11 +78,10 @@ def criarConfiguracaoStandard(caminho: Path):
     except OSError:
         mensagens.mensagem("erro_criar_pasta", "erro_criar_pasta", False, mensagens.CoresTexto.VERMELHO, pasta=caminho)
         logger.exception("Error creating folder '%s'", caminho)
+        return
 
     configuracaoStandard = Path(__file__).parent / "config.toml"
-
-    configuracao = configuracaoStandard.read_bytes()
-    caminho.write_bytes(configuracao)
+    escreverAtomico(caminho, configuracaoStandard.read_bytes())
     logger.info("Standard config created: %s", configuracaoStandard)
 
 def carregarConfiguracao(caminho: Path | None = None) -> list[CategoriaDePasta]:
@@ -238,15 +264,18 @@ def alterarIdioma(idioma: str, caminho: Path | None = None) -> bool:
     """
     if idioma not in idiomasExistentes:
         return False
-    
+
     if not caminho:
         caminho = caminhoConfiguracao()
+
     conteudo = caminho.read_text(encoding="utf-8")
     linhas = conteudo.splitlines()
     for i, linha in enumerate(linhas):
         if linha.strip().startswith("idioma ="):
             linhas[i] = f'idioma = "{idioma}"'
             break
-    caminho.write_text("\n".join(linhas) + "\n", encoding="utf-8")
+
+    novoConteudo = ("\n".join(linhas) + "\n").encode("utf-8")
+    escreverAtomico(caminho, novoConteudo)
     logger.info("Changed language to %s in: %s", idioma, caminho)
     return True
