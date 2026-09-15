@@ -7,6 +7,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [1.4.0] - 2026-09-15
+
+### Added
+- `__version__` exposed in `orfi/__init__.py` via `importlib.metadata`.
+- Atomic config file writes, protecting `config.toml` against corruption from an interrupted write.
+- Graceful error handling in `main()`: `Ctrl+C` now exits cleanly with code `130`, and any unexpected exception is caught and shown as a friendly message instead of a raw traceback.
+- `podeSubstituir`: shared validation extracted from `copiaFicheiro`/`moveFicheiro`, reducing duplication.
+- Dedicated tests for error handling in `main()`, the `-i`/`--idioma` argument, and invalid-language handling not overwriting `config.toml`.
+
+### Changed
+- Language and categories are now loaded from `config.toml` in a single read, instead of separately.
+- `main()` now returns a proper exit code on failure, instead of always exiting successfully.
+
+### Fixed
+- `orfi` no longer requires `tkinter` to run at all — it's now only imported when `-a`/`--alvo` is actually used, with a clear message if it's unavailable.
+- Tests no longer abort the entire suite when `tkinter` isn't installed (`test_alvo.py` is skipped instead).
+- `criaPastas` no longer crashes if it fails to create a category folder — the error is now handled and reported.
+- `configuraLogs` no longer crashes if it can't create the logs folder — it now degrades gracefully without file logging instead.
+- `apagaFicheiro` was reporting the wrong exception object in its error message.
+- `eliminaPastasVazias` was counting a folder as deleted even when deletion failed.
+
 ## [1.3.0] - 2026-09-11
 
 ### Added
