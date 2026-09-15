@@ -72,19 +72,8 @@ def trataArgumentos() -> argparse.Namespace:
 
     argumentos = parser.parse_args()
 
-    if argumentos.alvo:
-        logger.info("Argument '--alvo' set")
-    if argumentos.copiar:
-        logger.info("Argument '--copiar' set")
-    if argumentos.reverter:
-        logger.info("Argument '--reverter' set")
-    if argumentos.datar:
-        logger.info("Argument '--datar' set")
-    if argumentos.force:
-        logger.info("Argument '--force' set")
-    if argumentos.simula:
-        logger.info("Argument '--simula' set")
-    if argumentos.idioma:
-        logger.info("Argument '--idioma' set")
+    for nome, valor in vars(argumentos).items():
+        if valor:
+            logger.info("Argument '--%s' set", nome)
 
     return argumentos
