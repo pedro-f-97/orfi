@@ -119,8 +119,9 @@ def eliminaPastasVazias(pastasParaReverter: set[Path], simula: bool, ficheirosMo
                     pasta.rmdir()
                     logger.info("Deleted folder: %s", pasta)
                 except OSError:
-                    mensagens.mensagem("erro_criar_pasta", "erro_criar_pasta", False, mensagens.CoresTexto.VERMELHO, pasta=pasta)
+                    mensagens.mensagem("erro_eliminar_pasta", "erro_eliminar_pasta", False, mensagens.CoresTexto.VERMELHO, pasta=pasta)
                     logger.exception("Error deleting folder '%s'", pasta)
+                    continue
             pastasEliminadas += 1
             mensagens.mensagem("pasta_eliminada", "pasta_seria_eliminada", simula, mensagens.CoresTexto.VERMELHO, pasta=pasta)
     return pastasEliminadas
