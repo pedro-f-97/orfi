@@ -87,7 +87,7 @@ def criarConfiguracaoStandard(caminho: Path):
 
     configuracaoStandard = Path(__file__).parent / "config.toml"
     escreverAtomico(caminho, configuracaoStandard.read_bytes())
-    logger.info("Standard config created: %s", configuracaoStandard)
+    logger.info("Standard config created: %s", caminho)
 
 def carregarConfiguracao(caminho: Path | None = None) -> Configuracao:
     """Carrega e devolve as configurações.
