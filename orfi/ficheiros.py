@@ -48,6 +48,25 @@ def devolveFicheiros(pasta: Path) -> list[Path]:
         logger.info("No file detected.")
     return listaFicheiros
 
+def podeSubstituir(ficheiro: Path, ficheiroFinal: Path, pastaDestino: Path, force: bool) -> bool:
+    """Confirma com o utilizador se pode substituir um ficheiro já existente no destino.
+    Args:
+        ficheiro: Ficheiro em questão.
+        ficheiroFinal: O ficheiro de destino.
+        pastaDestino: A pasta para onde vai o ficheiro.
+        force: Se as confirmações são automaticamente aceites ou não.
+
+    Returns:
+        1 se a operação for realizada, 0 caso contrário.
+    """
+    if not ficheiroFinal.exists() or force:
+        return True
+    resposta = input(f"{mensagens.CoresTexto.AMARELO}{mensagens.mensagemTrataIdioma('ficheiro_existente_substituir', ficheiro=ficheiro.name, destino=pastaDestino)}{mensagens.CoresTexto.RESET}")
+    if resposta.lower() in ("s", "y"):
+        return True
+    mensagens.mensagem("ficheiro_cancelado", "ficheiro_cancelado", False, mensagens.CoresTexto.AMARELO, ficheiro=ficheiro.name)
+    return False
+
 def copiaFicheiro(ficheiro: Path, pastaDestino: Path, force: bool, simula: bool, ficheiroFinal: Path | None = None) -> int:
     """Copia o ficheiro para a pasta destino ou para o ficheiroFinal quando dado.
 
@@ -62,18 +81,15 @@ def copiaFicheiro(ficheiro: Path, pastaDestino: Path, force: bool, simula: bool,
         1 se a operação for realizada, 0 caso contrário.
     """
     ficheiroFinal = pastaDestino / (ficheiroFinal.name if ficheiroFinal else ficheiro.name)
-    if ficheiroFinal.exists() and not force:
-        resposta = input(f"{mensagens.CoresTexto.AMARELO}{mensagens.mensagemTrataIdioma('ficheiro_existente_substituir', ficheiro=ficheiro.name, destino=pastaDestino)}{mensagens.CoresTexto.RESET}")
-        if resposta.lower() not in ("s", "y"):
-            mensagens.mensagem("ficheiro_cancelado", "ficheiro_cancelado", False, mensagens.CoresTexto.AMARELO, ficheiro=ficheiro.name)
-            return 0
+    if not podeSubstituir(ficheiro, ficheiroFinal, pastaDestino, force):
+        return 0
     try:
         if not simula:
             copy2(ficheiro, ficheiroFinal)
             logger.info("File '%s' copied to '%s'", ficheiro, ficheiroFinal)
         mensagens.mensagem("ficheiro_copiado", "ficheiro_seria_copiado", simula, mensagens.CoresTexto.AMARELO, ficheiro=ficheiro, destino=ficheiroFinal)    
     except OSError as erro:
-        mensagens.mensagem("erro_copiar_ficheiro", "erro_copiar_ficheiro", False, mensagens.CoresTexto.VERMELHO, ficheiro=ficheiro.name, erro=erro)
+        mensagens.mensagem("erro_ficheiro", "erro_ficheiro", False, mensagens.CoresTexto.VERMELHO, ficheiro=ficheiro.name, erro=erro)
         logger.exception("Error copying file '%s' to '%s'.", ficheiro, ficheiroFinal)
         return 0
     return 1
@@ -92,11 +108,8 @@ def moveFicheiro(ficheiro: Path, pastaDestino: Path, force: bool, simula: bool, 
         1 se a operação for realizada, 0 caso contrário.
     """
     ficheiroFinal = pastaDestino / (ficheiroFinal.name if ficheiroFinal else ficheiro.name)
-    if ficheiroFinal.exists() and not force:
-        resposta = input(f"{mensagens.CoresTexto.AMARELO}{mensagens.mensagemTrataIdioma('ficheiro_existente_substituir', ficheiro=ficheiro.name, destino=pastaDestino)}{mensagens.CoresTexto.RESET}")
-        if resposta.lower() not in ("s", "y"):
-            mensagens.mensagem("ficheiro_cancelado", "ficheiro_cancelado", False, mensagens.CoresTexto.AMARELO, ficheiro=ficheiro.name)
-            return 0
+    if not podeSubstituir(ficheiro, ficheiroFinal, pastaDestino, force):
+        return 0
     try:
         if not simula:
             move(ficheiro, ficheiroFinal)
