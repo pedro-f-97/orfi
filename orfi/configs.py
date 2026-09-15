@@ -87,7 +87,7 @@ def criarConfiguracaoStandard(caminho: Path):
 
     configuracaoStandard = Path(__file__).parent / "config.toml"
     escreverAtomico(caminho, configuracaoStandard.read_bytes())
-    logger.info("Standard config created: %s", configuracaoStandard)
+    logger.info("Standard config created: %s", caminho)
 
 def carregarConfiguracao(caminho: Path | None = None) -> Configuracao:
     """Carrega e devolve as configurações.
@@ -256,6 +256,6 @@ def alterarIdioma(idioma: str, caminho: Path | None = None) -> bool:
 
     novoConteudo = ("\n".join(linhas) + "\n").encode("utf-8")
     escreverAtomico(caminho, novoConteudo)
-    logger.info("Changed language to %s in: %s", idioma, caminho)
+    logger.info("Changed language to '%s' in: %s", idioma, caminho)
     return True
 
