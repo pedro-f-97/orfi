@@ -103,7 +103,7 @@ def moveFicheiro(ficheiro: Path, pastaDestino: Path, force: bool, simula: bool, 
             logger.info("File '%s' moved to '%s'", ficheiro, ficheiroFinal)
         mensagens.mensagem("ficheiro_movido", "ficheiro_seria_movido", simula, mensagens.CoresTexto.AMARELO, ficheiro=ficheiro, destino=ficheiroFinal)
     except OSError as erro:
-        mensagens.mensagem("erro_mover_ficheiro", "erro_mover_ficheiro", False, mensagens.CoresTexto.VERMELHO, ficheiro=ficheiro.name, erro=erro)
+        mensagens.mensagem("erro_ficheiro", "erro_ficheiro", False, mensagens.CoresTexto.VERMELHO, ficheiro=ficheiro.name, erro=erro)
         logger.exception("Error moving file '%s' to '%s'.", ficheiro, ficheiroFinal)
         return 0
     return 1 
@@ -161,8 +161,8 @@ def apagaFicheiro(ficheiro:Path, simula: bool) -> int:
             try:
                 ficheiro.unlink()
                 logger.info("Deleted file '%s'", ficheiro)
-            except OSError:
-                mensagens.mensagem("erro_mover_ficheiro", "erro_mover_ficheiro", False, mensagens.CoresTexto.VERMELHO, erro=OSError,ficheiro=ficheiro)
+            except OSError as erro:
+                mensagens.mensagem("erro_ficheiro", "erro_ficheiro", False, mensagens.CoresTexto.VERMELHO, erro=erro,ficheiro=ficheiro)
                 logger.exception("Error deleting file '%s'", ficheiro)
         mensagens.mensagem("ficheiro_apagado", "ficheiro_seria_apagado", simula, mensagens.CoresTexto.VERMELHO, ficheiro=ficheiro)
         return 1
