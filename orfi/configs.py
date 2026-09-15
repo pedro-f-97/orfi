@@ -256,6 +256,6 @@ def alterarIdioma(idioma: str, caminho: Path | None = None) -> bool:
 
     novoConteudo = ("\n".join(linhas) + "\n").encode("utf-8")
     escreverAtomico(caminho, novoConteudo)
-    logger.info("Changed language to %s in: %s", idioma, caminho)
+    logger.info("Changed language to '%s' in: %s", idioma, caminho)
     return True
 
