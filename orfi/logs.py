@@ -13,6 +13,7 @@ def configuraLogs():
     except OSError:
         mensagens.mensagem("erro_criar_pasta", "erro_criar_pasta", False, mensagens.CoresTexto.VERMELHO, pasta=caminho)
         logger.exception("Error creating folder '%s'", caminho)
+        return
 
     handler = RotatingFileHandler(
         caminho,
