@@ -8,7 +8,20 @@ from . import alvo, configs, inicializar, logs, mensagens, organizar, reverter
 logger = logging.getLogger(__name__)
 
 def main() -> int:
-    """Ponto de entrada: lê os argumentos da linha de comandos e encaminha o processo."""
+    """Ponto de entrada com tratamento de erros."""
+    try:
+        return executar()
+    except KeyboardInterrupt:
+        mensagens.mensagem("interrompido", "interrompido", False, mensagens.CoresTexto.AMARELO)
+        logger.warning("Interrupted by user.")
+        return 130
+    except Exception as erro:
+        logger.exception("Unexpected error.")
+        mensagens.mensagem("erro_inesperado", "erro_inesperado",False, mensagens.CoresTexto.VERMELHO, erro=erro)
+        return 2
+
+def executar() -> int:
+    """Lê os argumentos da linha de comandos e encaminha o processo."""
     inicio = time.perf_counter()
     logs.configuraLogs()
     logger.info("   --PROCESS STARTING--  ")

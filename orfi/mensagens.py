@@ -59,6 +59,8 @@ MENSAGENS = {
         "idioma_invalido": "Idioma inválido, selecionar um dos idiomas existentes: '{idiomas}'",
         "idioma_alterado": "Idioma alterado para '{idioma}'.",
         "configuracao_invalida_sintaxe": "Erro de sintaxe no config.toml: {erro}",
+        "interrompido": "Processo interrompido pelo utilizador.",
+        "erro_inesperado": "Erro inesperado: {erro}",
         #organizar
         "modo_inesperado": "Modo {modo} inesperado. Operação cancelada.",
         "nada_para_fazer": "Nada para fazer.",
@@ -145,6 +147,8 @@ MENSAGENS = {
         "idioma_invalido": "Language unavailable, select one of the existing languages: '{idiomas}'",
         "idioma_alterado": "Language changed to '{idioma}'.",
         "configuracao_invalida_sintaxe": "Syntax error in config.toml: {erro}",
+        "interrompido": "Process interrupted by the user.",
+        "erro_inesperado": "Unexpected error: {erro}",
         #organizar
         "modo_inesperado": "Unexpected mode {modo}. Operation cancelled.",
         "nada_para_fazer": "Nothing to do.",
