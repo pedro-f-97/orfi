@@ -38,13 +38,13 @@ orfi
 
 | Opção            | Descrição                          |
 |------------------|-------------------------------------|
-| `-a`, `--alvo`   | Permite selecionar a pasta alvo     |
-| `-c`, `--copiar` | Copia os ficheiros em vez de os mover |
-| `-r`, `--reverter` | Reverte a organização              |
-| `-d`, `--datar`  | Adiciona a data de criação ao nome dos ficheiros  |
-| `-f`, `--force`  | Aceita automaticamente as confirmações necessárias  |
-| `-s`, `--simula`  | Simula o processo sem fazer nenhuma alteração real  |
-| `-i`, `--idioma`  | altera o idioma para o introduzido  |
+| `-t`, `--target`   | Permite selecionar a pasta alvo     |
+| `-c`, `--copy` | Copia os ficheiros em vez de os mover |
+| `-r`, `--revert` | Reverte a organização              |
+| `-d`, `--date`  | Adiciona a data de criação ao nome dos ficheiros  |
+| `-y`, `--yes`  | Aceita automaticamente as confirmações necessárias  |
+| `-n`, `--dry-run`  | Simula o processo sem fazer nenhuma alteração real  |
+| `-l`, `--language`  | Altera o idioma para o introduzido  |
 
 ## Utilização
 
@@ -63,19 +63,19 @@ orfi
 Organizar a pasta atual aceitando automaticamente todas as confirmações:
 
 ```bash
-orfi -f
+orfi -y
 ```
 
 Alterar o idioma para português:
 
 ```bash
-orfi -i pt
+orfi -l pt
 ```
 
 Selecionar uma pasta específica:
 
 ```bash
-orfi -a
+orfi -t
 ```
 
 Copiar os ficheiros em vez de os mover:
@@ -99,7 +99,7 @@ orfi -d
 Simular a organização de uma pasta específica:
 
 ```bash
-orfi -a -s
+orfi -t -n
 ```
 
 Por exemplo:
@@ -129,7 +129,7 @@ orfi -d -r -c
 As opções podem ser combinadas. Por exemplo, para selecionar uma pasta e simular a reversão da data dos ficheiros, por cópia e aceitando automaticamente todas as confirmações necessárias:
 
 ```bash
-orfi -a -r -c -d -f -s
+orfi -t -r -c -d -y -n
 ```
 
 ## Configuração

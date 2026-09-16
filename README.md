@@ -38,14 +38,14 @@ orfi
 
 | Option             | Description                              |
 |--------------------|-------------------------------------------|
-| `-a`, `--alvo`     | Allows selecting the target folder (requires 'tkinter') |
-| `-c`, `--copiar`   | Copies files instead of moving them       |
-| `-r`, `--reverter` | Reverts the organization                  |
-| `-d`, `--datar`    | Adds the creation date to file names      |
-| `-f`, `--force`    | Automatically accepts required confirmations |
-| `-s`, `--simula`   | Simulates the process without making any real changes |
-| `-i`, `--idioma`   | Changes the language to the one specified |
-| `-v`, `--version`  | Displays the installed version |
+| `-t`, `--target`     | Allows selecting the target folder (requires 'tkinter') |
+| `-c`, `--copy`   | Copies files instead of moving them       |
+| `-r`, `--revert` | Reverts the organization                  |
+| `-d`, `--date`    | Adds the creation date to file names      |
+| `-y`, `--yes`    | Automatically accepts required confirmations |
+| `-n`, `--dry-run`   | Simulates the process without making any real changes |
+| `-l`, `--language`   | Changes the language to the one specified |
+| `-V`, `--version`  | Displays the installed version |
 
 ## Usage
 
@@ -64,19 +64,19 @@ orfi
 Organize the current folder, automatically accepting all confirmations:
 
 ```bash
-orfi -f
+orfi -y
 ```
 
 Change the language to Portuguese:
 
 ```bash
-orfi -i pt
+orfi -l pt
 ```
 
 Select a specific folder:
 
 ```bash
-orfi -a
+orfi -t
 ```
 
 Copy files instead of moving them:
@@ -100,7 +100,7 @@ orfi -d
 Simulate organizing a specific folder:
 
 ```bash
-orfi -a -s
+orfi -t -n
 ```
 
 For example:
@@ -130,7 +130,7 @@ orfi -d -r -c
 Options can be combined. For example, to select a folder and simulate reverting the file dating, by copying, while automatically accepting all required confirmations:
 
 ```bash
-orfi -a -r -c -d -f -s
+orfi -t -r -c -d -y -n
 ```
 
 ## Configuration
