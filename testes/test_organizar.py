@@ -306,7 +306,7 @@ def test_datar(tmp_path):
     for ficheiro in ficheiros:
         (pastaBase / ficheiro).touch()
 
-    resultados = orfi.organizar.datar(pastaBase, modo, False, False)
+    resultados = orfi.organizar.datar(pastaBase, modo, False, False, 1)
 
     assert resultados.ficheirosTratados == len(ficheiros)
     for ficheiro in ficheiros:
@@ -332,7 +332,7 @@ def test_datarCopiar(tmp_path):
     for ficheiro in ficheiros:
         (pastaBase / ficheiro).touch()
 
-    resultados = orfi.organizar.datar(pastaBase, modo, False, False)
+    resultados = orfi.organizar.datar(pastaBase, modo, False, False, 1)
 
     assert resultados.ficheirosTratados == len(ficheiros)
     for ficheiro in ficheiros:
@@ -362,7 +362,7 @@ def test_datarSimula(tmp_path):
     for ficheiro in ficheiros:
         (pastaBase / ficheiro).touch()
 
-    resultados = orfi.organizar.datar(pastaBase, modo, False, simula)
+    resultados = orfi.organizar.datar(pastaBase, modo, False, simula, 1)
 
     assert resultados.ficheirosTratados == len(ficheiros)
     for ficheiro in ficheiros:
@@ -384,8 +384,36 @@ def test_datarDatado(tmp_path):
     for ficheiro in ficheiros:
         (pastaBase / ficheiro).touch()
 
-    resultados = orfi.organizar.datar(pastaBase, modo, False, False)
+    resultados = orfi.organizar.datar(pastaBase, modo, False, False, 1)
 
     assert resultados.ficheirosTratados == 0
     for ficheiro in ficheiros:
         assert (pastaBase / ficheiro).exists()
+
+def test_datarNiveis(tmp_path):
+    modo = orfi.configs.Modo.MOVER
+    nivel = 3
+
+    pastaBase = (tmp_path / "Base")
+    pastaBase.mkdir()
+
+    pastaNivel2 = (pastaBase / "nivel2")
+    pastaNivel2.mkdir()
+
+    pastaNivel3 = (pastaNivel2 / "nivel3")
+    pastaNivel3.mkdir()
+
+    ficheiros = set()
+    ficheiros.add(pastaBase / "notas.txt")
+    ficheiros.add(pastaBase / "doc.pdf")
+    ficheiros.add(pastaNivel2 / "img2.jpg")
+    ficheiros.add(pastaNivel3 / "calc.xlsx")
+
+    for ficheiro in ficheiros:
+        ficheiro.touch()
+
+    resultados = orfi.organizar.datar(pastaBase, modo, False, False, nivel)
+
+    assert resultados.ficheirosTratados == len(ficheiros)
+    for ficheiro in ficheiros:
+        assert not ficheiro.exists()
