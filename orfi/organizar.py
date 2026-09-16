@@ -32,7 +32,9 @@ def organiza(pastaSelecionada: Path, categorias: list[configs.CategoriaDePasta],
         mensagens.mensagem("modo_inesperado", "modo_inesperado", False, mensagens.CoresTexto.VERMELHO, modo=modo)
         return resultados
 
-    pastasParaCriar = pastas.devolvePastas(ficheiros.devolveExt(pastaSelecionada), categorias)
+    ficheirosLista = ficheiros.devolveFicheiros(pastaSelecionada, nivel)
+
+    pastasParaCriar = pastas.devolvePastas(ficheiros.devolveExt(ficheirosLista), categorias)
 
     if pastasParaCriar == set():
         mensagens.mensagem("nada_para_fazer", "nada_para_fazer_simula", simula, mensagens.CoresTexto.AMARELO)
@@ -47,8 +49,6 @@ def organiza(pastaSelecionada: Path, categorias: list[configs.CategoriaDePasta],
     if not simula:
         logger.info("Finished, %s folders created.", resultados.pastasCriadas)
     mensagens.mensagem("pastas_criadas", "pastas_seriam_criadas", simula, mensagens.CoresTexto.VERDE, cont=resultados.pastasCriadas)
-
-    ficheirosLista = ficheiros.devolveFicheiros(pastaSelecionada, nivel)
 
     for ficheiro in ficheirosLista:
         destino = ficheiros.defineDestino(ficheiro, categorias)
