@@ -13,7 +13,22 @@ def trataArgumentos() -> argparse.Namespace:
         Os argumentos adicionados na linha de comandos.
     """
     parser = argparse.ArgumentParser(
-        description=mensagens.mensagemTrataIdioma("descricao_orfi")
+        description=mensagens.mensagemTrataIdioma("descricao_orfi"),
+        add_help=False,
+    )
+
+    parser.add_argument(
+        "-h",
+        "--help",
+        action="help",
+        help=mensagens.mensagemTrataIdioma("descricao_help"),
+    )
+
+    parser.add_argument(
+        "-V", "--version",
+        action="version",
+        version=f"orfi {version('orfi')}",
+        help=mensagens.mensagemTrataIdioma("descricao_versao")
     )
 
     parser.add_argument(
@@ -62,12 +77,6 @@ def trataArgumentos() -> argparse.Namespace:
         "-l",
         "--language",
         help=mensagens.mensagemTrataIdioma("descricao_idioma")
-    )
-
-    parser.add_argument(
-        "-V", "--version",
-        action="version",
-        version=f"orfi {version('orfi')}"
     )
 
     argumentos = parser.parse_args()

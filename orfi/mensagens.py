@@ -101,6 +101,8 @@ MENSAGENS = {
         "descricao_force": "aprova automaticamente todas as alterações",
         "descricao_simula": "simula o processo sem fazer alterações",
         "descricao_idioma": "altera o idioma para o introduzido",
+        "descricao_versao": "mostra a versão instalada do programa",
+        "descricao_help": "mostra esta mensagem de ajuda",
         #alvo
         "tkinter_nao_disponivel": "-a indisponível: tkinter não instalado.",
     },
@@ -189,6 +191,8 @@ MENSAGENS = {
         "descricao_force": "auto-approves all changes",
         "descricao_simula": "simulates the process without making changes",
         "descricao_idioma": "changes the language to the specified one",
+        "descricao_versao": "show program's installed version number",
+        "descricao_help": "show this help message",
         #alvo
         "tkinter_nao_disponivel": "-a unavailable: tkinter not installed.",
     },
