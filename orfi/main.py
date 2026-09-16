@@ -89,10 +89,10 @@ def executar() -> int:
             if not argumentos.date:
                 reverter.reverte(pastaSelecionada, config.categorias, modo, force, simula)
             else:
-                reverter.reverteDatar(pastaSelecionada, modo, force, simula)
+                reverter.reverteDatar(pastaSelecionada, modo, force, simula, nivel)
 
         elif argumentos.date:
-            organizar.datar(pastaSelecionada, modo, force, simula)
+            organizar.datar(pastaSelecionada, modo, force, simula, nivel)
             
         else:
             organizar.organiza(pastaSelecionada, config.categorias, modo, force, simula, nivel)
