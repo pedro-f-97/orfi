@@ -19,7 +19,7 @@ def definirIdioma(novoIdioma: str):
 MENSAGENS = {
     "pt": {
         #ficheiros
-        "extensao_detectada": "Extensão detectada: {ext}",
+        "extensao_detectada": "Extensões detectadas: {ext}",
         "ficheiro_existente_substituir": "Já existe o ficheiro {ficheiro} na pasta {destino}, substituir? (s/n): ",
         "ficheiro_cancelado": "Ficheiro {ficheiro} cancelado.",
         "ficheiro_copiado": "Ficheiro {ficheiro} copiado para {destino}.",
@@ -61,6 +61,7 @@ MENSAGENS = {
         "configuracao_invalida_sintaxe": "Erro de sintaxe no config.toml: {erro}",
         "interrompido": "Processo interrompido pelo utilizador.",
         "erro_inesperado": "Erro inesperado: {erro}",
+        "nivel_invalido": "Nivel {nivel} inválido, tem de ser maior que 0.",
         #organizar
         "modo_inesperado": "Modo {modo} inesperado. Operação cancelada.",
         "nada_para_fazer": "Nada para fazer.",
@@ -103,13 +104,14 @@ MENSAGENS = {
         "descricao_idioma": "altera o idioma para o introduzido",
         "descricao_versao": "mostra a versão instalada do programa",
         "descricao_help": "mostra esta mensagem de ajuda",
+        "descricao_profundidade": "afeta subpastas até ao nivel de profundidade indicado",
         #alvo
         "tkinter_nao_disponivel": "-a indisponível: tkinter não instalado.",
     },
 
     "en": {
         #ficheiros
-        "extensao_detectada": "Extension detected: {ext}",
+        "extensao_detectada": "Extensions detected: {ext}",
         "ficheiro_existente_substituir": "File {ficheiro} already exists in folder {destino}, replace? (y/n): ",
         "ficheiro_cancelado": "File {ficheiro} cancelled.",
         "ficheiro_copiado": "File {ficheiro} copied to {destino}.",
@@ -151,6 +153,7 @@ MENSAGENS = {
         "configuracao_invalida_sintaxe": "Syntax error in config.toml: {erro}",
         "interrompido": "Process interrupted by the user.",
         "erro_inesperado": "Unexpected error: {erro}",
+        "nivel_invalido": "Depth {nivel} invalid, must be greater than 0.",
         #organizar
         "modo_inesperado": "Unexpected mode {modo}. Operation cancelled.",
         "nada_para_fazer": "Nothing to do.",
@@ -193,6 +196,7 @@ MENSAGENS = {
         "descricao_idioma": "changes the language to the specified one",
         "descricao_versao": "show program's installed version number",
         "descricao_help": "show this help message",
+        "descricao_profundidade": "affects subfolders down to the specified level",
         #alvo
         "tkinter_nao_disponivel": "-a unavailable: tkinter not installed.",
     },

@@ -56,6 +56,13 @@ def executar() -> int:
             mensagens.mensagem("idioma_alterado", "idioma_alterado", False, mensagens.CoresTexto.VERDE, idioma=argumentos.language)
             return 0
 
+        nivel = 1
+        if argumentos.depth is not None:
+            if argumentos.depth <= 0:
+                mensagens.mensagem("nivel_invalido", "nivel_invalido", False, mensagens.CoresTexto.AMARELO, nivel=argumentos.depth)
+                return 1
+            nivel = argumentos.depth
+
         if argumentos.target:
             pastaSelecionada = alvo.defineAlvo()
         else:
@@ -85,13 +92,13 @@ def executar() -> int:
             if not argumentos.date:
                 reverter.reverte(pastaSelecionada, config.categorias, modo, force, simula)
             else:
-                reverter.reverteDatar(pastaSelecionada, modo, force, simula)
+                reverter.reverteDatar(pastaSelecionada, modo, force, simula, nivel)
 
         elif argumentos.date:
-            organizar.datar(pastaSelecionada, modo, force, simula)
+            organizar.datar(pastaSelecionada, modo, force, simula, nivel)
             
         else:
-            organizar.organiza(pastaSelecionada, config.categorias, modo, force, simula)
+            organizar.organiza(pastaSelecionada, config.categorias, modo, force, simula, nivel)
 
         if simula:
             mensagens.mensagem("fim_simulacao", "fim_simulacao", False, mensagens.CoresTexto.AMARELO)

@@ -25,7 +25,7 @@ def test_organizaMover(tmp_path, monkeypatch):
         (pastaBase / ficheiro).touch()
 
     monkeypatch.setattr("builtins.input", lambda _: "s")
-    resultados = orfi.organizar.organiza(pastaBase, categorias, modo, False, False)
+    resultados = orfi.organizar.organiza(pastaBase, categorias, modo, False, False, 1)
 
     assert resultados.pastasCriadas == len(categorias)
     assert resultados.ficheirosTratados == len(ficheiros)
@@ -70,7 +70,7 @@ def test_organizaForcePastaExistenteComFicheiro(tmp_path):
         if ficheiro != "text.txt":
             (pastaBase / ficheiro).touch()
 
-    resultados = orfi.organizar.organiza(pastaBase, categorias, modo, force, False)
+    resultados = orfi.organizar.organiza(pastaBase, categorias, modo, force, False, 1)
 
     assert resultados.pastasCriadas == len(categorias) - 1
     assert resultados.ficheirosTratados == len(ficheiros)
@@ -109,7 +109,7 @@ def test_organizaCopiar(tmp_path, monkeypatch):
         (pastaBase / ficheiro).touch()
 
     monkeypatch.setattr("builtins.input", lambda _: "s")
-    resultados = orfi.organizar.organiza(pastaBase, categorias, modo, False, False)
+    resultados = orfi.organizar.organiza(pastaBase, categorias, modo, False, False, 1)
 
     assert resultados.pastasCriadas == len(categorias)
     assert resultados.ficheirosTratados == len(ficheiros)
@@ -148,7 +148,7 @@ def test_organizaOutros(tmp_path, monkeypatch):
         (pastaBase / ficheiro).touch()
 
     monkeypatch.setattr("builtins.input", lambda _: "s")
-    resultados = orfi.organizar.organiza(pastaBase, categorias, modo, False, False)
+    resultados = orfi.organizar.organiza(pastaBase, categorias, modo, False, False, 1)
     
     assert resultados.pastasCriadas == len(categorias) - 1
     assert resultados.ficheirosTratados == len(ficheiros)
@@ -175,7 +175,7 @@ def test_organizaVazio(tmp_path):
     pastaBase = (tmp_path / "Base")
     pastaBase.mkdir()
 
-    resultados = orfi.organizar.organiza(pastaBase, categorias, modo, False, False)
+    resultados = orfi.organizar.organiza(pastaBase, categorias, modo, False, False, 1)
 
     assert resultados.ficheirosTratados == 0
     assert resultados.pastasCriadas == 0
@@ -207,7 +207,7 @@ def test_organizaSimula(tmp_path, monkeypatch):
         (pastaBase / ficheiro).touch()
 
     monkeypatch.setattr("builtins.input", lambda _: "s")
-    resultados = orfi.organizar.organiza(pastaBase, categorias, modo, False, simula)
+    resultados = orfi.organizar.organiza(pastaBase, categorias, modo, False, simula, 1)
     
     assert resultados.ficheirosTratados == len(ficheiros)
     assert resultados.pastasCriadas == len(categorias)
@@ -216,6 +216,82 @@ def test_organizaSimula(tmp_path, monkeypatch):
         assert not path.is_dir()
         ficheiros.discard(path.name)
     assert not ficheiros
+
+def test_organizaNiveis(tmp_path, monkeypatch):
+    modo = orfi.configs.Modo.MOVER
+
+    pastaBase = (tmp_path / "Base")
+    pastaBase.mkdir()
+
+    categorias = [
+        orfi.configs.CategoriaDePasta("Docs", {".txt", ".pdf"}, pastaBase / "Docs"),
+        orfi.configs.CategoriaDePasta("Fotos", {".jpg", ".png"}, pastaBase / "Fotos"),
+        orfi.configs.CategoriaDePasta("Emails", {".msg"}, pastaBase / "Emails"),
+    ]
+
+    ficheiros = set()
+    ficheiros.add("text.txt")
+    ficheiros.add("dec.pdf")
+    ficheiros.add("img.jpg")
+    ficheiros.add("foto.png")
+    ficheiros.add("mail.msg")
+
+    for ficheiro in ficheiros:
+        (pastaBase / ficheiro).touch()
+
+    pastaNivel2 = (pastaBase / "Nivel2")
+    pastaNivel2.mkdir()
+    (pastaNivel2 / "text2.txt").touch()
+    ficheiros.add("text2.txt")
+
+    pastaNivel3 = (pastaNivel2 / "Nivel3")
+    pastaNivel3.mkdir()
+    (pastaNivel3 / "foto3.jpg").touch()
+    ficheiros.add("foto3.jpg")
+
+    resultados = orfi.organizar.organiza(pastaBase, categorias, modo, True, False, 3)
+
+    assert resultados.pastasCriadas == len(categorias)
+    assert resultados.ficheirosTratados == len(ficheiros)
+
+    for path in pastaBase.iterdir():
+        assert path.is_dir()
+        for categoria in categorias:
+            if categoria.nome == path.name:
+                for ficheiro in path.iterdir():
+                    extensoes = categoria.extensoes
+                    assert ficheiro.suffix in extensoes
+                    ficheiros.discard(ficheiro.name)
+    assert not ficheiros
+
+def test_organizaNiveisExtensoesRecursivas(tmp_path):
+    modo = orfi.configs.Modo.MOVER
+
+    pastaBase = tmp_path / "Base"
+    pastaBase.mkdir()
+
+    categorias = [
+        orfi.configs.CategoriaDePasta(
+            "Docs", {".txt", ".pdf"}, pastaBase / "Docs"
+        ),
+        orfi.configs.CategoriaDePasta(
+            "Fotos", {".jpg", ".png"}, pastaBase / "Fotos"
+        ),
+    ]
+
+    (pastaBase / "texto.txt").touch()
+
+    subpasta = pastaBase / "Subpasta"
+    subpasta.mkdir()
+    (subpasta / "foto.jpg").touch()
+
+    resultados = orfi.organizar.organiza(pastaBase, categorias, modo, True, False, 2)
+
+    assert resultados.pastasCriadas == 2
+    assert resultados.ficheirosTratados == 2
+
+    assert (pastaBase / "Docs" / "texto.txt").exists()
+    assert (pastaBase / "Fotos" / "foto.jpg").exists()
 
 def test_datar(tmp_path):
     modo = orfi.configs.Modo.MOVER
@@ -230,7 +306,7 @@ def test_datar(tmp_path):
     for ficheiro in ficheiros:
         (pastaBase / ficheiro).touch()
 
-    resultados = orfi.organizar.datar(pastaBase, modo, False, False)
+    resultados = orfi.organizar.datar(pastaBase, modo, False, False, 1)
 
     assert resultados.ficheirosTratados == len(ficheiros)
     for ficheiro in ficheiros:
@@ -256,7 +332,7 @@ def test_datarCopiar(tmp_path):
     for ficheiro in ficheiros:
         (pastaBase / ficheiro).touch()
 
-    resultados = orfi.organizar.datar(pastaBase, modo, False, False)
+    resultados = orfi.organizar.datar(pastaBase, modo, False, False, 1)
 
     assert resultados.ficheirosTratados == len(ficheiros)
     for ficheiro in ficheiros:
@@ -286,7 +362,7 @@ def test_datarSimula(tmp_path):
     for ficheiro in ficheiros:
         (pastaBase / ficheiro).touch()
 
-    resultados = orfi.organizar.datar(pastaBase, modo, False, simula)
+    resultados = orfi.organizar.datar(pastaBase, modo, False, simula, 1)
 
     assert resultados.ficheirosTratados == len(ficheiros)
     for ficheiro in ficheiros:
@@ -308,8 +384,36 @@ def test_datarDatado(tmp_path):
     for ficheiro in ficheiros:
         (pastaBase / ficheiro).touch()
 
-    resultados = orfi.organizar.datar(pastaBase, modo, False, False)
+    resultados = orfi.organizar.datar(pastaBase, modo, False, False, 1)
 
     assert resultados.ficheirosTratados == 0
     for ficheiro in ficheiros:
         assert (pastaBase / ficheiro).exists()
+
+def test_datarNiveis(tmp_path):
+    modo = orfi.configs.Modo.MOVER
+    nivel = 3
+
+    pastaBase = (tmp_path / "Base")
+    pastaBase.mkdir()
+
+    pastaNivel2 = (pastaBase / "nivel2")
+    pastaNivel2.mkdir()
+
+    pastaNivel3 = (pastaNivel2 / "nivel3")
+    pastaNivel3.mkdir()
+
+    ficheiros = set()
+    ficheiros.add(pastaBase / "notas.txt")
+    ficheiros.add(pastaBase / "doc.pdf")
+    ficheiros.add(pastaNivel2 / "img2.jpg")
+    ficheiros.add(pastaNivel3 / "calc.xlsx")
+
+    for ficheiro in ficheiros:
+        ficheiro.touch()
+
+    resultados = orfi.organizar.datar(pastaBase, modo, False, False, nivel)
+
+    assert resultados.ficheirosTratados == len(ficheiros)
+    for ficheiro in ficheiros:
+        assert not ficheiro.exists()

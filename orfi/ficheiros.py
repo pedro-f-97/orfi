@@ -9,38 +9,40 @@ from . import configs, mensagens
 logger = logging.getLogger(__name__)
 
 
-def devolveExt(pasta: Path) -> set[str]:
-    """Devolve um set com as extensões distintas dos ficheiros presentes na pasta.
+def devolveExt(ficheiros: set[Path]) -> set[str]:
+    """Devolve um set com as extensões distintas dos ficheiros presentes no set.
 
     Args:
-        pasta: Pasta a ser analisada.
+        ficheiros: set a ser analisado
 
     Returns:
         Um set com as extensões distintas encontradas na pasta.
     """
     ext: set[str] = set()
-    for ficheiro in pasta.iterdir():
+    for ficheiro in ficheiros:
         if not ficheiro.is_dir(): #apenas ficheiros, não pastas
             ext.add(ficheiro.suffix.lower())
     if len(ext) > 0:
-        for ex in ext:
-            logger.debug("Extension detected: %s", ex)
-            mensagens.mensagem("extensao_detectada", "extensao_detectada", False, mensagens.CoresTexto.AZUL, ext=ex)
+        logger.debug("Extensions detected: %s", ext)
+        mensagens.mensagem("extensao_detectada", "extensao_detectada", False, mensagens.CoresTexto.AZUL, ext=ext)
     return ext
 
-def devolveFicheiros(pasta: Path) -> list[Path]:
-    """Devolve uma lista dos ficheiros presentes na pasta.
+def devolveFicheiros(pasta: Path, nivel: int = 1) -> set[Path]:
+    """Devolve um set dos ficheiros presentes na pasta.
 
     Args:
         pasta: Pasta a ser analisada.
+        nivel: nivel de subpastas a considerar
 
     Returns:
-        Uma lista dos ficheiros encontrados na pasta.
+        Um set dos ficheiros encontrados na pasta.
     """
-    listaFicheiros = []
+    listaFicheiros = set()
     for ficheiro in pasta.iterdir():
         if not ficheiro.is_dir(): #apenas ficheiros, não pastas
-            listaFicheiros.append(ficheiro)
+            listaFicheiros.add(ficheiro)
+        elif nivel > 1:
+            listaFicheiros.update(devolveFicheiros(ficheiro, nivel - 1))
     if listaFicheiros:
         for ficheiro in listaFicheiros:
             logger.debug("File detected: %s", ficheiro)
