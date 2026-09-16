@@ -26,79 +26,81 @@ def executar() -> int:
     logs.configuraLogs()
     logger.info("   --PROCESS STARTING--  ")
     logger.info("OS: %s | %s",sys.platform, sys.version)
-
     try:
-        config = configs.carregarConfiguracao()
-    except tomllib.TOMLDecodeError as erro:
-        mensagens.mensagem("configuracao_invalida_sintaxe", "configuracao_invalida_sintaxe",
-                        False, mensagens.CoresTexto.VERMELHO, erro=erro)
-        return 1
-
-    if config.idioma not in configs.idiomasExistentes:
-        mensagens.mensagem("idioma_invalido", "idioma_invalido",
-                        False, mensagens.CoresTexto.AMARELO,
-                        idiomas=configs.idiomasExistentes)
-        return 1
-    mensagens.definirIdioma(config.idioma)
-
-    if not configs.verificaConfiguracao(config.categorias):
-        mensagens.mensagem("configuracao_invalida", "configuracao_invalida",
-                        False, mensagens.CoresTexto.AMARELO)
-        return 1
-    
-    argumentos = inicializar.trataArgumentos()
-
-    if argumentos.language:
-        if not configs.alterarIdioma(argumentos.language):
-            mensagens.mensagem("idioma_invalido", "idioma_invalido", False, mensagens.CoresTexto.AMARELO, idiomas=", ".join(configs.idiomasExistentes))
+        try:
+            config = configs.carregarConfiguracao()
+        except tomllib.TOMLDecodeError as erro:
+            mensagens.mensagem("configuracao_invalida_sintaxe", "configuracao_invalida_sintaxe",
+                            False, mensagens.CoresTexto.VERMELHO, erro=erro)
             return 1
-        mensagens.definirIdioma(argumentos.language)
-        mensagens.mensagem("idioma_alterado", "idioma_alterado", False, mensagens.CoresTexto.VERDE, idioma=argumentos.language)
+
+        if config.idioma not in configs.idiomasExistentes:
+            mensagens.mensagem("idioma_invalido", "idioma_invalido",
+                            False, mensagens.CoresTexto.AMARELO,
+                            idiomas=configs.idiomasExistentes)
+            return 1
+        mensagens.definirIdioma(config.idioma)
+
+        if not configs.verificaConfiguracao(config.categorias):
+            mensagens.mensagem("configuracao_invalida", "configuracao_invalida",
+                            False, mensagens.CoresTexto.AMARELO)
+            return 1
+        
+        argumentos = inicializar.trataArgumentos()
+
+        if argumentos.language:
+            if not configs.alterarIdioma(argumentos.language):
+                mensagens.mensagem("idioma_invalido", "idioma_invalido", False, mensagens.CoresTexto.AMARELO, idiomas=", ".join(configs.idiomasExistentes))
+                return 1
+            mensagens.definirIdioma(argumentos.language)
+            mensagens.mensagem("idioma_alterado", "idioma_alterado", False, mensagens.CoresTexto.VERDE, idioma=argumentos.language)
+            return 0
+
+        if argumentos.target:
+            pastaSelecionada = alvo.defineAlvo()
+        else:
+            pastaSelecionada = alvo.defineAlvoAqui()
+
+        logger.info("Selected folder: %s", pastaSelecionada)
+
+        if argumentos.copy:
+            modo = configs.Modo.COPIAR
+        else:
+            modo = configs.Modo.MOVER
+
+        force = argumentos.yes
+
+        simula = argumentos.dry_run
+
+        if simula:
+            mensagens.mensagem("inicio_simulacao", "inicio_simulacao", False, mensagens.CoresTexto.AMARELO)
+
+        if pastaSelecionada is None:
+            mensagens.mensagem("pasta_invalida", "pasta_invalida", False, mensagens.CoresTexto.AMARELO)
+            return 1
+
+        mensagens.mensagem("pasta_selecionada", "pasta_selecionada", False, mensagens.CoresTexto.AZUL, pasta=pastaSelecionada)
+
+        if argumentos.revert:
+            if not argumentos.date:
+                reverter.reverte(pastaSelecionada, config.categorias, modo, force, simula)
+            else:
+                reverter.reverteDatar(pastaSelecionada, modo, force, simula)
+
+        elif argumentos.date:
+            organizar.datar(pastaSelecionada, modo, force, simula)
+            
+        else:
+            organizar.organiza(pastaSelecionada, config.categorias, modo, force, simula)
+
+        if simula:
+            mensagens.mensagem("fim_simulacao", "fim_simulacao", False, mensagens.CoresTexto.AMARELO)
         return 0
 
-    if argumentos.target:
-        pastaSelecionada = alvo.defineAlvo()
-    else:
-        pastaSelecionada = alvo.defineAlvoAqui()
-
-    logger.info("Selected folder: %s", pastaSelecionada)
-
-    if argumentos.copy:
-        modo = configs.Modo.COPIAR
-    else:
-        modo = configs.Modo.MOVER
-
-    force = argumentos.yes
-
-    simula = argumentos.dry_run
-
-    if simula:
-        mensagens.mensagem("inicio_simulacao", "inicio_simulacao", False, mensagens.CoresTexto.AMARELO)
-
-    if pastaSelecionada is None:
-        mensagens.mensagem("pasta_invalida", "pasta_invalida", False, mensagens.CoresTexto.AMARELO)
-        return 1
-
-    mensagens.mensagem("pasta_selecionada", "pasta_selecionada", False, mensagens.CoresTexto.AZUL, pasta=pastaSelecionada)
-
-    if argumentos.revert:
-        if not argumentos.date:
-            reverter.reverte(pastaSelecionada, config.categorias, modo, force, simula)
-        else:
-            reverter.reverteDatar(pastaSelecionada, modo, force, simula)
-
-    elif argumentos.date:
-        organizar.datar(pastaSelecionada, modo, force, simula)
-        
-    else:
-        organizar.organiza(pastaSelecionada, config.categorias, modo, force, simula)
-
-    if simula:
-        mensagens.mensagem("fim_simulacao", "fim_simulacao", False, mensagens.CoresTexto.AMARELO)
-    duracao = time.perf_counter() - inicio
-    logger.info("   --PROCESS ENDED--  ")
-    logger.info("   --%.2f SECONDS--   ", duracao)
-    return 0
+    finally:
+        duracao = time.perf_counter() - inicio
+        logger.info("   --PROCESS ENDED--  ")
+        logger.info("   --%.2f SECONDS--   ", duracao)
         
 if __name__ == "__main__":
     sys.exit(main())    
