@@ -28,7 +28,7 @@ def devolveExt(pasta: Path) -> set[str]:
             mensagens.mensagem("extensao_detectada", "extensao_detectada", False, mensagens.CoresTexto.AZUL, ext=ex)
     return ext
 
-def devolveFicheiros(pasta: Path) -> list[Path]:
+def devolveFicheiros(pasta: Path, nivel: int = 1) -> list[Path]:
     """Devolve uma lista dos ficheiros presentes na pasta.
 
     Args:
@@ -41,6 +41,8 @@ def devolveFicheiros(pasta: Path) -> list[Path]:
     for ficheiro in pasta.iterdir():
         if not ficheiro.is_dir(): #apenas ficheiros, não pastas
             listaFicheiros.append(ficheiro)
+        elif nivel > 1:
+            listaFicheiros.extend(devolveFicheiros(ficheiro, nivel - 1))
     if listaFicheiros:
         for ficheiro in listaFicheiros:
             logger.debug("File detected: %s", ficheiro)
