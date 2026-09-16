@@ -165,7 +165,7 @@ Each category can define a set of extensions:
 
 ```toml
 [[categorias]]
-nome = "Imagens"
+nome = "Images"
 extensoes = [".jpg", ".png", ".gif"]
 ```
 
@@ -173,7 +173,7 @@ A category can be set as the default category:
 
 ```toml
 [[categorias]]
-nome = "Outros"
+nome = "Misc"
 extensoes = []
 defeito = true
 ```
