@@ -264,6 +264,35 @@ def test_organizaNiveis(tmp_path, monkeypatch):
                     ficheiros.discard(ficheiro.name)
     assert not ficheiros
 
+def test_organizaNiveisExtensoesRecursivas(tmp_path):
+    modo = orfi.configs.Modo.MOVER
+
+    pastaBase = tmp_path / "Base"
+    pastaBase.mkdir()
+
+    categorias = [
+        orfi.configs.CategoriaDePasta(
+            "Docs", {".txt", ".pdf"}, pastaBase / "Docs"
+        ),
+        orfi.configs.CategoriaDePasta(
+            "Fotos", {".jpg", ".png"}, pastaBase / "Fotos"
+        ),
+    ]
+
+    (pastaBase / "texto.txt").touch()
+
+    subpasta = pastaBase / "Subpasta"
+    subpasta.mkdir()
+    (subpasta / "foto.jpg").touch()
+
+    resultados = orfi.organizar.organiza(pastaBase, categorias, modo, True, False, 2)
+
+    assert resultados.pastasCriadas == 2
+    assert resultados.ficheirosTratados == 2
+
+    assert (pastaBase / "Docs" / "texto.txt").exists()
+    assert (pastaBase / "Fotos" / "foto.jpg").exists()
+
 def test_datar(tmp_path):
     modo = orfi.configs.Modo.MOVER
 
