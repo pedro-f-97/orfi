@@ -29,7 +29,7 @@ def test_executarAlteraIdioma(tmp_path, monkeypatch):
     conteudo = caminho.read_text(encoding="utf-8")
     assert 'idioma = "pt"' in conteudo
     monkeypatch.setattr(orfi.main.configs, "caminhoConfiguracao", lambda: caminho)
-    monkeypatch.setattr(sys, "argv", ["orfi", "-i", "en"])
+    monkeypatch.setattr(sys, "argv", ["orfi", "-l", "en"])
 
     assert orfi.main.executar() == 0
 
@@ -44,7 +44,7 @@ def test_executarIdiomaInvalidoNaoAltera(tmp_path, monkeypatch):
     antes = caminho.read_text(encoding="utf-8")
 
     monkeypatch.setattr(orfi.main.configs, "caminhoConfiguracao", lambda: caminho)
-    monkeypatch.setattr(sys, "argv", ["orfi", "-i", "xx"])
+    monkeypatch.setattr(sys, "argv", ["orfi", "-l", "xx"])
 
     assert orfi.main.executar() == 1
 

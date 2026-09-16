@@ -48,29 +48,29 @@ def executar() -> int:
     
     argumentos = inicializar.trataArgumentos()
 
-    if argumentos.idioma:
-        if not configs.alterarIdioma(argumentos.idioma):
+    if argumentos.language:
+        if not configs.alterarIdioma(argumentos.language):
             mensagens.mensagem("idioma_invalido", "idioma_invalido", False, mensagens.CoresTexto.AMARELO, idiomas=", ".join(configs.idiomasExistentes))
             return 1
-        mensagens.definirIdioma(argumentos.idioma)
-        mensagens.mensagem("idioma_alterado", "idioma_alterado", False, mensagens.CoresTexto.VERDE, idioma=argumentos.idioma)
+        mensagens.definirIdioma(argumentos.language)
+        mensagens.mensagem("idioma_alterado", "idioma_alterado", False, mensagens.CoresTexto.VERDE, idioma=argumentos.language)
         return 0
 
-    if argumentos.alvo:
+    if argumentos.target:
         pastaSelecionada = alvo.defineAlvo()
     else:
         pastaSelecionada = alvo.defineAlvoAqui()
 
     logger.info("Selected folder: %s", pastaSelecionada)
 
-    if argumentos.copiar:
+    if argumentos.copy:
         modo = configs.Modo.COPIAR
     else:
         modo = configs.Modo.MOVER
 
-    force = argumentos.force
+    force = argumentos.yes
 
-    simula = argumentos.simula
+    simula = argumentos.dry_run
 
     if simula:
         mensagens.mensagem("inicio_simulacao", "inicio_simulacao", False, mensagens.CoresTexto.AMARELO)
@@ -81,13 +81,13 @@ def executar() -> int:
 
     mensagens.mensagem("pasta_selecionada", "pasta_selecionada", False, mensagens.CoresTexto.AZUL, pasta=pastaSelecionada)
 
-    if argumentos.reverter:
-        if not argumentos.datar:
+    if argumentos.revert:
+        if not argumentos.date:
             reverter.reverte(pastaSelecionada, config.categorias, modo, force, simula)
         else:
             reverter.reverteDatar(pastaSelecionada, modo, force, simula)
 
-    elif argumentos.datar:
+    elif argumentos.date:
         organizar.datar(pastaSelecionada, modo, force, simula)
         
     else:
