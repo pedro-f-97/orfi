@@ -255,7 +255,7 @@ def test_reverteDatar(tmp_path):
     for ficheiro in ficheiros:
         (pastaBase / ficheiro).touch()
 
-    resultados = orfi.reverter.reverteDatar(pastaBase, modo, False, False)
+    resultados = orfi.reverter.reverteDatar(pastaBase, modo, False, False, 1)
 
     assert resultados.ficheirosTratados == len(ficheiros)
 
@@ -280,7 +280,7 @@ def test_reverteDatarCopiar(tmp_path):
     for ficheiro in ficheiros:
         (pastaBase / ficheiro).touch()
 
-    resultados = orfi.reverter.reverteDatar(pastaBase, modo, False, False)
+    resultados = orfi.reverter.reverteDatar(pastaBase, modo, False, False, 1)
 
     assert resultados.ficheirosTratados == len(ficheiros)
 
@@ -303,7 +303,7 @@ def test_reverteDatarSimula(tmp_path):
     for ficheiro in ficheiros:
         (pastaBase / ficheiro).touch()
 
-    resultados = orfi.reverter.reverteDatar(pastaBase, modo, False, simula)
+    resultados = orfi.reverter.reverteDatar(pastaBase, modo, False, simula, 1)
 
     assert resultados.ficheirosTratados == len(ficheiros)
     for ficheiro in ficheiros:
@@ -313,3 +313,31 @@ def test_reverteDatarSimula(tmp_path):
     for ficheiro in pastaBase.iterdir():
         cont += 1
     assert cont == 2
+
+def test_reverteDatarNiveis(tmp_path):
+    modo = orfi.configs.Modo.MOVER
+    nivel = 3
+
+    pastaBase = (tmp_path / "Base")
+    pastaBase.mkdir()
+
+    pastaNivel2 = (pastaBase / "nivel2")
+    pastaNivel2.mkdir()
+
+    pastaNivel3 = (pastaNivel2 / "nivel3")
+    pastaNivel3.mkdir()
+
+    ficheiros = set()
+    ficheiros.add(pastaBase / "260916_notas.txt")
+    ficheiros.add(pastaBase / "260916_doc.pdf")
+    ficheiros.add(pastaNivel2 / "250916_img2.jpg")
+    ficheiros.add(pastaNivel3 / "250917_calc.xlsx")
+
+    for ficheiro in ficheiros:
+        ficheiro.touch()
+
+    resultados = orfi.reverter.reverteDatar(pastaBase, modo, False, False, nivel)
+
+    assert resultados.ficheirosTratados == len(ficheiros)
+    for ficheiro in ficheiros:
+        assert not ficheiro.exists()
