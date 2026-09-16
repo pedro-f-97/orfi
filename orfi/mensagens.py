@@ -61,6 +61,7 @@ MENSAGENS = {
         "configuracao_invalida_sintaxe": "Erro de sintaxe no config.toml: {erro}",
         "interrompido": "Processo interrompido pelo utilizador.",
         "erro_inesperado": "Erro inesperado: {erro}",
+        "nivel_invalido": "Nivel {nivel} inválido, tem de ser maior que 0.",
         #organizar
         "modo_inesperado": "Modo {modo} inesperado. Operação cancelada.",
         "nada_para_fazer": "Nada para fazer.",
@@ -152,6 +153,7 @@ MENSAGENS = {
         "configuracao_invalida_sintaxe": "Syntax error in config.toml: {erro}",
         "interrompido": "Process interrupted by the user.",
         "erro_inesperado": "Unexpected error: {erro}",
+        "nivel_invalido": "Depth {nivel} invalid, must be greater than 0.",
         #organizar
         "modo_inesperado": "Unexpected mode {modo}. Operation cancelled.",
         "nada_para_fazer": "Nothing to do.",

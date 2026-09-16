@@ -57,7 +57,10 @@ def executar() -> int:
             return 0
 
         nivel = 1
-        if argumentos.depth:
+        if argumentos.depth is not None:
+            if argumentos.depth <= 0:
+                mensagens.mensagem("nivel_invalido", "nivel_invalido", False, mensagens.CoresTexto.AMARELO, nivel=argumentos.depth)
+                return 1
             nivel = argumentos.depth
 
         if argumentos.target:
