@@ -5,15 +5,6 @@ import orfi.configs
 import orfi.ficheiros
 
 
-def test_devolveExt(tmp_path):
-    (tmp_path / "foto.jpg").touch()
-    (tmp_path / "excel.xlsx").touch()
-    (tmp_path / "texto.txt").touch()
-    (tmp_path / "excel.xlsx").touch()
-    resultado = orfi.ficheiros.devolveExt(tmp_path)
-
-    assert resultado == {".jpg", ".txt", ".xlsx"}
-
 def test_devolveFicheiros(tmp_path):
     (tmp_path / "foto.jpg").touch()
     (tmp_path / "excel.xlsx").touch()
@@ -70,6 +61,17 @@ def test_devolveFicheirosNiveisSemNivel(tmp_path):
         tmp_path / "excel.xlsx",
         tmp_path / "texto.txt",
     }
+
+def test_devolveExt(tmp_path):
+    (tmp_path / "foto.jpg").touch()
+    (tmp_path / "excel.xlsx").touch()
+    (tmp_path / "texto.txt").touch()
+    (tmp_path / "excel.xlsx").touch()
+    
+    ficheiros = orfi.ficheiros.devolveFicheiros(tmp_path)
+    resultado = orfi.ficheiros.devolveExt(ficheiros)
+
+    assert resultado == {".jpg", ".txt", ".xlsx"}
 
 def test_copiaFicheiro(tmp_path):
     paraCopiar = (tmp_path / "texto.txt")
