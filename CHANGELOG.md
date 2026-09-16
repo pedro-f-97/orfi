@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [1.4.1] - 2026-09-16
+
+### Added
+
+- Translation of the help messages for the `-h`/`--help` and `-V`/`--version` arguments according to the selected language.
+
+### Changed
+
+- CLI arguments renamed to follow more common conventions (`--target`, `--copy`, `--revert`, `--date`, `--yes`, `--dry-run`, `--language`).
+- Default configuration keys and categories changed to English.
+- `executar()` now guarantees that the process completion and duration are logged, including when the process exits early or an exception occurs.
+
+### Fixed
+
+- Tests and documentation updated to reflect the CLI and `config.toml` changes.
+
 ## [1.4.0] - 2026-09-15
 
 ### Added
