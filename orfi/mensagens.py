@@ -19,7 +19,7 @@ def definirIdioma(novoIdioma: str):
 MENSAGENS = {
     "pt": {
         #ficheiros
-        "extensao_detectada": "Extensão detectada: {ext}",
+        "extensao_detectada": "Extensões detectadas: {ext}",
         "ficheiro_existente_substituir": "Já existe o ficheiro {ficheiro} na pasta {destino}, substituir? (s/n): ",
         "ficheiro_cancelado": "Ficheiro {ficheiro} cancelado.",
         "ficheiro_copiado": "Ficheiro {ficheiro} copiado para {destino}.",
@@ -110,7 +110,7 @@ MENSAGENS = {
 
     "en": {
         #ficheiros
-        "extensao_detectada": "Extension detected: {ext}",
+        "extensao_detectada": "Extensions detected: {ext}",
         "ficheiro_existente_substituir": "File {ficheiro} already exists in folder {destino}, replace? (y/n): ",
         "ficheiro_cancelado": "File {ficheiro} cancelled.",
         "ficheiro_copiado": "File {ficheiro} copied to {destino}.",

@@ -3,29 +3,29 @@ import logging
 import os
 from pathlib import Path
 from shutil import copy2, move
+from typing import Set
 
 from . import configs, mensagens
 
 logger = logging.getLogger(__name__)
 
 
-def devolveExt(pasta: Path) -> set[str]:
-    """Devolve um set com as extensões distintas dos ficheiros presentes na pasta.
+def devolveExt(ficheiros: set[Path]) -> set[str]:
+    """Devolve um set com as extensões distintas dos ficheiros presentes no set.
 
     Args:
-        pasta: Pasta a ser analisada.
+        ficheiros: set a ser analisado
 
     Returns:
         Um set com as extensões distintas encontradas na pasta.
     """
     ext: set[str] = set()
-    for ficheiro in pasta.iterdir():
+    for ficheiro in ficheiros:
         if not ficheiro.is_dir(): #apenas ficheiros, não pastas
             ext.add(ficheiro.suffix.lower())
     if len(ext) > 0:
-        for ex in ext:
-            logger.debug("Extension detected: %s", ex)
-            mensagens.mensagem("extensao_detectada", "extensao_detectada", False, mensagens.CoresTexto.AZUL, ext=ex)
+        logger.debug("Extensions detected: %s", ext)
+        mensagens.mensagem("extensao_detectada", "extensao_detectada", False, mensagens.CoresTexto.AZUL, ext=ext)
     return ext
 
 def devolveFicheiros(pasta: Path, nivel: int = 1) -> list[Path]:
