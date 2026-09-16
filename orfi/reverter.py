@@ -58,7 +58,7 @@ def reverte(pastaSelecionada: Path, categorias: list[configs.CategoriaDePasta], 
 
     return resultados
 
-def reverteDatar(pastaSelecionada: Path, modo: configs.Modo, force: bool, simula: bool) -> configs.ResultadosOperacao:
+def reverteDatar(pastaSelecionada: Path, modo: configs.Modo, force: bool, simula: bool, nivel: int) -> configs.ResultadosOperacao:
     """Remove o prefixo com data dos ficheiros contidos na pasta indicada.
 
     Args:
@@ -82,7 +82,7 @@ def reverteDatar(pastaSelecionada: Path, modo: configs.Modo, force: bool, simula
         mensagens.mensagem("modo_inesperado", "modo_inesperado", False, mensagens.CoresTexto.VERMELHO, modo=modo)
         return resultados
 
-    ficheirosLista = ficheiros.devolveFicheiros(pastaSelecionada)
+    ficheirosLista = ficheiros.devolveFicheiros(pastaSelecionada, nivel)
 
     for ficheiro in ficheirosLista:
         if ficheiros.verificaDatado(ficheiro):
