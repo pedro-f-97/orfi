@@ -104,14 +104,14 @@ def carregarConfiguracao(caminho: Path | None = None) -> Configuracao:
     with caminho.open("rb") as ficheiro:
         data = tomllib.load(ficheiro)
 
-    idioma = data.get("idioma", "en")
+    idioma = data.get("language", "en")
     categorias = [
         CategoriaDePasta(
-            nome=c["nome"],
-            extensoes=set(c["extensoes"]),
-            defeito=c.get("defeito", False),
+            nome=c["name"],
+            extensoes=set(c["extensions"]),
+            defeito=c.get("default", False),
         )
-        for c in data.get("categorias", [])
+        for c in data.get("categories", [])
     ]
 
     return Configuracao(idioma=idioma, categorias=categorias)
@@ -250,8 +250,8 @@ def alterarIdioma(idioma: str, caminho: Path | None = None) -> bool:
     conteudo = caminho.read_text(encoding="utf-8")
     linhas = conteudo.splitlines()
     for i, linha in enumerate(linhas):
-        if linha.strip().startswith("idioma ="):
-            linhas[i] = f'idioma = "{idioma}"'
+        if linha.strip().startswith("language ="):
+            linhas[i] = f'language = "{idioma}"'
             break
 
     novoConteudo = ("\n".join(linhas) + "\n").encode("utf-8")

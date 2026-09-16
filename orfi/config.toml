@@ -1,122 +1,122 @@
-idioma = "en"
+language = "en"
 
-[[categorias]]
-nome = "Images"
-extensoes = [
+[[categories]]
+name = "Images"
+extensions = [
     ".jpg", ".jpeg", ".png", ".gif", ".bmp",
     ".tif", ".tiff", ".webp", ".svg", ".ico",
     ".heic", ".avif", ".psd"
 ]
 
-[[categorias]]
-nome = "Documents"
-extensoes = [
+[[categories]]
+name = "Documents"
+extensions = [
     ".txt", ".doc", ".docx", ".docm",
     ".odt", ".rtf", ".pdf", ".md",
     ".tex", ".pages", ".wpd"
 ]
 
-[[categorias]]
-nome = "Spreadsheets"
-extensoes = [
+[[categories]]
+name = "Spreadsheets"
+extensions = [
     ".xls", ".xlsx", ".xlsm", ".xlt", ".xltx", ".xltm",
     ".csv", ".ods"
 ]
 
-[[categorias]]
-nome = "Presentations"
-extensoes = [
+[[categories]]
+name = "Presentations"
+extensions = [
     ".ppt", ".pptx", ".pptm", ".pps", ".ppsx",
     ".odp", ".key"
 ]
 
-[[categorias]]
-nome = "Emails"
-extensoes = [
+[[categories]]
+name = "Emails"
+extensions = [
     ".msg", ".eml"
 ]
 
-[[categorias]]
-nome = "Configs"
-extensoes = [
+[[categories]]
+name = "Configs"
+extensions = [
     ".json", ".xml", ".yaml", ".yml",
     ".ini", ".cfg", ".conf"
 ]
 
-[[categorias]]
-nome = "Code"
-extensoes = [
+[[categories]]
+name = "Code"
+extensions = [
     ".py", ".pyw", ".bat", ".cmd",
     ".ps1", ".sh", ".bash",
     ".js", ".ts", ".java", ".c", ".h",
     ".cpp", ".hpp", ".cs", ".go", ".rs"
 ]
 
-[[categorias]]
-nome = "Web"
-extensoes = [
+[[categories]]
+name = "Web"
+extensions = [
     ".html", ".htm", ".css",
     ".scss", ".sass", ".less",
     ".jsx", ".tsx", ".vue"
 ]
 
-[[categorias]]
-nome = "Audio"
-extensoes = [
+[[categories]]
+name = "Audio"
+extensions = [
     ".mp3", ".wav", ".flac", ".aac",
     ".m4a", ".ogg", ".oga", ".wma",
     ".aif", ".aiff", ".mid", ".midi"
 ]
 
-[[categorias]]
-nome = "Video"
-extensoes = [
+[[categories]]
+name = "Video"
+extensions = [
     ".mp4", ".mkv", ".avi", ".mov",
     ".wmv", ".webm", ".m4v", ".mpg",
     ".mpeg", ".3gp"
 ]
 
-[[categorias]]
-nome = "3D"
-extensoes = [
+[[categories]]
+name = "3D"
+extensions = [
     ".stl", ".3mf", ".obj", ".fbx",
     ".3ds", ".blend", ".dae", ".gltf", ".glb",
     ".step", ".stp", ".iges", ".igs",
     ".3dm", ".dwg", ".dxf"
 ]
 
-[[categorias]]
-nome = "Archives"
-extensoes = [
+[[categories]]
+name = "Archives"
+extensions = [
     ".zip", ".rar", ".7z", ".tar",
     ".gz", ".bz2", ".xz", ".cab"
 ]
 
-[[categorias]]
-nome = "Disks"
-extensoes = [
+[[categories]]
+name = "Disks"
+extensions = [
     ".iso", ".img", ".bin", ".cue"
 ]
 
-[[categorias]]
-nome = "eBooks"
-extensoes = [
+[[categories]]
+name = "eBooks"
+extensions = [
     ".epub", ".mobi", ".azw", ".azw3", ".fb2"
 ]
 
-[[categorias]]
-nome = "Fonts"
-extensoes = [
+[[categories]]
+name = "Fonts"
+extensions = [
     ".ttf", ".otf", ".woff", ".woff2"
 ]
 
-[[categorias]]
-nome = "Data"
-extensoes = [
+[[categories]]
+name = "Data"
+extensions = [
     ".db", ".sqlite", ".sqlite3", ".mdb", ".accdb"
 ]
 
-[[categorias]]
-nome = "Misc"
-extensoes = []
-defeito = true
+[[categories]]
+name = "Misc"
+extensions = []
+default = true

@@ -164,18 +164,18 @@ Orfi logs the operations it performs to an `orfi.log` file, located next to the 
 Each category can define a set of extensions:
 
 ```toml
-[[categorias]]
-nome = "Images"
-extensoes = [".jpg", ".png", ".gif"]
+[[categories]]
+name = "Images"
+extensions = [".jpg", ".png", ".gif"]
 ```
 
 A category can be set as the default category:
 
 ```toml
-[[categorias]]
-nome = "Misc"
-extensoes = []
-defeito = true
+[[categories]]
+name = "Misc"
+extensions = []
+default = true
 ```
 
 Files whose extension doesn't match any category are routed to the default category.

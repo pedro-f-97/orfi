@@ -163,18 +163,18 @@ O Orfi regista as operações executadas num ficheiro `orfi.log`, localizado jun
 Cada categoria pode definir um conjunto de extensões:
 
 ```toml
-[[categorias]]
-nome = "Imagens"
-extensoes = [".jpg", ".png", ".gif"]
+[[categories]]
+name = "Images"
+extensions = [".jpg", ".png", ".gif"]
 ```
 
 Uma categoria pode ser definida como categoria por defeito:
 
 ```toml
-[[categorias]]
-nome = "Outros"
-extensoes = []
-defeito = true
+[[categories]]
+name = "Misc"
+extensions = []
+default = true
 ```
 
 Os ficheiros cuja extensão não corresponda a nenhuma categoria são encaminhados para a categoria por defeito.
