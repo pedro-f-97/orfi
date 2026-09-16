@@ -3,7 +3,6 @@ import logging
 import os
 from pathlib import Path
 from shutil import copy2, move
-from typing import Set
 
 from . import configs, mensagens
 
@@ -28,22 +27,22 @@ def devolveExt(ficheiros: set[Path]) -> set[str]:
         mensagens.mensagem("extensao_detectada", "extensao_detectada", False, mensagens.CoresTexto.AZUL, ext=ext)
     return ext
 
-def devolveFicheiros(pasta: Path, nivel: int = 1) -> list[Path]:
-    """Devolve uma lista dos ficheiros presentes na pasta.
+def devolveFicheiros(pasta: Path, nivel: int = 1) -> set[Path]:
+    """Devolve um set dos ficheiros presentes na pasta.
 
     Args:
         pasta: Pasta a ser analisada.
         nivel: nivel de subpastas a considerar
 
     Returns:
-        Uma lista dos ficheiros encontrados na pasta.
+        Um set dos ficheiros encontrados na pasta.
     """
-    listaFicheiros = []
+    listaFicheiros = set()
     for ficheiro in pasta.iterdir():
         if not ficheiro.is_dir(): #apenas ficheiros, não pastas
-            listaFicheiros.append(ficheiro)
+            listaFicheiros.add(ficheiro)
         elif nivel > 1:
-            listaFicheiros.extend(devolveFicheiros(ficheiro, nivel - 1))
+            listaFicheiros.update(devolveFicheiros(ficheiro, nivel - 1))
     if listaFicheiros:
         for ficheiro in listaFicheiros:
             logger.debug("File detected: %s", ficheiro)
