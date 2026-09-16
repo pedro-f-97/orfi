@@ -60,6 +60,11 @@ def trataArgumentos() -> argparse.Namespace:
     )
 
     parser.add_argument(
+        "--depth",
+        help=mensagens.mensagemTrataIdioma("descricao_profundidade")
+    )
+
+    parser.add_argument(
         "-y",
         "--yes",
         action="store_true",

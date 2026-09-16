@@ -103,6 +103,7 @@ MENSAGENS = {
         "descricao_idioma": "altera o idioma para o introduzido",
         "descricao_versao": "mostra a versão instalada do programa",
         "descricao_help": "mostra esta mensagem de ajuda",
+        "descricao_profundidade": "afeta subpastas até ao nivel de profundidade indicado",
         #alvo
         "tkinter_nao_disponivel": "-a indisponível: tkinter não instalado.",
     },
@@ -193,6 +194,7 @@ MENSAGENS = {
         "descricao_idioma": "changes the language to the specified one",
         "descricao_versao": "show program's installed version number",
         "descricao_help": "show this help message",
+        "descricao_profundidade": "affects subfolders down to the specified level",
         #alvo
         "tkinter_nao_disponivel": "-a unavailable: tkinter not installed.",
     },
