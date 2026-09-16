@@ -64,7 +64,7 @@ def organiza(pastaSelecionada: Path, categorias: list[configs.CategoriaDePasta],
     mensagens.mensagem("ficheiros_tratados", "ficheiros_seriam_tratados", simula, mensagens.CoresTexto.AMARELO, total=resultados.ficheirosTratados, tratamento=tratamento)
     return resultados
 
-def datar(pastaSelecionada: Path, modo: configs.Modo, force: bool, simula: bool) -> configs.ResultadosOperacao:
+def datar(pastaSelecionada: Path, modo: configs.Modo, force: bool, simula: bool, nivel: int) -> configs.ResultadosOperacao:
     """Adiciona um prefixo com data aos ficheiros contidos na pasta indicada.
 
     Args:
@@ -88,7 +88,7 @@ def datar(pastaSelecionada: Path, modo: configs.Modo, force: bool, simula: bool)
         mensagens.mensagem("modo_inesperado", "modo_inesperado", False, mensagens.CoresTexto.VERMELHO, modo=modo)
         return resultados
 
-    ficheirosLista = ficheiros.devolveFicheiros(pastaSelecionada)
+    ficheirosLista = ficheiros.devolveFicheiros(pastaSelecionada, nivel)
 
     for ficheiro in ficheirosLista:
         if ficheiros.verificaDatado(ficheiro):
