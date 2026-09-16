@@ -5,7 +5,7 @@ from . import configs, ficheiros, mensagens, pastas
 
 logger = logging.getLogger(__name__)
 
-def organiza(pastaSelecionada: Path, categorias: list[configs.CategoriaDePasta], modo: configs.Modo, force: bool, simula: bool) -> configs.ResultadosOperacao:
+def organiza(pastaSelecionada: Path, categorias: list[configs.CategoriaDePasta], modo: configs.Modo, force: bool, simula: bool, nivel: int) -> configs.ResultadosOperacao:
     """Organiza os ficheiros contidos na pasta indicada.
 
     Args:
@@ -14,6 +14,7 @@ def organiza(pastaSelecionada: Path, categorias: list[configs.CategoriaDePasta],
         modo: Define se os ficheiros são movidos ou copiados.
         force: Se aceita automaticamente todas as verificações ou não.
         simula: Se é para apenas simular o processo ou não.
+        nivel: nivel de subpastas a considerar
 
     Returns:
         O resultado da operação, número de ficheiros tratados e
@@ -47,7 +48,7 @@ def organiza(pastaSelecionada: Path, categorias: list[configs.CategoriaDePasta],
         logger.info("Finished, %s folders created.", resultados.pastasCriadas)
     mensagens.mensagem("pastas_criadas", "pastas_seriam_criadas", simula, mensagens.CoresTexto.VERDE, cont=resultados.pastasCriadas)
 
-    ficheirosLista = ficheiros.devolveFicheiros(pastaSelecionada)
+    ficheirosLista = ficheiros.devolveFicheiros(pastaSelecionada, nivel)
 
     for ficheiro in ficheirosLista:
         destino = ficheiros.defineDestino(ficheiro, categorias)

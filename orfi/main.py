@@ -56,6 +56,10 @@ def executar() -> int:
             mensagens.mensagem("idioma_alterado", "idioma_alterado", False, mensagens.CoresTexto.VERDE, idioma=argumentos.language)
             return 0
 
+        nivel = 1
+        if argumentos.depth:
+            nivel = argumentos.depth
+
         if argumentos.target:
             pastaSelecionada = alvo.defineAlvo()
         else:
@@ -91,7 +95,7 @@ def executar() -> int:
             organizar.datar(pastaSelecionada, modo, force, simula)
             
         else:
-            organizar.organiza(pastaSelecionada, config.categorias, modo, force, simula)
+            organizar.organiza(pastaSelecionada, config.categorias, modo, force, simula, nivel)
 
         if simula:
             mensagens.mensagem("fim_simulacao", "fim_simulacao", False, mensagens.CoresTexto.AMARELO)

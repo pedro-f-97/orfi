@@ -33,6 +33,7 @@ def devolveFicheiros(pasta: Path, nivel: int = 1) -> list[Path]:
 
     Args:
         pasta: Pasta a ser analisada.
+        nivel: nivel de subpastas a considerar
 
     Returns:
         Uma lista dos ficheiros encontrados na pasta.
