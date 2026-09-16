@@ -17,7 +17,7 @@ def test_executarConfigInvalida(tmp_path, monkeypatch):
 
 def test_executarIdiomaInvalido(tmp_path, monkeypatch):
     caminho = tmp_path / "config.toml"
-    caminho.write_text('idioma = "xx"\n[[categorias]]\nnome = "Docs"\nextensoes = [".txt"]\n', encoding="utf-8")
+    caminho.write_text('language = "xx"\n[[categories]]\nname = "Docs"\nextensions = [".txt"]\n', encoding="utf-8")
     monkeypatch.setattr(orfi.main.configs, "caminhoConfiguracao", lambda: caminho)
     monkeypatch.setattr(sys, "argv", ["orfi"])
 
@@ -25,22 +25,22 @@ def test_executarIdiomaInvalido(tmp_path, monkeypatch):
 
 def test_executarAlteraIdioma(tmp_path, monkeypatch):
     caminho = tmp_path / "config.toml"
-    caminho.write_text('idioma = "pt"\n', encoding="utf-8")
+    caminho.write_text('language = "pt"\n', encoding="utf-8")
     conteudo = caminho.read_text(encoding="utf-8")
-    assert 'idioma = "pt"' in conteudo
+    assert 'language = "pt"' in conteudo
     monkeypatch.setattr(orfi.main.configs, "caminhoConfiguracao", lambda: caminho)
     monkeypatch.setattr(sys, "argv", ["orfi", "-l", "en"])
 
     assert orfi.main.executar() == 0
 
     conteudo = caminho.read_text(encoding="utf-8")
-    assert 'idioma = "en"' in conteudo
+    assert 'language = "en"' in conteudo
 
 def test_executarIdiomaInvalidoNaoAltera(tmp_path, monkeypatch):
     caminho = tmp_path / "config.toml"
-    caminho.write_text('idioma = "pt"\n', encoding="utf-8")
+    caminho.write_text('language = "pt"\n', encoding="utf-8")
     conteudo = caminho.read_text(encoding="utf-8")
-    assert 'idioma = "pt"' in conteudo
+    assert 'language = "pt"' in conteudo
     antes = caminho.read_text(encoding="utf-8")
 
     monkeypatch.setattr(orfi.main.configs, "caminhoConfiguracao", lambda: caminho)

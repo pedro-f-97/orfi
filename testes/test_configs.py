@@ -34,8 +34,8 @@ def test_criarConfiguracaoStandard(tmp_path):
     assert caminho.exists()
     with caminho.open("rb") as ficheiro:
         data = tomllib.load(ficheiro)
-        assert "categorias" in data
-        assert len(data["categorias"]) > 0
+        assert "categories" in data
+        assert len(data["categories"]) > 0
 
 def test_carregarConfiguracaoStandard(tmp_path):
     caminho = tmp_path / "config.toml"
@@ -53,18 +53,18 @@ def test_configuracaoStandardExiste():
 def test_carregarConfiguracaoPersonalizada(tmp_path):
 
     configuracao = """
-    [[categorias]]
-    nome = "Imagens"
-    extensoes = [".jpg", ".png"]
+    [[categories]]
+    name = "Imagens"
+    extensions = [".jpg", ".png"]
 
-    [[categorias]]
-    nome = "Musica"
-    extensoes = [".mp3", ".flac"]
+    [[categories]]
+    name = "Musica"
+    extensions = [".mp3", ".flac"]
 
-    [[categorias]]
-    nome = "Outros"
-    extensoes = []
-    defeito = true
+    [[categories]]
+    name = "Outros"
+    extensions = []
+    default = true
     """
 
     categorias = simulaConfiguracao(configuracao, tmp_path).categorias
@@ -77,18 +77,18 @@ def test_carregarConfiguracaoPersonalizada(tmp_path):
 
 def test_verificaExtDuplicadas(tmp_path):
     configuracao = """
-    [[categorias]]
-    nome = "Documentos"
-    extensoes = [".pdf", ".txt"]
+    [[categories]]
+    name = "Documentos"
+    extensions = [".pdf", ".txt"]
 
-    [[categorias]]
-    nome = "Texto"
-    extensoes = [".txt", ".md"]
+    [[categories]]
+    name = "Texto"
+    extensions = [".txt", ".md"]
 
-    [[categorias]]
-    nome = "Outros"
-    extensoes = []
-    defeito = true
+    [[categories]]
+    name = "Outros"
+    extensions = []
+    default = true
     """
 
     categorias = simulaConfiguracao(configuracao, tmp_path).categorias
@@ -97,18 +97,18 @@ def test_verificaExtDuplicadas(tmp_path):
 
 def test_verificaCategoriasDuplicadas(tmp_path):
     configuracao = """
-    [[categorias]]
-    nome = "Documentos"
-    extensoes = [".pdf"]
+    [[categories]]
+    name = "Documentos"
+    extensions = [".pdf"]
 
-    [[categorias]]
-    nome = "Documentos"
-    extensoes = [".txt"]
+    [[categories]]
+    name = "Documentos"
+    extensions = [".txt"]
 
-    [[categorias]]
-    nome = "Outros"
-    extensoes = []
-    defeito = true
+    [[categories]]
+    name = "Outros"
+    extensions = []
+    default = true
     """
 
     categorias = simulaConfiguracao(configuracao, tmp_path).categorias
@@ -117,19 +117,19 @@ def test_verificaCategoriasDuplicadas(tmp_path):
 
 def test_verificaCategoriasDefeito(tmp_path):
     configuracao = """
-    [[categorias]]
-    nome = "Outros"
-    extensoes = []
-    defeito = true
+    [[categories]]
+    name = "Outros"
+    extensions = []
+    default = true
 
-    [[categorias]]
-    nome = "Documentos"
-    extensoes = [".pdf"]
+    [[categories]]
+    name = "Documentos"
+    extensions = [".pdf"]
 
-    [[categorias]]
-    nome = "Diversos"
-    extensoes = []
-    defeito = true
+    [[categories]]
+    name = "Diversos"
+    extensions = []
+    default = true
     """
 
     categorias = simulaConfiguracao(configuracao, tmp_path).categorias
@@ -137,14 +137,14 @@ def test_verificaCategoriasDefeito(tmp_path):
 
 def test_verificaExtFormatoSemPonto(tmp_path):
     configuracao = """
-    [[categorias]]
-    nome = "Documentos"
-    extensoes = [".pdf", "txt"]
+    [[categories]]
+    name = "Documentos"
+    extensions = [".pdf", "txt"]
 
-    [[categorias]]
-    nome = "Outros"
-    extensoes = []
-    defeito = true
+    [[categories]]
+    name = "Outros"
+    extensions = []
+    default = true
     """   
 
     categorias = simulaConfiguracao(configuracao, tmp_path).categorias
@@ -152,14 +152,14 @@ def test_verificaExtFormatoSemPonto(tmp_path):
 
 def test_verificaExtFormatoMultiplosPontos(tmp_path):
     configuracao = """
-    [[categorias]]
-    nome = "Documentos"
-    extensoes = [".pdf", "..txt"]
+    [[categories]]
+    name = "Documentos"
+    extensions = [".pdf", "..txt"]
 
-    [[categorias]]
-    nome = "Outros"
-    extensoes = []
-    defeito = true
+    [[categories]]
+    name = "Outros"
+    extensions = []
+    default = true
     """   
 
     categorias = simulaConfiguracao(configuracao, tmp_path).categorias
@@ -167,14 +167,14 @@ def test_verificaExtFormatoMultiplosPontos(tmp_path):
 
 def test_verificaExtFormatoPontoErrado(tmp_path):
     configuracao = """
-    [[categorias]]
-    nome = "Documentos"
-    extensoes = [".pdf", "tx.t"]
+    [[categories]]
+    name = "Documentos"
+    extensions = [".pdf", "tx.t"]
 
-    [[categorias]]
-    nome = "Outros"
-    extensoes = []
-    defeito = true
+    [[categories]]
+    name = "Outros"
+    extensions = []
+    default = true
     """   
 
     categorias = simulaConfiguracao(configuracao, tmp_path).categorias
