@@ -17,55 +17,55 @@ def trataArgumentos() -> argparse.Namespace:
     )
 
     parser.add_argument(
-        "-a",
-        "--alvo",
+        "-t",
+        "--target",
         action="store_true",
         help=mensagens.mensagemTrataIdioma("descricao_alvo")
     )
 
     parser.add_argument(
         "-c",
-        "--copiar",
+        "--copy",
         action="store_true",
         help=mensagens.mensagemTrataIdioma("descricao_copiar")
     )
 
     parser.add_argument(
         "-r",
-        "--reverter",
+        "--revert",
         action="store_true",
         help=mensagens.mensagemTrataIdioma("descricao_reverter")
     )
 
     parser.add_argument(
         "-d",
-        "--datar",
+        "--date",
         action="store_true",
         help=mensagens.mensagemTrataIdioma("descricao_datar")
     )
 
     parser.add_argument(
-        "-f",
-        "--force",
+        "-y",
+        "--yes",
         action="store_true",
         help=mensagens.mensagemTrataIdioma("descricao_force")
     )
 
     parser.add_argument(
-        "-s",
-        "--simula",
+        "-n",
+        "--dry-run",
         action="store_true",
         help=mensagens.mensagemTrataIdioma("descricao_simula")
     )
 
     parser.add_argument(
-        "-i",
-        "--idioma",
+        "-l",
+        "--language",
         help=mensagens.mensagemTrataIdioma("descricao_idioma")
     )
 
     parser.add_argument(
-        "-v", "--version",
+        "-V", "--version",
         action="version",
         version=f"orfi {version('orfi')}"
     )

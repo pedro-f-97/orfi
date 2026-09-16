@@ -1,7 +1,7 @@
 idioma = "en"
 
 [[categorias]]
-nome = "Imagens"
+nome = "Images"
 extensoes = [
     ".jpg", ".jpeg", ".png", ".gif", ".bmp",
     ".tif", ".tiff", ".webp", ".svg", ".ico",
@@ -9,7 +9,7 @@ extensoes = [
 ]
 
 [[categorias]]
-nome = "Documentos"
+nome = "Documents"
 extensoes = [
     ".txt", ".doc", ".docx", ".docm",
     ".odt", ".rtf", ".pdf", ".md",
@@ -17,14 +17,14 @@ extensoes = [
 ]
 
 [[categorias]]
-nome = "FolhasCalculo"
+nome = "Spreadsheets"
 extensoes = [
     ".xls", ".xlsx", ".xlsm", ".xlt", ".xltx", ".xltm",
     ".csv", ".ods"
 ]
 
 [[categorias]]
-nome = "Apresentacoes"
+nome = "Presentations"
 extensoes = [
     ".ppt", ".pptx", ".pptm", ".pps", ".ppsx",
     ".odp", ".key"
@@ -37,14 +37,14 @@ extensoes = [
 ]
 
 [[categorias]]
-nome = "Dados"
+nome = "Configs"
 extensoes = [
     ".json", ".xml", ".yaml", ".yml",
     ".ini", ".cfg", ".conf"
 ]
 
 [[categorias]]
-nome = "Codigo"
+nome = "Code"
 extensoes = [
     ".py", ".pyw", ".bat", ".cmd",
     ".ps1", ".sh", ".bash",
@@ -69,7 +69,7 @@ extensoes = [
 ]
 
 [[categorias]]
-nome = "Videos"
+nome = "Video"
 extensoes = [
     ".mp4", ".mkv", ".avi", ".mov",
     ".wmv", ".webm", ".m4v", ".mpg",
@@ -86,14 +86,14 @@ extensoes = [
 ]
 
 [[categorias]]
-nome = "Arquivos"
+nome = "Archives"
 extensoes = [
     ".zip", ".rar", ".7z", ".tar",
     ".gz", ".bz2", ".xz", ".cab"
 ]
 
 [[categorias]]
-nome = "Discos"
+nome = "Disks"
 extensoes = [
     ".iso", ".img", ".bin", ".cue"
 ]
@@ -105,18 +105,18 @@ extensoes = [
 ]
 
 [[categorias]]
-nome = "Fontes"
+nome = "Fonts"
 extensoes = [
     ".ttf", ".otf", ".woff", ".woff2"
 ]
 
 [[categorias]]
-nome = "BasesDados"
+nome = "Data"
 extensoes = [
     ".db", ".sqlite", ".sqlite3", ".mdb", ".accdb"
 ]
 
 [[categorias]]
-nome = "Outros"
+nome = "Misc"
 extensoes = []
 defeito = true
