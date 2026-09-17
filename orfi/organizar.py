@@ -95,7 +95,7 @@ def datar(pastaSelecionada: Path, modo: configs.Modo, force: bool, simula: bool,
             mensagens.mensagem("ficheiro_ja_datado", "ficheiro_ja_datado", False, mensagens.CoresTexto.AMARELO, ficheiro=ficheiro.name)
         else:
             ficheiroFinal = ficheiros.datarFicheiro(ficheiro, simula)
-            resultado = trabalho(ficheiro, pastaSelecionada, force, simula, ficheiroFinal)
+            resultado = trabalho(ficheiro, ficheiro.parent, force, simula, ficheiroFinal)
             if resultado:
                 resultados.ficheirosTratados += resultado
                 mensagens.mensagem("ficheiro_tratado", "ficheiro_seria_tratado", simula, mensagens.CoresTexto.AMARELO, ficheiro=ficheiro.name)
