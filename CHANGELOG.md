@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [1.5.1] - 2026-09-17
+
+### Fixed
+- Fixed an issue where dating and reverting the dating recursively could incorrectly move files to the base directory.
+
 ## [1.5.0] - 2026-09-17
 
 ### Added
