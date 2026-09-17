@@ -71,6 +71,7 @@ class CategoriaDePasta:
 class Configuracao:
     idioma: str
     categorias: list[CategoriaDePasta]
+    avisos: set
 
 def criarConfiguracaoStandard(caminho: Path):
     """Cria um ficheiro .toml com as configurações predefinidas na pasta indicada.
@@ -104,7 +105,13 @@ def carregarConfiguracao(caminho: Path | None = None) -> Configuracao:
     with caminho.open("rb") as ficheiro:
         data = tomllib.load(ficheiro)
 
+    avisos = set()
+
+    if not data.get("language"):
+        avisos.add("nenhum_idioma")
     idioma = data.get("language", "en")
+    if not data.get("categories"):
+        avisos.add("nenhuma_categoria")
     categorias = [
         CategoriaDePasta(
             nome=c["name"],
@@ -114,7 +121,7 @@ def carregarConfiguracao(caminho: Path | None = None) -> Configuracao:
         for c in data.get("categories", [])
     ]
 
-    return Configuracao(idioma=idioma, categorias=categorias)
+    return Configuracao(idioma=idioma, categorias=categorias, avisos=avisos)
 
 def verificaConfiguracao(categorias: list[CategoriaDePasta]) -> bool:
     """Verifica se a lista de categorias de pasta indicada é válida.

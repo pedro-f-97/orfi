@@ -30,20 +30,19 @@ def executar() -> int:
         try:
             config = configs.carregarConfiguracao()
         except tomllib.TOMLDecodeError as erro:
-            mensagens.mensagem("configuracao_invalida_sintaxe", "configuracao_invalida_sintaxe",
-                            False, mensagens.CoresTexto.VERMELHO, erro=erro)
+            mensagens.mensagem("configuracao_invalida_sintaxe", "configuracao_invalida_sintaxe", False, mensagens.CoresTexto.VERMELHO, erro=erro)
             return 1
+        
+        for aviso in config.avisos:
+            mensagens.mensagem(aviso, aviso, False, mensagens.CoresTexto.AMARELO)
 
         if config.idioma not in configs.idiomasExistentes:
-            mensagens.mensagem("idioma_invalido", "idioma_invalido",
-                            False, mensagens.CoresTexto.AMARELO,
-                            idiomas=configs.idiomasExistentes)
+            mensagens.mensagem("idioma_invalido", "idioma_invalido", False, mensagens.CoresTexto.AMARELO, idiomas=configs.idiomasExistentes)
             return 1
         mensagens.definirIdioma(config.idioma)
 
         if not configs.verificaConfiguracao(config.categorias):
-            mensagens.mensagem("configuracao_invalida", "configuracao_invalida",
-                            False, mensagens.CoresTexto.AMARELO)
+            mensagens.mensagem("configuracao_invalida", "configuracao_invalida", False, mensagens.CoresTexto.AMARELO)
             return 1
         
         argumentos = inicializar.trataArgumentos()

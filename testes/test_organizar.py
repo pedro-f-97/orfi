@@ -293,6 +293,38 @@ def test_organizaNiveisExtensoesRecursivas(tmp_path):
     assert (pastaBase / "Docs" / "texto.txt").exists()
     assert (pastaBase / "Fotos" / "foto.jpg").exists()
 
+def test_organizaPastaJaOrganizadaRecursivo(tmp_path):
+    modo = orfi.configs.Modo.MOVER
+
+    pastaBase = (tmp_path / "Base")
+    pastaBase.mkdir()
+
+    categorias = [
+        orfi.configs.CategoriaDePasta("Docs", {".txt"}, pastaBase / "Docs"),
+        orfi.configs.CategoriaDePasta("Fotos", {".jpg"}, pastaBase / "Fotos"),
+        orfi.configs.CategoriaDePasta("Emails", {".msg"}, pastaBase / "Emails"),
+    ]
+
+    pastasCriadas = set()
+    ficheirosCriados = set()
+
+    for categoria in categorias:
+        pasta = (pastaBase / categoria.nome)
+        pasta.mkdir()
+        pastasCriadas.add(pasta)
+        assert pasta.exists()
+        for ext in categoria.extensoes:
+            ficheiro = (pasta / ("abc" + ext))
+            ficheiro.touch()
+            ficheirosCriados.add(ficheiro)
+            assert ficheiro.exists()
+
+    resultados = orfi.organizar.organiza(pastaBase, categorias, modo, True, False, 2)
+
+    assert resultados.ficheirosTratados == 0
+    assert resultados.pastasCriadas == 0
+    assert resultados.pastasEliminadas == 0
+
 def test_datar(tmp_path):
     modo = orfi.configs.Modo.MOVER
 

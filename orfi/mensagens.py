@@ -50,6 +50,8 @@ MENSAGENS = {
         "categoria_duplicada": "Categoria(s) duplicada(s) '{categorias}'.",
         "multiplas_categorias_defeito": "Mais do que uma categoria por defeito: '{categorias}'.",
         "extensoes_incorretas": "Extensões incorretas: '{extensoes}'.",
+        "nenhum_idioma": "Nenhum idioma detetado nas configurações, utilizando predefinição.",
+        "nenhuma_categoria": "Nenhuma categoria detetada nas configurações.",
         #main
         "inicio_simulacao": "[SIMULAÇÃO] Início de simulação.",
         "configuracao_invalida": "Configuração inválida, corrigir o config.toml.",
@@ -142,6 +144,8 @@ MENSAGENS = {
         "categoria_duplicada": "Duplicate category/categories '{categorias}'.",
         "multiplas_categorias_defeito": "More than one default category: '{categorias}'.",
         "extensoes_incorretas": "Invalid extensions: '{extensoes}'.",
+        "nenhum_idioma": "No language detected in configuration, using default.",
+        "nenhuma_categoria": "No categories detected in configuration.",
         #main
         "inicio_simulacao": "[SIMULATION] Simulation started.",
         "configuracao_invalida": "Invalid configuration, fix the config.toml.",
@@ -157,7 +161,7 @@ MENSAGENS = {
         #organizar
         "modo_inesperado": "Unexpected mode {modo}. Operation cancelled.",
         "nada_para_fazer": "Nothing to do.",
-        "nada_para_fazer_simula": "Wouldn't do anything.",
+        "nada_para_fazer_simula": "Would do nothing.",
         "criar_pastas": "Create folders {pastas}? (y/n): ",
         "operacao_cancelada": "Operation Cancelled",
         "pastas_criadas": "{cont} folders created.",

@@ -61,6 +61,8 @@ def podeSubstituir(ficheiro: Path, ficheiroFinal: Path, pastaDestino: Path, forc
     Returns:
         1 se a operação for realizada, 0 caso contrário.
     """
+    if ficheiroFinal.resolve() == ficheiro.resolve():
+        return False
     if not ficheiroFinal.exists() or force:
         return True
     resposta = input(f"{mensagens.CoresTexto.AMARELO}{mensagens.mensagemTrataIdioma('ficheiro_existente_substituir', ficheiro=ficheiro.name, destino=pastaDestino)}{mensagens.CoresTexto.RESET}")
