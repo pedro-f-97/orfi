@@ -331,7 +331,7 @@ def test_reverteDatarNiveis(tmp_path):
     ficheiros.add(pastaBase / "260916_notas.txt")
     ficheiros.add(pastaBase / "260916_doc.pdf")
     ficheiros.add(pastaNivel2 / "250916_img2.jpg")
-    ficheiros.add(pastaNivel3 / "250917_calc.xlsx")
+    ficheiros.add(pastaNivel3 / "250917_calc3.xlsx")
 
     for ficheiro in ficheiros:
         ficheiro.touch()
@@ -341,3 +341,8 @@ def test_reverteDatarNiveis(tmp_path):
     assert resultados.ficheirosTratados == len(ficheiros)
     for ficheiro in ficheiros:
         assert not ficheiro.exists()
+    
+    assert (pastaBase / "notas.txt").exists()
+    assert (pastaBase / "doc.pdf").exists()
+    assert (pastaNivel2 / "img2.jpg").exists()
+    assert (pastaNivel3 / "calc3.xlsx").exists()
