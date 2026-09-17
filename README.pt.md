@@ -45,6 +45,7 @@ orfi
 | `-y`, `--yes`  | Aceita automaticamente as confirmações necessárias  |
 | `-n`, `--dry-run`  | Simula o processo sem fazer nenhuma alteração real  |
 | `-l`, `--language`  | Altera o idioma para o introduzido  |
+| `--depth`          | Modo recursivo, até ao nível de subpastas indicado |
 
 ## Utilização
 
@@ -84,6 +85,18 @@ Copiar os ficheiros em vez de os mover:
 orfi -c
 ```
 
+Simular a organização de uma pasta específica:
+
+```bash
+orfi -t -n
+```
+
+Organizar a pasta atual, incluindo subpastas até 2 níveis:
+
+```bash
+orfi --depth 2
+```
+
 Reverter a organização por categorias:
 
 ```bash
@@ -95,13 +108,6 @@ Adicionar a data de criação ao nome dos ficheiros:
 ```bash
 orfi -d
 ```
-
-Simular a organização de uma pasta específica:
-
-```bash
-orfi -t -n
-```
-
 Por exemplo:
 
 ```text
@@ -158,13 +164,23 @@ O ficheiro de configuração do utilizador não é substituído quando o Orfi é
 
 O Orfi regista as operações executadas num ficheiro `orfi.log`, localizado junto do ficheiro de configuração.
 
+### Idioma
+
+O idioma da interface é definido pela chave `language` no `config.toml`:
+
+```toml
+language = "pt"
+```
+
+Também pode ser alterado com o argumento `-l`/`--language` que actualiza o idioma no `config.toml` para futuras utilizações.
+
 ### Categorias
 
 Cada categoria pode definir um conjunto de extensões:
 
 ```toml
 [[categories]]
-name = "Images"
+name = "Imagens"
 extensions = [".jpg", ".png", ".gif"]
 ```
 
@@ -172,7 +188,7 @@ Uma categoria pode ser definida como categoria por defeito:
 
 ```toml
 [[categories]]
-name = "Misc"
+name = "Outros"
 extensions = []
 default = true
 ```

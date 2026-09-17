@@ -46,6 +46,7 @@ orfi
 | `-n`, `--dry-run`   | Simulates the process without making any real changes |
 | `-l`, `--language`   | Changes the language to the one specified |
 | `-V`, `--version`  | Displays the installed version |
+| `--depth`          | Recurse into subfolders, down to the specified depth |
 
 ## Usage
 
@@ -85,6 +86,18 @@ Copy files instead of moving them:
 orfi -c
 ```
 
+Simulate organizing a specific folder:
+
+```bash
+orfi -t -n
+```
+
+Organize the current folder, including subfolders up to 2 levels deep:
+
+```bash
+orfi --depth 2
+```
+
 Revert the organization by categories:
 
 ```bash
@@ -96,17 +109,10 @@ Add the creation date to file names:
 ```bash
 orfi -d
 ```
-
-Simulate organizing a specific folder:
-
-```bash
-orfi -t -n
-```
-
 For example:
 
 ```text
-relatorio.pdf → 260903_relatorio.pdf
+report.pdf → 260903_report.pdf
 ```
 
 Copy and date the files:
@@ -158,6 +164,16 @@ The user's configuration file is not overwritten when Orfi is updated or reinsta
 ### Logs
 
 Orfi logs the operations it performs to an `orfi.log` file, located next to the configuration file.
+
+### Language
+
+The interface language is set through the `language` key in `config.toml`:
+
+```toml
+language = "en"
+```
+
+It can also be changed with the `-l`/`--language` flag, which updates the value in `config.toml` for future runs.
 
 ### Categories
 
