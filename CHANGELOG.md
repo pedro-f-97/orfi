@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [1.5.0] - 2026-09-17
+
+### Added
+- `--depth` flag: `organize`, `date`, and `revert --date` operations can now recurse into subfolders, down to a specified depth.
+- Detection of missing/empty language or categories in `config.toml`, with a clear warning instead of silently treating the folder as if there was nothing to organize (helps catch an outdated or incompatible config file after an upgrade).
+
+### Fixed
+- Extension detection was missing files found only in subfolders, in recursive mode.
+- `--depth` now correctly validated as an integer greater than 0.
+- Copying or moving a file onto itself — e.g. when recursive mode revisits a category folder `orfi` itself created — is now skipped instead of being silently treated (and reported) as a successful move.
+
 ## [1.4.1] - 2026-09-16
 
 ### Added
