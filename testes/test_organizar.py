@@ -1,3 +1,5 @@
+from datetime import datetime
+
 import orfi.configs
 import orfi.organizar
 
@@ -426,26 +428,41 @@ def test_datarNiveis(tmp_path):
     modo = orfi.configs.Modo.MOVER
     nivel = 3
 
-    pastaBase = (tmp_path / "Base")
+    pastaBase = tmp_path / "Base"
     pastaBase.mkdir()
 
-    pastaNivel2 = (pastaBase / "nivel2")
+    pastaNivel2 = pastaBase / "nivel2"
     pastaNivel2.mkdir()
 
-    pastaNivel3 = (pastaNivel2 / "nivel3")
+    pastaNivel3 = pastaNivel2 / "nivel3"
     pastaNivel3.mkdir()
 
-    ficheiros = set()
-    ficheiros.add(pastaBase / "notas.txt")
-    ficheiros.add(pastaBase / "doc.pdf")
-    ficheiros.add(pastaNivel2 / "img2.jpg")
-    ficheiros.add(pastaNivel3 / "calc.xlsx")
+    ficheiros = {
+        pastaBase / "notas.txt",
+        pastaBase / "doc.pdf",
+        pastaNivel2 / "img2.jpg",
+        pastaNivel3 / "calc.xlsx",
+    }
 
     for ficheiro in ficheiros:
         ficheiro.touch()
 
-    resultados = orfi.organizar.datar(pastaBase, modo, False, False, nivel)
+    data = datetime.now().strftime("%y%m%d")
+
+    ficheirosDatados = set()
+    for ficheiro in ficheiros:
+        ficheiroDatado = ficheiro.with_name(f"{data}_{ficheiro.name}")
+        ficheirosDatados.add(ficheiroDatado)
+
+
+    resultados = orfi.organizar.datar(
+        pastaBase, modo, False, False, nivel
+    )
 
     assert resultados.ficheirosTratados == len(ficheiros)
+
     for ficheiro in ficheiros:
         assert not ficheiro.exists()
+
+    for ficheiroDatado in ficheirosDatados:
+        assert ficheiroDatado.exists()
