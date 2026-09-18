@@ -48,7 +48,8 @@ def organiza(pastaSelecionada: Path, categorias: list[configs.CategoriaDePasta],
     resultados.pastasCriadas = pastas.criaPastas(pastaSelecionada, pastasParaCriar, categorias, simula)
     if not simula:
         logger.info("Finished, %s folders created.", resultados.pastasCriadas)
-    mensagens.mensagem("pastas_criadas", "pastas_seriam_criadas", simula, mensagens.CoresTexto.VERDE, cont=resultados.pastasCriadas)
+    if configs.verbose:
+        mensagens.mensagem("pastas_criadas", "pastas_seriam_criadas", simula, mensagens.CoresTexto.VERDE, cont=resultados.pastasCriadas)
 
     for ficheiro in ficheirosLista:
         destino = ficheiros.defineDestino(ficheiro, categorias)
@@ -56,12 +57,14 @@ def organiza(pastaSelecionada: Path, categorias: list[configs.CategoriaDePasta],
             resultado = trabalho(ficheiro, destino, force, simula)
             if resultado:
                 resultados.ficheirosTratados += resultado
-                mensagens.mensagem("ficheiro_tratado", "ficheiro_seria_tratado", simula, mensagens.CoresTexto.AMARELO, ficheiro=ficheiro.name)
+                if configs.verbose:
+                    mensagens.mensagem("ficheiro_tratado", "ficheiro_seria_tratado", simula, mensagens.CoresTexto.AMARELO, ficheiro=ficheiro.name)
         else:
             mensagens.mensagem("categoria_caminho_nao_encontrados", "categoria_caminho_nao_encontrados", False, mensagens.CoresTexto.AMARELO, ficheiro=ficheiro.name)
     if not simula:
         logger.info("Finished, %s files handled.", resultados.ficheirosTratados)
-    mensagens.mensagem("ficheiros_tratados", "ficheiros_seriam_tratados", simula, mensagens.CoresTexto.AMARELO, total=resultados.ficheirosTratados, tratamento=tratamento)
+    if configs.verbose:
+        mensagens.mensagem("ficheiros_tratados", "ficheiros_seriam_tratados", simula, mensagens.CoresTexto.AMARELO, total=resultados.ficheirosTratados, tratamento=tratamento)
     return resultados
 
 def datar(pastaSelecionada: Path, modo: configs.Modo, force: bool, simula: bool, nivel: int) -> configs.ResultadosOperacao:
@@ -93,14 +96,17 @@ def datar(pastaSelecionada: Path, modo: configs.Modo, force: bool, simula: bool,
 
     for ficheiro in ficheirosLista:
         if ficheiros.verificaDatado(ficheiro):
-            mensagens.mensagem("ficheiro_ja_datado", "ficheiro_ja_datado", False, mensagens.CoresTexto.AMARELO, ficheiro=ficheiro.name)
+            if configs.verbose:
+                mensagens.mensagem("ficheiro_ja_datado", "ficheiro_ja_datado", False, mensagens.CoresTexto.AMARELO, ficheiro=ficheiro.name)
         else:
             ficheiroFinal = ficheiros.datarFicheiro(ficheiro, simula)
             resultado = trabalho(ficheiro, ficheiro.parent, force, simula, ficheiroFinal)
             if resultado:
                 resultados.ficheirosTratados += resultado
-                mensagens.mensagem("ficheiro_tratado", "ficheiro_seria_tratado", simula, mensagens.CoresTexto.AMARELO, ficheiro=ficheiro.name)
+                if configs.verbose:
+                    mensagens.mensagem("ficheiro_tratado", "ficheiro_seria_tratado", simula, mensagens.CoresTexto.AMARELO, ficheiro=ficheiro.name)
     if not simula:
         logger.info("Finished, %s files handled.", resultados.ficheirosTratados)
-    mensagens.mensagem("ficheiros_tratados", "ficheiros_seriam_tratados", simula, mensagens.CoresTexto.AMARELO, total=resultados.ficheirosTratados, tratamento=tratamento)
+    if configs.verbose:
+        mensagens.mensagem("ficheiros_tratados", "ficheiros_seriam_tratados", simula, mensagens.CoresTexto.AMARELO, total=resultados.ficheirosTratados, tratamento=tratamento)
     return resultados
