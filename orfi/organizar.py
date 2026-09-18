@@ -72,6 +72,7 @@ def datar(pastaSelecionada: Path, modo: configs.Modo, force: bool, simula: bool,
         modo: Define se os ficheiros são movidos ou copiados.
         force: Se aceita automaticamente todas as verificações ou não.
         simula: Se é para apenas simular o processo ou não.
+        nivel: Nivel de subpastas a considerar.
 
     Returns:
         O resultado da operação com o número de ficheiros tratados.
