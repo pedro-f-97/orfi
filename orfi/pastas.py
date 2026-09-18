@@ -44,35 +44,38 @@ def criaPastas(caminho: Path, pastas: set[str], categorias: list[configs.Categor
         O número de pastas criadas.
     """
     cont = 0
+
     for pasta in sorted(pastas):
         caminhoFinal = caminho / pasta
         jaExistia = caminhoFinal.exists()
 
-        if not simula and not jaExistia:
-            try:
-                caminhoFinal.mkdir(parents=True, exist_ok=True)
-                logger.info("Created folder: %s", caminhoFinal)
-            except OSError as erro:
-                mensagens.mensagem("erro_criar_pasta", "erro_criar_pasta",
-                                   False, mensagens.CoresTexto.VERMELHO,
-                                   pasta=caminhoFinal, erro=erro)
-                logger.exception("Error creating folder '%s'", caminhoFinal)
-                continue
-
+        # Preenche a categoria uma única vez, independentemente do que aconteça depois.
         for categoria in categorias:
             if pasta == categoria.nome:
                 categoria.caminho = caminhoFinal
                 break
 
-        if simula:
-            mensagens.mensagem("pasta_criada", "pasta_seria_criada", True, mensagens.CoresTexto.VERDE, pasta=pasta)
-            cont += 1
-        elif jaExistia and configs.verbose:
-            mensagens.mensagem("pasta_existente", "pasta_existente", False, mensagens.CoresTexto.AMARELO, pasta=pasta)
-        else:
-            cont += 1
+        if jaExistia:
             if configs.verbose:
-                mensagens.mensagem("pasta_criada", "pasta_criada", False, mensagens.CoresTexto.VERDE, pasta=pasta)
+                mensagens.mensagem("pasta_existente", "pasta_existente", False, mensagens.CoresTexto.AMARELO, pasta=pasta)
+
+        elif simula:
+            if configs.verbose:
+                mensagens.mensagem("pasta_criada", "pasta_seria_criada", True, mensagens.CoresTexto.VERDE, pasta=pasta)
+            cont += 1
+
+        else:
+            try:
+                caminhoFinal.mkdir(parents=True, exist_ok=True)
+                logger.info("Created folder: %s", caminhoFinal)
+                cont += 1
+
+                if configs.verbose:
+                    mensagens.mensagem("pasta_criada", "pasta_criada", False, mensagens.CoresTexto.VERDE, pasta=pasta)
+
+            except OSError as erro:
+                mensagens.mensagem("erro_criar_pasta", "erro_criar_pasta", False, mensagens.CoresTexto.VERMELHO, pasta=caminhoFinal, erro=erro)
+                logger.exception("Error creating folder '%s'", caminhoFinal)
     return cont
 
 def pastasExistentes(caminho: Path, categorias: list[configs.CategoriaDePasta]) -> set[Path]:
