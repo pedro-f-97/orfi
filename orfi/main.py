@@ -89,18 +89,22 @@ def executar() -> int:
 
         if argumentos.revert:
             if not argumentos.date:
-                reverter.reverte(pastaSelecionada, config.categorias, modo, force, simula)
+                resultados = reverter.reverte(pastaSelecionada, config.categorias, modo, force, simula)
             else:
-                reverter.reverteDatar(pastaSelecionada, modo, force, simula, nivel)
+                resultados = reverter.reverteDatar(pastaSelecionada, modo, force, simula, nivel)
 
         elif argumentos.date:
-            organizar.datar(pastaSelecionada, modo, force, simula, nivel)
+            resultados = organizar.datar(pastaSelecionada, modo, force, simula, nivel)
             
         else:
-            organizar.organiza(pastaSelecionada, config.categorias, modo, force, simula, nivel)
+            resultados = organizar.organiza(pastaSelecionada, config.categorias, modo, force, simula, nivel)
 
         if simula:
             mensagens.mensagem("fim_simulacao", "fim_simulacao", False, mensagens.CoresTexto.AMARELO)
+        
+        mensagens.mensagem("resultados_ficheiros_tratados", "resultados_ficheiros_tratados_simula", simula, mensagens.CoresTexto.AZUL, ficheiros=resultados.ficheirosTratados)
+        mensagens.mensagem("resultados_pastas_criadas", "resultados_pastas_criadas_simula", simula, mensagens.CoresTexto.AZUL, pastasCriadas=resultados.pastasCriadas)
+        mensagens.mensagem("resultados_pastas_eliminadas", "resultados_pastas_eliminadas_simula", simula, mensagens.CoresTexto.AZUL, pastasEliminadas=resultados.pastasEliminadas)
         return 0
 
     finally:
