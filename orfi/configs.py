@@ -13,6 +13,8 @@ logger = logging.getLogger(__name__)
 
 idiomasExistentes = {"pt", "en"}
 
+verbose = False
+
 def escreverAtomico(caminho: Path, dados: bytes) -> None:
     """Escreve dados num ficheiro de forma atómica.
 

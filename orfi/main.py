@@ -47,6 +47,9 @@ def executar() -> int:
         
         argumentos = inicializar.trataArgumentos()
 
+        if argumentos.verbose:
+            configs.verbose = True
+
         if argumentos.language:
             if not configs.alterarIdioma(argumentos.language):
                 mensagens.mensagem("idioma_invalido", "idioma_invalido", False, mensagens.CoresTexto.AMARELO, idiomas=", ".join(configs.idiomasExistentes))
@@ -85,7 +88,8 @@ def executar() -> int:
             mensagens.mensagem("pasta_invalida", "pasta_invalida", False, mensagens.CoresTexto.AMARELO)
             return 1
 
-        mensagens.mensagem("pasta_selecionada", "pasta_selecionada", False, mensagens.CoresTexto.AZUL, pasta=pastaSelecionada)
+        if configs.verbose:
+            mensagens.mensagem("pasta_selecionada", "pasta_selecionada", False, mensagens.CoresTexto.AZUL, pasta=pastaSelecionada)
 
         if argumentos.revert:
             if not argumentos.date:
