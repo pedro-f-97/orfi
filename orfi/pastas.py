@@ -23,10 +23,11 @@ def devolvePastas(setExt: set[str], categorias: list[configs.CategoriaDePasta]) 
             pastas.add(categoria.nome)
         else:
             mensagens.mensagem("categoria_nao_encontrada", "categoria_nao_encontrada", False, mensagens.CoresTexto.AMARELO, ext=ext)
-    if len(pastas) > 0:
-        mensagens.mensagem("pastas_para_criar", "pastas_para_criar", False, mensagens.CoresTexto.AMARELO, pastas=pastas)
-    else:
-        mensagens.mensagem("nao_vai_criar_pastas", "nao_vai_criar_pastas", False, mensagens.CoresTexto.AMARELO)
+    if configs.verbose:
+        if len(pastas) > 0:
+            mensagens.mensagem("pastas_para_criar", "pastas_para_criar", False, mensagens.CoresTexto.AMARELO, pastas=pastas)
+        else:
+            mensagens.mensagem("nao_vai_criar_pastas", "nao_vai_criar_pastas", False, mensagens.CoresTexto.AMARELO)
     return pastas
         
 
@@ -64,16 +65,14 @@ def criaPastas(caminho: Path, pastas: set[str], categorias: list[configs.Categor
                 break
 
         if simula:
-            mensagens.mensagem("pasta_criada", "pasta_seria_criada",
-                               True, mensagens.CoresTexto.VERDE, pasta=pasta)
+            mensagens.mensagem("pasta_criada", "pasta_seria_criada", True, mensagens.CoresTexto.VERDE, pasta=pasta)
             cont += 1
-        elif jaExistia:
-            mensagens.mensagem("pasta_existente", "pasta_existente",
-                               False, mensagens.CoresTexto.AMARELO, pasta=pasta)
+        elif jaExistia and configs.verbose:
+            mensagens.mensagem("pasta_existente", "pasta_existente", False, mensagens.CoresTexto.AMARELO, pasta=pasta)
         else:
-            mensagens.mensagem("pasta_criada", "pasta_criada",
-                               False, mensagens.CoresTexto.VERDE, pasta=pasta)
             cont += 1
+            if configs.verbose:
+                mensagens.mensagem("pasta_criada", "pasta_criada", False, mensagens.CoresTexto.VERDE, pasta=pasta)
     return cont
 
 def pastasExistentes(caminho: Path, categorias: list[configs.CategoriaDePasta]) -> set[Path]:
@@ -123,5 +122,6 @@ def eliminaPastasVazias(pastasParaReverter: set[Path], simula: bool, ficheirosMo
                     logger.exception("Error deleting folder '%s'", pasta)
                     continue
             pastasEliminadas += 1
-            mensagens.mensagem("pasta_eliminada", "pasta_seria_eliminada", simula, mensagens.CoresTexto.VERMELHO, pasta=pasta)
+            if configs.verbose:
+                mensagens.mensagem("pasta_eliminada", "pasta_seria_eliminada", simula, mensagens.CoresTexto.VERMELHO, pasta=pasta)
     return pastasEliminadas
