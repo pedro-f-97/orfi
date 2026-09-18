@@ -96,6 +96,8 @@ def carregarConfiguracao(caminho: Path | None = None) -> Configuracao:
 
     Args:
         caminho: Caminho do ficheiro de configuração, caso None utiliza o caminho predefinido.
+    Returns:
+        Um dataclass com as configurações.
     """
     if caminho is None:
         caminho = caminhoConfiguracao()
