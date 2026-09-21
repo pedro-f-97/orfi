@@ -36,16 +36,18 @@ orfi
 
 ## Opções
 
-| Opção            | Descrição                          |
-|------------------|-------------------------------------|
-| `-t`, `--target`   | Permite selecionar a pasta alvo     |
-| `-c`, `--copy` | Copia os ficheiros em vez de os mover |
-| `-r`, `--revert` | Reverte a organização              |
-| `-d`, `--date`  | Adiciona a data de criação ao nome dos ficheiros  |
-| `-y`, `--yes`  | Aceita automaticamente as confirmações necessárias  |
-| `-n`, `--dry-run`  | Simula o processo sem fazer nenhuma alteração real  |
-| `-l`, `--language`  | Altera o idioma para o introduzido  |
-| `--depth`          | Modo recursivo, até ao nível de subpastas indicado |
+| Opção                 | Descrição                                                        | Default |
+|-----------------------|------------------------------------------------------------------|---------|
+| `-t`, `--target`      | Permite selecionar a pasta alvo                                  | Não     |
+| `-c`, `--copy`        | Copia os ficheiros em vez de os mover                            | Mover   |
+| `-r`, `--revert`      | Reverte a organização                                            | Não     |
+| `-d`, `--date`        | Adiciona a data de criação ao nome dos ficheiros                 | Não     |
+| `-y`, `--yes`         | Aceita automaticamente as confirmações necessárias               | Não     |
+| `-n`, `--dry-run`     | Simula o processo sem fazer nenhuma alteração real               | Não     |
+| `-l`, `--language`    | Altera o idioma para o introduzido                               | `en`    |
+| `-V`, `--version`     | Mostra a versão actual                                           | —       |
+| `--depth`             | Modo recursivo, até ao nível de subpastas indicado               | 1       |
+| `-v`, `--verbose`     | Mostra mais informações sobre a operação                         | Não     |
 
 ## Utilização
 
