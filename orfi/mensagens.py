@@ -115,7 +115,7 @@ MENSAGENS = {
         "descricao_profundidade": "afeta subpastas até ao nivel de profundidade indicado",
         "descricao_verbose": "apresenta mais detalhes durante o processo",
         #alvo
-        "tkinter_nao_disponivel": "-a indisponível: tkinter não instalado.",
+        "tkinter_nao_disponivel": "-t indisponível: tkinter não instalado.",
     },
 
     "en": {
@@ -216,7 +216,7 @@ MENSAGENS = {
         "descricao_profundidade": "affects subfolders down to the specified level",
         "descricao_verbose": "shows more details throughout the process",
         #alvo
-        "tkinter_nao_disponivel": "-a unavailable: tkinter not installed.",
+        "tkinter_nao_disponivel": "-t unavailable: tkinter not installed.",
     },
 }
 
