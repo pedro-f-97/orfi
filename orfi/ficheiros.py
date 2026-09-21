@@ -24,7 +24,8 @@ def devolveExt(ficheiros: set[Path]) -> set[str]:
             ext.add(ficheiro.suffix.lower())
     if len(ext) > 0:
         logger.debug("Extensions detected: %s", ext)
-        mensagens.mensagem("extensao_detectada", "extensao_detectada", False, mensagens.CoresTexto.AZUL, ext=ext)
+        if configs.verbose:
+            mensagens.mensagem("extensao_detectada", "extensao_detectada", False, mensagens.CoresTexto.AZUL, ext=ext)
     return ext
 
 def devolveFicheiros(pasta: Path, nivel: int = 1) -> set[Path]:
@@ -68,7 +69,8 @@ def podeSubstituir(ficheiro: Path, ficheiroFinal: Path, pastaDestino: Path, forc
     resposta = input(f"{mensagens.CoresTexto.AMARELO}{mensagens.mensagemTrataIdioma('ficheiro_existente_substituir', ficheiro=ficheiro.name, destino=pastaDestino)}{mensagens.CoresTexto.RESET}")
     if resposta.lower() in ("s", "y"):
         return True
-    mensagens.mensagem("ficheiro_cancelado", "ficheiro_cancelado", False, mensagens.CoresTexto.AMARELO, ficheiro=ficheiro.name)
+    if configs.verbose:
+        mensagens.mensagem("ficheiro_cancelado", "ficheiro_cancelado", False, mensagens.CoresTexto.AMARELO, ficheiro=ficheiro.name)
     return False
 
 def copiaFicheiro(ficheiro: Path, pastaDestino: Path, force: bool, simula: bool, ficheiroFinal: Path | None = None) -> int:
@@ -91,7 +93,8 @@ def copiaFicheiro(ficheiro: Path, pastaDestino: Path, force: bool, simula: bool,
         if not simula:
             copy2(ficheiro, ficheiroFinal)
             logger.info("File '%s' copied to '%s'", ficheiro, ficheiroFinal)
-        mensagens.mensagem("ficheiro_copiado", "ficheiro_seria_copiado", simula, mensagens.CoresTexto.AMARELO, ficheiro=ficheiro, destino=ficheiroFinal)    
+        if configs.verbose:
+            mensagens.mensagem("ficheiro_copiado", "ficheiro_seria_copiado", simula, mensagens.CoresTexto.AMARELO, ficheiro=ficheiro, destino=ficheiroFinal)    
     except OSError as erro:
         mensagens.mensagem("erro_ficheiro", "erro_ficheiro", False, mensagens.CoresTexto.VERMELHO, ficheiro=ficheiro.name, erro=erro)
         logger.exception("Error copying file '%s' to '%s'.", ficheiro, ficheiroFinal)
@@ -118,7 +121,8 @@ def moveFicheiro(ficheiro: Path, pastaDestino: Path, force: bool, simula: bool, 
         if not simula:
             move(ficheiro, ficheiroFinal)
             logger.info("File '%s' moved to '%s'", ficheiro, ficheiroFinal)
-        mensagens.mensagem("ficheiro_movido", "ficheiro_seria_movido", simula, mensagens.CoresTexto.AMARELO, ficheiro=ficheiro, destino=ficheiroFinal)
+        if configs.verbose:
+            mensagens.mensagem("ficheiro_movido", "ficheiro_seria_movido", simula, mensagens.CoresTexto.AMARELO, ficheiro=ficheiro, destino=ficheiroFinal)
     except OSError as erro:
         mensagens.mensagem("erro_ficheiro", "erro_ficheiro", False, mensagens.CoresTexto.VERMELHO, ficheiro=ficheiro.name, erro=erro)
         logger.exception("Error moving file '%s' to '%s'.", ficheiro, ficheiroFinal)
@@ -181,7 +185,8 @@ def apagaFicheiro(ficheiro:Path, simula: bool) -> int:
             except OSError as erro:
                 mensagens.mensagem("erro_ficheiro", "erro_ficheiro", False, mensagens.CoresTexto.VERMELHO, erro=erro,ficheiro=ficheiro)
                 logger.exception("Error deleting file '%s'", ficheiro)
-        mensagens.mensagem("ficheiro_apagado", "ficheiro_seria_apagado", simula, mensagens.CoresTexto.VERMELHO, ficheiro=ficheiro)
+        if configs.verbose:
+            mensagens.mensagem("ficheiro_apagado", "ficheiro_seria_apagado", simula, mensagens.CoresTexto.VERMELHO, ficheiro=ficheiro)
         return 1
     return 0
 
@@ -218,7 +223,8 @@ def datarFicheiro(ficheiro: Path, simula: bool) -> Path:
 
     if not simula:
         logger.info("File '%s' dated to '%s'", ficheiro, ficheiroDatado)
-    mensagens.mensagem("ficheiro_datado", "ficheiro_seria_datado", simula, mensagens.CoresTexto.AMARELO, ficheiro=ficheiro, ficheiroDatado=ficheiroDatado)   
+    if configs.verbose:
+        mensagens.mensagem("ficheiro_datado", "ficheiro_seria_datado", simula, mensagens.CoresTexto.AMARELO, ficheiro=ficheiro, ficheiroDatado=ficheiroDatado)   
     return ficheiroDatado
 
 def devolveDataCriacao(ficheiro: Path) -> datetime.datetime:
@@ -253,7 +259,8 @@ def reverteDatarFicheiro(ficheiro: Path, simula: bool) -> Path | None:
     ficheiroRevertido = ficheiro.name[7:]
     if not simula:
         logger.info("Reverting file '%s'", ficheiro)
-    mensagens.mensagem("ficheiro_revertido", "ficheiro_seria_revertido", simula, mensagens.CoresTexto.AMARELO, ficheiro=ficheiro, ficheiroRevertido=ficheiroRevertido)
+    if configs.verbose:
+        mensagens.mensagem("ficheiro_revertido", "ficheiro_seria_revertido", simula, mensagens.CoresTexto.AMARELO, ficheiro=ficheiro, ficheiroRevertido=ficheiroRevertido)
     return ficheiro.with_name(ficheiroRevertido)
 
 def verificaDatado(ficheiro: Path) -> bool:

@@ -47,6 +47,9 @@ def executar() -> int:
         
         argumentos = inicializar.trataArgumentos()
 
+        if argumentos.verbose:
+            configs.verbose = True
+
         if argumentos.language:
             if not configs.alterarIdioma(argumentos.language):
                 mensagens.mensagem("idioma_invalido", "idioma_invalido", False, mensagens.CoresTexto.AMARELO, idiomas=", ".join(configs.idiomasExistentes))
@@ -85,22 +88,27 @@ def executar() -> int:
             mensagens.mensagem("pasta_invalida", "pasta_invalida", False, mensagens.CoresTexto.AMARELO)
             return 1
 
-        mensagens.mensagem("pasta_selecionada", "pasta_selecionada", False, mensagens.CoresTexto.AZUL, pasta=pastaSelecionada)
+        if configs.verbose:
+            mensagens.mensagem("pasta_selecionada", "pasta_selecionada", False, mensagens.CoresTexto.AZUL, pasta=pastaSelecionada)
 
         if argumentos.revert:
             if not argumentos.date:
-                reverter.reverte(pastaSelecionada, config.categorias, modo, force, simula)
+                resultados = reverter.reverte(pastaSelecionada, config.categorias, modo, force, simula)
             else:
-                reverter.reverteDatar(pastaSelecionada, modo, force, simula, nivel)
+                resultados = reverter.reverteDatar(pastaSelecionada, modo, force, simula, nivel)
 
         elif argumentos.date:
-            organizar.datar(pastaSelecionada, modo, force, simula, nivel)
+            resultados = organizar.datar(pastaSelecionada, modo, force, simula, nivel)
             
         else:
-            organizar.organiza(pastaSelecionada, config.categorias, modo, force, simula, nivel)
+            resultados = organizar.organiza(pastaSelecionada, config.categorias, modo, force, simula, nivel)
 
         if simula:
             mensagens.mensagem("fim_simulacao", "fim_simulacao", False, mensagens.CoresTexto.AMARELO)
+        
+        mensagens.mensagem("resultados_ficheiros_tratados", "resultados_ficheiros_tratados_simula", simula, mensagens.CoresTexto.AZUL, ficheiros=resultados.ficheirosTratados)
+        mensagens.mensagem("resultados_pastas_criadas", "resultados_pastas_criadas_simula", simula, mensagens.CoresTexto.AZUL, pastasCriadas=resultados.pastasCriadas)
+        mensagens.mensagem("resultados_pastas_eliminadas", "resultados_pastas_eliminadas_simula", simula, mensagens.CoresTexto.AZUL, pastasEliminadas=resultados.pastasEliminadas)
         return 0
 
     finally:

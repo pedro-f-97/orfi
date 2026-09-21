@@ -73,6 +73,13 @@ def trataArgumentos() -> argparse.Namespace:
     )
 
     parser.add_argument(
+        "-v",
+        "--verbose",
+        action="store_true",
+        help=mensagens.mensagemTrataIdioma("descricao_verbose")
+    )
+
+    parser.add_argument(
         "-n",
         "--dry-run",
         action="store_true",

@@ -44,17 +44,19 @@ def reverte(pastaSelecionada: Path, categorias: list[configs.CategoriaDePasta], 
         resultado = trabalho(ficheiro, pastaSelecionada, force, simula)
         if resultado:
             resultados.ficheirosTratados += resultado
-            mensagens.mensagem("ficheiro_tratado", "ficheiro_seria_tratado", simula, mensagens.CoresTexto.AMARELO, ficheiro=ficheiro.name)
+            if configs.verbose:
+                mensagens.mensagem("ficheiro_tratado", "ficheiro_seria_tratado", simula, mensagens.CoresTexto.AMARELO, ficheiro=ficheiro.name)
             if modo == configs.Modo.MOVER:
                 ficheirosMovidos.add(ficheiro)
 
     if modo == configs.Modo.MOVER:
         resultados.pastasEliminadas = pastas.eliminaPastasVazias(pastasParaReverter, simula, ficheirosMovidos)
-        if resultados.pastasEliminadas > 0:
+        if resultados.pastasEliminadas > 0 and configs.verbose:
             mensagens.mensagem("pastas_eliminadas", "pastas_eliminadas_simula", simula, mensagens.CoresTexto.VERMELHO, numero=resultados.pastasEliminadas)
     if not simula:
         logger.info("Finished, %s files handled", resultados.ficheirosTratados)
-    mensagens.mensagem("ficheiros_revertidos", "ficheiros_seriam_revertidos", simula, mensagens.CoresTexto.AMARELO, total=resultados.ficheirosTratados, tratamento=tratamento)
+    if configs.verbose:
+        mensagens.mensagem("ficheiros_revertidos", "ficheiros_seriam_revertidos", simula, mensagens.CoresTexto.AMARELO, total=resultados.ficheirosTratados, tratamento=tratamento)
 
     return resultados
 
@@ -66,6 +68,7 @@ def reverteDatar(pastaSelecionada: Path, modo: configs.Modo, force: bool, simula
         modo: Define se os ficheiros são movidos ou copiados.
         force: Se aceita automaticamente todas as verificações ou não.
         simula: Se é para apenas simular o processo ou não.
+        nivel: Nivel de subpastas a considerar.
 
     Returns:
         O resultado da operação com o número de ficheiros tratados.
@@ -90,12 +93,15 @@ def reverteDatar(pastaSelecionada: Path, modo: configs.Modo, force: bool, simula
             resultado = trabalho(ficheiro, ficheiro.parent, force, simula, ficheiroFinal)
             if resultado:
                 resultados.ficheirosTratados += resultado
-                mensagens.mensagem("ficheiro_tratado", "ficheiro_seria_tratado", simula, mensagens.CoresTexto.AMARELO, ficheiro=ficheiro.name)
+                if configs.verbose:
+                    mensagens.mensagem("ficheiro_tratado", "ficheiro_seria_tratado", simula, mensagens.CoresTexto.AMARELO, ficheiro=ficheiro.name)
         else:
             if not simula:
                 logger.info("File ignored: '%s'", ficheiro)
-            mensagens.mensagem("ficheiro_ignorado", "ficheiro_seria_ignorado", simula, mensagens.CoresTexto.AMARELO, ficheiro=ficheiro.name)
+            if configs.verbose:
+                mensagens.mensagem("ficheiro_ignorado", "ficheiro_seria_ignorado", simula, mensagens.CoresTexto.AMARELO, ficheiro=ficheiro.name)
     if not simula:
         logger.info("Finished, %s files handled.", resultados.ficheirosTratados)
-    mensagens.mensagem("ficheiros_revertidos", "ficheiros_seriam_revertidos", simula, mensagens.CoresTexto.AMARELO, total=resultados.ficheirosTratados, tratamento=tratamento)
+    if configs.verbose:
+        mensagens.mensagem("ficheiros_revertidos", "ficheiros_seriam_revertidos", simula, mensagens.CoresTexto.AMARELO, total=resultados.ficheirosTratados, tratamento=tratamento)
     return resultados

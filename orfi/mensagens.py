@@ -64,6 +64,12 @@ MENSAGENS = {
         "interrompido": "Processo interrompido pelo utilizador.",
         "erro_inesperado": "Erro inesperado: {erro}",
         "nivel_invalido": "Nivel {nivel} inválido, tem de ser maior que 0.",
+        "resultados_ficheiros_tratados": "{ficheiros} ficheiros tratados.",
+        "resultados_ficheiros_tratados_simula": "{ficheiros} teriam sido tratados",
+        "resultados_pastas_criadas": "{pastasCriadas} pastas criadas.",
+        "resultados_pastas_criadas_simula": "{pastasCriadas} pastas teriam sido criadas.",
+        "resultados_pastas_eliminadas": "{pastasEliminadas} pastas eliminadas.",
+        "resultados_pastas_eliminadas_simula": "{pastasEliminadas} pastas teriam sido eliminadas.",
         #organizar
         "modo_inesperado": "Modo {modo} inesperado. Operação cancelada.",
         "nada_para_fazer": "Nada para fazer.",
@@ -107,8 +113,9 @@ MENSAGENS = {
         "descricao_versao": "mostra a versão instalada do programa",
         "descricao_help": "mostra esta mensagem de ajuda",
         "descricao_profundidade": "afeta subpastas até ao nivel de profundidade indicado",
+        "descricao_verbose": "apresenta mais detalhes durante o processo",
         #alvo
-        "tkinter_nao_disponivel": "-a indisponível: tkinter não instalado.",
+        "tkinter_nao_disponivel": "-t indisponível: tkinter não instalado.",
     },
 
     "en": {
@@ -158,6 +165,12 @@ MENSAGENS = {
         "interrompido": "Process interrupted by the user.",
         "erro_inesperado": "Unexpected error: {erro}",
         "nivel_invalido": "Depth {nivel} invalid, must be greater than 0.",
+        "resultados_ficheiros_tratados": "{ficheiros} files handled.",
+        "resultados_ficheiros_tratados_simula": "{ficheiros} files would be handled.",
+        "resultados_pastas_criadas": "{pastasCriadas} folders created.",
+        "resultados_pastas_criadas_simula": "{pastasCriadas} folders would be created.",
+        "resultados_pastas_eliminadas": "{pastasEliminadas} folders deleted.",
+        "resultados_pastas_eliminadas_simula": "{pastasEliminadas} folders would be deleted.",
         #organizar
         "modo_inesperado": "Unexpected mode {modo}. Operation cancelled.",
         "nada_para_fazer": "Nothing to do.",
@@ -201,8 +214,9 @@ MENSAGENS = {
         "descricao_versao": "show program's installed version number",
         "descricao_help": "show this help message",
         "descricao_profundidade": "affects subfolders down to the specified level",
+        "descricao_verbose": "shows more details throughout the process",
         #alvo
-        "tkinter_nao_disponivel": "-a unavailable: tkinter not installed.",
+        "tkinter_nao_disponivel": "-t unavailable: tkinter not installed.",
     },
 }
 

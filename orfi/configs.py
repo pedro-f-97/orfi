@@ -13,6 +13,8 @@ logger = logging.getLogger(__name__)
 
 idiomasExistentes = {"pt", "en"}
 
+verbose = False
+
 def escreverAtomico(caminho: Path, dados: bytes) -> None:
     """Escreve dados num ficheiro de forma atómica.
 
@@ -96,6 +98,8 @@ def carregarConfiguracao(caminho: Path | None = None) -> Configuracao:
 
     Args:
         caminho: Caminho do ficheiro de configuração, caso None utiliza o caminho predefinido.
+    Returns:
+        Um dataclass com as configurações.
     """
     if caminho is None:
         caminho = caminhoConfiguracao()
@@ -257,7 +261,7 @@ def alterarIdioma(idioma: str, caminho: Path | None = None) -> bool:
     conteudo = caminho.read_text(encoding="utf-8")
     linhas = conteudo.splitlines()
     for i, linha in enumerate(linhas):
-        if linha.strip().startswith("language ="):
+        if linha.strip().replace(" ", "").startswith("language="):
             linhas[i] = f'language = "{idioma}"'
             break
 
