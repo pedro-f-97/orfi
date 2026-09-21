@@ -21,7 +21,7 @@
 
 ## Installation
 
-Requires Python 3.11 or higher.
+Requires Python 3.12 or higher.
 From the project folder:
 
 ```bash
