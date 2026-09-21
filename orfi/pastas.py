@@ -92,7 +92,7 @@ def pastasExistentes(caminho: Path, categorias: list[configs.CategoriaDePasta]) 
     for pasta in caminho.iterdir():
         if pasta.is_dir():
             for categoria in categorias:
-                if pasta.stem == categoria.nome:
+                if pasta.name == categoria.nome:
                     pastasParaReverter.add(pasta)
     return pastasParaReverter
 
