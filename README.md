@@ -219,6 +219,10 @@ The project uses `pytest` to test Orfi's different features.
 
 Issues and PRs are welcome. Run tests with `pytest` before submitting.
 
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md).
+
 ## License
 
 MIT — see [LICENSE](LICENSE).
