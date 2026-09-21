@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [1.6.0] - 2026-09-21
+
+### Added
+- Added `--verbose` (`-v`) option to display detailed information during operations.
+
+### Fixed
+- Fixed the count of created folders when folders already exist.
+- Fixed category folder detection by using the complete folder name.
+- Fixed language configuration handling when spaces around `=` are omitted.
+- Fixed folder path assignment when an error occurs.
+- Fixed an error message.
+
 ## [1.5.1] - 2026-09-17
 
 ### Fixed

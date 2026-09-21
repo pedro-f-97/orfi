@@ -36,17 +36,18 @@ orfi
 
 ## Options
 
-| Option             | Description                              |
-|--------------------|-------------------------------------------|
-| `-t`, `--target`     | Allows selecting the target folder (requires 'tkinter') |
-| `-c`, `--copy`   | Copies files instead of moving them       |
-| `-r`, `--revert` | Reverts the organization                  |
-| `-d`, `--date`    | Adds the creation date to file names      |
-| `-y`, `--yes`    | Automatically accepts required confirmations |
-| `-n`, `--dry-run`   | Simulates the process without making any real changes |
-| `-l`, `--language`   | Changes the language to the one specified |
-| `-V`, `--version`  | Displays the installed version |
-| `--depth`          | Recurse into subfolders, down to the specified depth |
+| Option              | Description                                            | Default   |
+|---------------------|--------------------------------------------------------|-----------|
+| `-t`, `--target`    | Allows selecting the target folder (requires `tkinter`)| No        |
+| `-c`, `--copy`      | Copies files instead of moving them                    | Move      |
+| `-r`, `--revert`    | Reverts the organization                               | No        |
+| `-d`, `--date`      | Adds the creation date to file names                   | No        |
+| `-y`, `--yes`       | Automatically accepts required confirmations           | No        |
+| `-n`, `--dry-run`   | Simulates the process without making any real changes  | No        |
+| `-l`, `--language`  | Changes the language to the one specified              | `en`      |
+| `-V`, `--version`   | Displays the installed version                         | —         |
+| `--depth N`         | Recurse into subfolders, down to depth `N`             | 1         |
+| `-v`, `--verbose`   | Display more details about the operation               | No        |
 
 ## Usage
 
