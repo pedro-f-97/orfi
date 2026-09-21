@@ -261,7 +261,7 @@ def alterarIdioma(idioma: str, caminho: Path | None = None) -> bool:
     conteudo = caminho.read_text(encoding="utf-8")
     linhas = conteudo.splitlines()
     for i, linha in enumerate(linhas):
-        if linha.strip().startswith("language ="):
+        if linha.strip().replace(" ", "").startswith("language="):
             linhas[i] = f'language = "{idioma}"'
             break
 
