@@ -49,12 +49,6 @@ def criaPastas(caminho: Path, pastas: set[str], categorias: list[configs.Categor
         caminhoFinal = caminho / pasta
         jaExistia = caminhoFinal.exists()
 
-        # Preenche a categoria uma única vez, independentemente do que aconteça depois.
-        for categoria in categorias:
-            if pasta == categoria.nome:
-                categoria.caminho = caminhoFinal
-                break
-
         if jaExistia:
             if configs.verbose:
                 mensagens.mensagem("pasta_existente", "pasta_existente", False, mensagens.CoresTexto.AMARELO, pasta=pasta)
@@ -76,6 +70,11 @@ def criaPastas(caminho: Path, pastas: set[str], categorias: list[configs.Categor
             except OSError as erro:
                 mensagens.mensagem("erro_criar_pasta", "erro_criar_pasta", False, mensagens.CoresTexto.VERMELHO, pasta=caminhoFinal, erro=erro)
                 logger.exception("Error creating folder '%s'", caminhoFinal)
+        
+        for categoria in categorias:
+            if pasta == categoria.nome:
+                categoria.caminho = caminhoFinal
+                break
     return cont
 
 def pastasExistentes(caminho: Path, categorias: list[configs.CategoriaDePasta]) -> set[Path]:
