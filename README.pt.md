@@ -36,18 +36,18 @@ orfi
 
 ## Opções
 
-| Opção                 | Descrição                                                        | Default |
-|-----------------------|------------------------------------------------------------------|---------|
-| `-t`, `--target`      | Permite selecionar a pasta alvo                                  | Não     |
-| `-c`, `--copy`        | Copia os ficheiros em vez de os mover                            | Mover   |
-| `-r`, `--revert`      | Reverte a organização                                            | Não     |
-| `-d`, `--date`        | Adiciona a data de criação ao nome dos ficheiros                 | Não     |
-| `-y`, `--yes`         | Aceita automaticamente as confirmações necessárias               | Não     |
-| `-n`, `--dry-run`     | Simula o processo sem fazer nenhuma alteração real               | Não     |
-| `-l`, `--language`    | Altera o idioma para o introduzido                               | `en`    |
-| `-V`, `--version`     | Mostra a versão actual                                           | —       |
-| `--depth`             | Modo recursivo, até ao nível de subpastas indicado               | 1       |
-| `-v`, `--verbose`     | Mostra mais informações sobre a operação                         | Não     |
+| Opção                 | Descrição                                                        | Default     |
+|-----------------------|------------------------------------------------------------------|-------------|
+| `-t`, `--target`      | Permite selecionar a pasta alvo                                  | Não         |
+| `-c`, `--copy`        | Copia os ficheiros em vez de os mover                            | Mover       |
+| `-r`, `--revert`      | Reverte a organização                                            | Não         |
+| `-d`, `--date`        | Adiciona a data de criação ao nome dos ficheiros                 | Não         |
+| `-y`, `--yes`         | Aceita automaticamente as confirmações necessárias               | Não         |
+| `-n`, `--dry-run`     | Simula o processo sem fazer nenhuma alteração real               | Não         |
+| `-l`, `--language`    | Altera o idioma para o introduzido                               | das configs |
+| `-V`, `--version`     | Mostra a versão actual                                           | —           |
+| `--depth`             | Modo recursivo, até ao nível de subpastas indicado               | 1           |
+| `-v`, `--verbose`     | Mostra mais informações sobre a operação                         | Não         |
 
 ## Utilização
 
@@ -199,6 +199,11 @@ Os ficheiros cuja extensão não corresponda a nenhuma categoria são encaminhad
 
 A configuração permite criar, alterar ou remover categorias e extensões de acordo com as necessidades do utilizador.
 
+## Limitações
+
+- A reversão deduz o estado a partir das pastas de categorias. Ficheiros movidos manualmente para essas pastas também serão revertidos.
+- Não existe registo de transações; uma falha a meio da operação pode deixar um estado parcial.
+
 ## Testes
 
 Os testes podem ser executados com:
@@ -208,3 +213,11 @@ pytest
 ```
 
 O projeto utiliza `pytest` para testar as diferentes funcionalidades do Orfi.
+
+## Contribuir
+
+Issues e PRs são bem-vindos. Correr testes com `pytest` antes de submeter.
+
+## Licença
+
+MIT — ver [LICENSE](LICENSE).
