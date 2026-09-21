@@ -5,6 +5,7 @@
 **Or**ganiza **fi**cheiros pela da linha de comandos.
 
 [![CI](https://github.com/pedro-f-97/orfi/actions/workflows/ci.yml/badge.svg)](https://github.com/pedro-f-97/orfi/actions/workflows/ci.yml)
+[![Changelog](https://img.shields.io/badge/changelog-keep_a_changelog-orange)](CHANGELOG.md)
 
 ## Funcionalidades
 
@@ -21,7 +22,7 @@
 
 ## Instalação
 
-Requer Python 3.12 ou superior.
+Requer Python 3.12 ou superior (necessário para obter os registos de data de criação de ficheiros no Windows).
 Na pasta do projeto:
 
 ```bash

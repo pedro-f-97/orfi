@@ -5,6 +5,7 @@
 **Or**ganize **fi**les, straight from the command line.
 
 [![CI](https://github.com/pedro-f-97/orfi/actions/workflows/ci.yml/badge.svg)](https://github.com/pedro-f-97/orfi/actions/workflows/ci.yml)
+[![Changelog](https://img.shields.io/badge/changelog-keep_a_changelog-orange)](CHANGELOG.md)
 
 ## Features
 
@@ -21,7 +22,7 @@
 
 ## Installation
 
-Requires Python 3.12 or higher.
+Requires Python 3.12 or higher (needed for reliable file creation timestamps on Windows).
 From the project folder:
 
 ```bash
