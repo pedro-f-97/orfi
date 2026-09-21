@@ -14,7 +14,7 @@
 - Reversal of the organization
 - Configurable file categories
 - Per-user configuration
-- File dating with creation date
+- File dating with creation timestamps
 - Reversal of dating
 - Logging
 - Configurable language
@@ -36,18 +36,18 @@ orfi
 
 ## Options
 
-| Option              | Description                                            | Default   |
-|---------------------|--------------------------------------------------------|-----------|
-| `-t`, `--target`    | Allows selecting the target folder (requires `tkinter`)| No        |
-| `-c`, `--copy`      | Copies files instead of moving them                    | Move      |
-| `-r`, `--revert`    | Reverts the organization                               | No        |
-| `-d`, `--date`      | Adds the creation date to file names                   | No        |
-| `-y`, `--yes`       | Automatically accepts required confirmations           | No        |
-| `-n`, `--dry-run`   | Simulates the process without making any real changes  | No        |
-| `-l`, `--language`  | Changes the language to the one specified              | `en`      |
-| `-V`, `--version`   | Displays the installed version                         | —         |
-| `--depth N`         | Recurse into subfolders, down to depth `N`             | 1         |
-| `-v`, `--verbose`   | Display more details about the operation               | No        |
+| Option              | Description                                            | Default     |
+|---------------------|--------------------------------------------------------|-------------|
+| `-t`, `--target`    | Allows selecting the target folder (requires `tkinter`)| No          |
+| `-c`, `--copy`      | Copies files instead of moving them                    | Move        |
+| `-r`, `--revert`    | Reverts the organization                               | No          |
+| `-d`, `--date`      | Adds the creation date to file names                   | No          |
+| `-y`, `--yes`       | Automatically accepts required confirmations           | No          |
+| `-n`, `--dry-run`   | Simulates the process without making any real changes  | No          |
+| `-l`, `--language`  | Changes the language to the one specified              | from config |
+| `-V`, `--version`   | Displays the installed version                         | —           |
+| `--depth N`         | Recurse into subfolders, down to depth `N`             | 1           |
+| `-v`, `--verbose`   | Display more details about the operation               | No          |
 
 ## Usage
 
@@ -199,6 +199,11 @@ Files whose extension doesn't match any category are routed to the default categ
 
 The configuration allows creating, changing, or removing categories and extensions according to the user's needs.
 
+## Known limitations
+
+- Reverting infers state from category folders. Files moved manually into them will be reverted too.
+- No transaction log; a mid-operation failure can leave partial state.
+
 ## Tests
 
 Tests can be run with:
@@ -208,3 +213,11 @@ pytest
 ```
 
 The project uses `pytest` to test Orfi's different features.
+
+## Contributing
+
+Issues and PRs are welcome. Run tests with `pytest` before submitting.
+
+## License
+
+MIT — see [LICENSE](LICENSE).
